@@ -27,7 +27,7 @@ const VideoCard = ({ video }: { video: Video }) => {
   }
 
   return (
-    <Link href={`/video`} className='block'>
+    <Link href={`/video/${video.id}`} className='block'>
       <Card className='bg-gray-800 text-white hover:bg-gray-700 transition-colors h-[400px]'>
         <CardContent className='p-0'>
           <div className='relative w-full h-40'>
