@@ -14,9 +14,11 @@ export default function Header() {
           placeholder='Search...'
           className='w-64 p-2 rounded-md bg-gray-700 text-white'
         />
-        <Button variant='default' className='bg-gray-700 text-white'>
-          Login
-        </Button>
+        <Link href='/auth/login'>
+          <Button variant='default' className='bg-gray-700 text-white'>
+            Login
+          </Button>
+        </Link>
       </div>
     </header>
   )

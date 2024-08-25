@@ -1,6 +1,5 @@
 import { Card, CardContent } from '@/components/ui/card'
 import Image from 'next/image'
-import Header from '@/components/Header'
 import Sidebar from '@/components/Sidebar'
 import Link from 'next/link'
 
@@ -151,7 +150,6 @@ function VideoCard({ video }: { video: Video }) {
 export default function Component() {
   return (
     <div className='flex flex-col min-h-screen'>
-      <Header />
       <div className='flex flex-1'>
         <Sidebar />
         <main className='flex-1 p-8 bg-gray-900'>

@@ -2,12 +2,10 @@ import { Avatar, AvatarFallback, AvatarImage } from '@/components/ui/avatar'
 import { Button } from '@/components/ui/button'
 import { Input } from '@/components/ui/input'
 import { ThumbsUp, ThumbsDown, Share2 } from 'lucide-react'
-import Header from '@/components/Header'
 
 export default function WatchPage() {
   return (
     <div className='min-h-screen bg-white'>
-      <Header />
       <main className='container mx-auto p-4 flex flex-col md:flex-row gap-4'>
         <div className='md:w-3/4'>
           <div className='aspect-video bg-gray-900 mb-4'></div>
