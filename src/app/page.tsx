@@ -13,6 +13,7 @@ const featuredVideos = [
     likes: 500,
     imageUrl:
       'https://encrypted-tbn0.gstatic.com/images?q=tbn:ANd9GcTrreCfcSDMBZgSsNvhxgTpwlqxNIvR2OP08g&s',
+    tags: ['アルゴリズム', 'ソート', '可視化', 'プログラミング', 'コンピューターサイエンス'],
   },
   {
     id: 2,
@@ -22,6 +23,7 @@ const featuredVideos = [
     likes: 400,
     imageUrl:
       'https://encrypted-tbn0.gstatic.com/images?q=tbn:ANd9GcQYLFjSOsaXEnBI-iko6k9ma8FIEmlNki5RBg&s',
+    tags: ['グラフ理論', 'アルゴリズム', 'データ構造', '探索', '最適化'],
   },
   {
     id: 3,
@@ -31,6 +33,7 @@ const featuredVideos = [
     likes: 350,
     imageUrl:
       'https://encrypted-tbn0.gstatic.com/images?q=tbn:ANd9GcQYLFjSOsaXEnBI-iko6k9ma8FIEmlNki5RBg&s',
+    tags: ['動的計画法', 'アルゴリズム', '最適化', '数学'],
   },
   {
     id: 4,
@@ -40,6 +43,7 @@ const featuredVideos = [
     likes: 450,
     imageUrl:
       'https://encrypted-tbn0.gstatic.com/images?q=tbn:ANd9GcSDmU3M_3otC9tyg-3uUIzYMVtNPPOjpggRJg&s',
+    tags: ['データ構造', 'アルゴリズム', '探索', '木構造'],
   },
   {
     id: 5,
@@ -49,6 +53,7 @@ const featuredVideos = [
     likes: 420,
     imageUrl:
       'https://encrypted-tbn0.gstatic.com/images?q=tbn:ANd9GcQq9C3cLQFPX1O0WL5AuUC4EaV3J0mk9co06Q&s',
+    tags: ['グラフ理論', '最短経路', 'アルゴリズム', '探索'],
   },
   {
     id: 6,
@@ -58,6 +63,7 @@ const featuredVideos = [
     likes: 380,
     imageUrl:
       'https://encrypted-tbn0.gstatic.com/images?q=tbn:ANd9GcTahPlO0dH-nIRvDSfr7TawBUX4wUq4En9sjg&s',
+    tags: ['ソート', 'アルゴリズム', 'データ構造', 'プログラミング'],
   },
   {
     id: 8,
@@ -67,6 +73,7 @@ const featuredVideos = [
     likes: 950,
     imageUrl:
       'https://encrypted-tbn0.gstatic.com/images?q=tbn:ANd9GcTbxpyHfjuffZLL2sKYjXSOzCFNugEjerTVEw&s',
+    tags: ['数学', '複素数', '代数', '幾何学'],
   },
   {
     id: 9,
@@ -76,6 +83,7 @@ const featuredVideos = [
     likes: 1300,
     imageUrl:
       'https://encrypted-tbn0.gstatic.com/images?q=tbn:ANd9GcSGO5PRqFiCPW9vP67pmd1_EHPqM5N4CXroww&s',
+    tags: ['統計学', 'データ解析', '機械学習', '数学'],
   },
   {
     id: 10,
@@ -85,6 +93,7 @@ const featuredVideos = [
     likes: 750,
     imageUrl:
       'https://encrypted-tbn0.gstatic.com/images?q=tbn:ANd9GcQ3zOkABWMXRVVoWonlyVXLn2ZHAcgiCKci_A&s',
+    tags: ['ネットワーク理論', 'グラフ理論', 'アルゴリズム', '通信理論'],
   },
   {
     id: 11,
@@ -94,6 +103,7 @@ const featuredVideos = [
     likes: 750,
     imageUrl:
       'https://encrypted-tbn0.gstatic.com/images?q=tbn:ANd9GcQjWjaYk-smRMeVBEoQr5oRzfB4xkHw_N0-3Q&s',
+    tags: ['数学', '三角関数', '幾何学', '解析学'],
   },
   {
     id: 12,
@@ -103,6 +113,7 @@ const featuredVideos = [
     likes: 750,
     imageUrl:
       'https://encrypted-tbn0.gstatic.com/images?q=tbn:ANd9GcRVhrNLresww-TYkb7XfWfQmlQD-DA_OHMiOA&s',
+    tags: ['アルゴリズム', 'プログラミング', 'データ構造', '数学'],
   },
   {
     id: 13,
@@ -112,6 +123,7 @@ const featuredVideos = [
     likes: 750,
     imageUrl:
       'https://encrypted-tbn0.gstatic.com/images?q=tbn:ANd9GcSGO5PRqFiCPW9vP67pmd1_EHPqM5N4CXroww&s',
+    tags: ['アニメーション', 'manim', '数学', 'プログラミング'],
   },
 ]
 type Video = {
@@ -121,26 +133,41 @@ type Video = {
   views: number
   likes: number
   imageUrl: string
+  tags: string[]
 }
 
 // ビデオカードコンポーネントを作成
 function VideoCard({ video }: { video: Video }) {
   return (
     <Link href={`/video`} className='block'>
-      <Card className='bg-gray-800 text-white hover:bg-gray-700 transition-colors'>
-        <CardContent>
-          <Image
-            src={video.imageUrl}
-            alt={video.title}
-            width={320}
-            height={180}
-            className='w-full h-40 object-cover rounded-md'
-          />
-          <h2 className='mt-4 text-lg font-semibold'>{video.title}</h2>
-          <p className='text-sm text-gray-400'>{video.author}</p>
-          <p className='text-sm text-gray-400'>
-            {video.views.toLocaleString()} 回視聴 • {video.likes.toLocaleString()} いいね
-          </p>
+      <Card className='bg-gray-800 text-white hover:bg-gray-700 transition-colors h-[400px]'>
+        <CardContent className='p-0'>
+          <div className='relative w-full h-40'>
+            <Image
+              src={video.imageUrl}
+              alt={video.title}
+              fill
+              className='object-cover rounded-t-md'
+            />
+          </div>
+          <div className='p-3'>
+            <h2 className='text-base font-semibold line-clamp-2 mb-1'>{video.title}</h2>
+            <p className='text-xs text-gray-400'>{video.author}</p>
+            <p className='text-xs text-gray-400 mb-2'>
+              {video.views.toLocaleString()} 回視聴 • {video.likes.toLocaleString()} いいね
+            </p>
+            <div className='flex flex-wrap gap-1'>
+              {video.tags.map((tag, index) => (
+                <Link
+                  key={index}
+                  href={`/search?tag=${encodeURIComponent(tag)}`}
+                  className='text-xs bg-gray-700 text-gray-300 px-2 py-1 rounded hover:bg-gray-600 transition-colors'
+                >
+                  {tag}
+                </Link>
+              ))}
+            </div>
+          </div>
         </CardContent>
       </Card>
     </Link>
@@ -152,9 +179,9 @@ export default function Component() {
     <div className='flex flex-col min-h-screen'>
       <div className='flex flex-1'>
         <Sidebar />
-        <main className='flex-1 p-8 bg-gray-900'>
-          <h1 className='text-3xl font-bold mb-8 text-white'>Featured Videos</h1>
-          <div className='grid grid-cols-1 gap-8 md:grid-cols-2 lg:grid-cols-3 xl:grid-cols-4'>
+        <main className='flex-1 p-6 bg-gray-900'>
+          <h1 className='text-2xl font-bold mb-6 text-white'>Featured Videos</h1>
+          <div className='grid grid-cols-1 gap-6 sm:grid-cols-2 lg:grid-cols-3 xl:grid-cols-4 2xl:grid-cols-5'>
             {featuredVideos.map((video) => (
               <VideoCard key={video.id} video={video} />
             ))}
