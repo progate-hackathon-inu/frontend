@@ -1,8 +1,7 @@
-import { Input } from '@/components/ui/input'
-import { Button } from '@/components/ui/button'
-import Link from 'next/link'
 import { Card, CardContent } from '@/components/ui/card'
 import Image from 'next/image'
+import Header from '@/components/Header'
+import Sidebar from '@/components/Sidebar'
 
 // データを別のオブジェクトとして定義
 const featuredVideos = [
@@ -149,33 +148,9 @@ function VideoCard({ video }: { video: Video }) {
 export default function Component() {
   return (
     <div className='flex flex-col min-h-screen'>
-      <header className='flex items-center justify-between p-4 bg-gray-800'>
-        <div className='text-white text-2xl font-bold'>ManimTube</div>
-        <div className='flex items-center space-x-4'>
-          <Input
-            type='search'
-            placeholder='Search...'
-            className='w-64 p-2 rounded-md bg-gray-700 text-white'
-          />
-          <Button variant='default' className='bg-gray-700 text-white'>
-            Login
-          </Button>
-        </div>
-      </header>
+      <Header />
       <div className='flex flex-1'>
-        <aside className='w-64 p-4 bg-gray-900'>
-          <nav className='space-y-4'>
-            <Link href='#' className='block text-lg font-medium text-gray-300' prefetch={false}>
-              Home
-            </Link>
-            <Link href='#' className='block text-lg font-medium text-gray-300' prefetch={false}>
-              Upload Video
-            </Link>
-            <Link href='#' className='block text-lg font-medium text-gray-300' prefetch={false}>
-              Favorites
-            </Link>
-          </nav>
-        </aside>
+        <Sidebar />
         <main className='flex-1 p-8 bg-gray-900'>
           <h1 className='text-3xl font-bold mb-8 text-white'>Featured Videos</h1>
           <div className='grid grid-cols-1 gap-8 md:grid-cols-2 lg:grid-cols-3 xl:grid-cols-4'>
