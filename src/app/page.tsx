@@ -2,6 +2,7 @@ import { Card, CardContent } from '@/components/ui/card'
 import Image from 'next/image'
 import Header from '@/components/Header'
 import Sidebar from '@/components/Sidebar'
+import Link from 'next/link'
 
 // データを別のオブジェクトとして定義
 const featuredVideos = [
@@ -126,22 +127,24 @@ type Video = {
 // ビデオカードコンポーネントを作成
 function VideoCard({ video }: { video: Video }) {
   return (
-    <Card className='bg-gray-800 text-white'>
-      <CardContent>
-        <Image
-          src={video.imageUrl}
-          alt={video.title}
-          width={320}
-          height={180}
-          className='w-full h-40 object-cover rounded-md'
-        />
-        <h2 className='mt-4 text-lg font-semibold'>{video.title}</h2>
-        <p className='text-sm text-gray-400'>{video.author}</p>
-        <p className='text-sm text-gray-400'>
-          {video.views.toLocaleString()} 回視聴 • {video.likes.toLocaleString()} いいね
-        </p>
-      </CardContent>
-    </Card>
+    <Link href={`/video`} className='block'>
+      <Card className='bg-gray-800 text-white hover:bg-gray-700 transition-colors'>
+        <CardContent>
+          <Image
+            src={video.imageUrl}
+            alt={video.title}
+            width={320}
+            height={180}
+            className='w-full h-40 object-cover rounded-md'
+          />
+          <h2 className='mt-4 text-lg font-semibold'>{video.title}</h2>
+          <p className='text-sm text-gray-400'>{video.author}</p>
+          <p className='text-sm text-gray-400'>
+            {video.views.toLocaleString()} 回視聴 • {video.likes.toLocaleString()} いいね
+          </p>
+        </CardContent>
+      </Card>
+    </Link>
   )
 }
 
