@@ -5,7 +5,7 @@ import { useRouter } from 'next/navigation'
 import { Input } from '@/components/ui/input'
 import { Button } from '@/components/ui/button'
 import Link from 'next/link'
-import { Search } from 'lucide-react'
+import { Search, User } from 'lucide-react'
 
 export default function Header() {
   const [searchQuery, setSearchQuery] = useState('')
@@ -39,6 +39,11 @@ export default function Header() {
         <Link href='/auth/login'>
           <Button variant='default' className='bg-gray-700 text-white'>
             Login
+          </Button>
+        </Link>
+        <Link href='/profile'>
+          <Button variant='ghost' className='p-2'>
+            <User className='text-white' size={24} />
           </Button>
         </Link>
       </div>
