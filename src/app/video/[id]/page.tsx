@@ -2,13 +2,89 @@ import { Avatar, AvatarFallback, AvatarImage } from '@/components/ui/avatar'
 import { Button } from '@/components/ui/button'
 import { Input } from '@/components/ui/input'
 import { ThumbsUp, ThumbsDown, Share2 } from 'lucide-react'
+import Image from 'next/image'
+import Link from 'next/link'
+
+const videoData = {
+  className: 'w-full h-full',
+  controls: true,
+  src: '/OK5vzIvi86336Fel.mp4',
+}
+
+const relatedVideos = [
+  {
+    id: 1,
+    title: '関連動画 1',
+    creator: '作成者 1',
+    views: '100万',
+    age: '1日前',
+    thumbnail:
+      'https://encrypted-tbn0.gstatic.com/images?q=tbn:ANd9GcTrreCfcSDMBZgSsNvhxgTpwlqxNIvR2OP08g&s',
+  },
+  {
+    id: 2,
+    title: '関連動画 2',
+    creator: '作成者 2',
+    views: '50万',
+    age: '2日前',
+    thumbnail:
+      'https://encrypted-tbn0.gstatic.com/images?q=tbn:ANd9GcSGO5PRqFiCPW9vP67pmd1_EHPqM5N4CXroww&s',
+  },
+  {
+    id: 3,
+    title: '関連動画 3',
+    creator: '作成者 3',
+    views: '200万',
+    age: '3日前',
+    thumbnail:
+      'https://encrypted-tbn0.gstatic.com/images?q=tbn:ANd9GcQYLFjSOsaXEnBI-iko6k9ma8FIEmlNki5RBg&s',
+  },
+  {
+    id: 4,
+    title: '関連動画 4',
+    creator: '作成者 4',
+    views: '80万',
+    age: '4日前',
+    thumbnail:
+      'https://encrypted-tbn0.gstatic.com/images?q=tbn:ANd9GcSDmU3M_3otC9tyg-3uUIzYMVtNPPOjpggRJg&s',
+  },
+  {
+    id: 5,
+    title: '関連動画 5',
+    creator: '作成者 5',
+    views: '80万',
+    age: '4日前',
+    thumbnail:
+      'https://encrypted-tbn0.gstatic.com/images?q=tbn:ANd9GcQq9C3cLQFPX1O0WL5AuUC4EaV3J0mk9co06Q&s',
+  },
+  {
+    id: 6,
+    title: '関連動画 6',
+    creator: '作成者 6',
+    views: '80万',
+    age: '4日前',
+    thumbnail:
+      'https://encrypted-tbn0.gstatic.com/images?q=tbn:ANd9GcSDmU3M_3otC9tyg-3uUIzYMVtNPPOjpggRJg&s',
+  },
+  {
+    id: 7,
+    title: '関連動画 7',
+    creator: '作成者 7',
+    views: '80万',
+    age: '4日前',
+    thumbnail:
+      'https://encrypted-tbn0.gstatic.com/images?q=tbn:ANd9GcSDmU3M_3otC9tyg-3uUIzYMVtNPPOjpggRJg&s',
+  },
+]
 
 export default function WatchPage() {
   return (
     <div className='min-h-screen bg-gray-900 text-gray-100'>
       <main className='container mx-auto p-4 flex flex-col md:flex-row gap-4'>
         <div className='md:w-3/4'>
-          <div className='aspect-video bg-black mb-4'></div>
+          <div className='aspect-video mb-4'>
+            <video {...videoData}>お使いのブラウザは動画タグをサポートしていません。</video>
+          </div>
           <h2 className='text-2xl font-bold mb-2'>Video Title</h2>
           <div className='flex items-center justify-between mb-4'>
             <div className='flex items-center gap-2'>
@@ -56,16 +132,26 @@ export default function WatchPage() {
           </div>
         </div>
         <aside className='md:w-1/4'>
-          <h3 className='text-xl font-semibold mb-4'>Related Videos</h3>
-          {[1, 2, 3, 4].map((i) => (
-            <div key={i} className='flex gap-2 mb-4'>
-              <div className='w-40 h-24 bg-gray-800'></div>
-              <div>
-                <h4 className='font-semibold'>Related Video {i}</h4>
-                <p className='text-sm text-gray-400'>Creator Name</p>
-                <p className='text-sm text-gray-400'>1M views • 1 day ago</p>
+          <h3 className='text-xl font-semibold mb-4'>関連動画</h3>
+          {relatedVideos.map((video) => (
+            <Link href={`/video/${video.id}`} key={video.id} className='flex gap-2 mb-4'>
+              <div className='w-40 h-24 bg-gray-800 overflow-hidden'>
+                <Image
+                  src={video.thumbnail}
+                  alt={video.title}
+                  width={160}
+                  height={96}
+                  className='w-full h-full object-cover'
+                />
               </div>
-            </div>
+              <div>
+                <h4 className='font-semibold'>{video.title}</h4>
+                <p className='text-sm text-gray-400'>{video.creator}</p>
+                <p className='text-sm text-gray-400'>
+                  {video.views}回視聴 • {video.age}
+                </p>
+              </div>
+            </Link>
           ))}
         </aside>
       </main>
