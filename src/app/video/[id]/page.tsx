@@ -8,6 +8,17 @@ const videoData = {
   className: 'w-full h-full',
   controls: true,
   src: '/OK5vzIvi86336Fel.mp4',
+  title: '動画タイトル',
+  description: 'この動画の説明文です。動画の内容の簡単な概要が記載されています。',
+  creator: {
+    name: '作成者名',
+    avatar: '/placeholder-avatar.jpg',
+  },
+  stats: {
+    likes: '1.5K',
+    views: '10万',
+    uploadDate: '2023年4月1日',
+  },
 }
 
 const relatedVideos = [
@@ -82,16 +93,18 @@ export default function WatchPage() {
       <main className='container mx-auto p-4 flex flex-col md:flex-row gap-4'>
         <div className='md:w-3/4'>
           <div className='aspect-video mb-4'>
-            <video {...videoData}>お使いのブラウザは動画タグをサポートしていません。</video>
+            <video className={videoData.className} controls src={videoData.src}>
+              お使いのブラウザは動画タグをサポートしていません。
+            </video>
           </div>
-          <h2 className='text-2xl font-bold mb-2'>Video Title</h2>
+          <h2 className='text-2xl font-bold mb-2'>{videoData.title}</h2>
           <div className='flex items-center justify-between mb-4'>
             <div className='flex items-center gap-2'>
               <Avatar>
-                <AvatarImage src='/placeholder-avatar.jpg' alt='Creator' />
-                <AvatarFallback>CN</AvatarFallback>
+                <AvatarImage src={videoData.creator.avatar} alt={videoData.creator.name} />
+                <AvatarFallback>{videoData.creator.name.slice(0, 2)}</AvatarFallback>
               </Avatar>
-              <span className='font-semibold'>Creator Name</span>
+              <span className='font-semibold'>{videoData.creator.name}</span>
             </div>
             <Button>Subscribe</Button>
           </div>
@@ -101,7 +114,7 @@ export default function WatchPage() {
               className='flex items-center gap-2 bg-gray-800 text-gray-300 hover:bg-gray-700'
             >
               <ThumbsUp className='h-4 w-4' />
-              1.5K
+              {videoData.stats.likes}
             </Button>
             <Button
               variant='outline'
@@ -118,9 +131,7 @@ export default function WatchPage() {
               Share
             </Button>
           </div>
-          <p className='mb-4'>
-            Video description goes here. This is a brief overview of the video content.
-          </p>
+          <p className='mb-4'>{videoData.description}</p>
           <div className='mb-4'>
             <h3 className='text-xl font-semibold mb-2'>Comments</h3>
             <Input
