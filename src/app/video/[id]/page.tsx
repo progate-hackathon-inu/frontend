@@ -1,16 +1,20 @@
+'use client'
+
 import { Avatar, AvatarFallback, AvatarImage } from '@/components/ui/avatar'
 import { Button } from '@/components/ui/button'
 import { Input } from '@/components/ui/input'
-import { ThumbsUp, ThumbsDown, Share2 } from 'lucide-react'
+import { ThumbsUp, ChevronDown, ChevronUp } from 'lucide-react'
 import RelatedVideos from '@/components/RelatedVideos'
 import Article from '@/components/Article'
+import { useState } from 'react'
 
 const videoData = {
   className: 'w-full h-full',
   controls: true,
   src: '/OK5vzIvi86336Fel.mp4',
   title: '動画タイトル',
-  description: 'この動画の説明文です。動画の内容の簡単な概要が記載されています。',
+  description:
+    'この動画の説明文です。動画の内容の簡単な概要が記載されています。さらに詳細な情報として、この動画では特定のトピックについて深く掘り下げています。視聴者の皆様には、この分野における新しい知見や興味深い事実を発見していただけると思います。また、この動画の制作過程や背景についても触れており、コンテンツの奥深さを理解する助けとなるでしょう。',
   creator: {
     name: '作成者名',
     avatar: '/placeholder-avatar.jpg',
@@ -89,6 +93,12 @@ const relatedVideos = [
 ]
 
 export default function WatchPage() {
+  const [isExpanded, setIsExpanded] = useState(false)
+
+  const toggleDescription = () => {
+    setIsExpanded(!isExpanded)
+  }
+
   return (
     <div className='min-h-screen bg-gray-900 text-gray-100'>
       <main className='container mx-auto p-4'>
@@ -100,7 +110,7 @@ export default function WatchPage() {
               </video>
             </div>
             <h2 className='text-2xl font-bold mb-2'>{videoData.title}</h2>
-            <div className='flex items-center justify-between mb-4'>
+            <div className='flex items-center mb-4'>
               <div className='flex items-center gap-2'>
                 <Avatar>
                   <AvatarImage src={videoData.creator.avatar} alt={videoData.creator.name} />
@@ -108,7 +118,6 @@ export default function WatchPage() {
                 </Avatar>
                 <span className='font-semibold'>{videoData.creator.name}</span>
               </div>
-              <Button>Subscribe</Button>
             </div>
             <div className='flex gap-4 mb-4'>
               <Button
@@ -118,22 +127,25 @@ export default function WatchPage() {
                 <ThumbsUp className='h-4 w-4' />
                 {videoData.stats.likes}
               </Button>
+            </div>
+            <div className='mb-4 bg-gray-800 p-4 rounded-lg'>
+              <p className={`${isExpanded ? '' : 'line-clamp-2'}`}>{videoData.description}</p>
               <Button
-                variant='outline'
-                className='flex items-center gap-2 bg-gray-800 text-gray-300 hover:bg-gray-700'
+                variant='ghost'
+                className='mt-2 text-blue-400 hover:text-blue-300'
+                onClick={toggleDescription}
               >
-                <ThumbsDown className='h-4 w-4' />
-                Dislike
-              </Button>
-              <Button
-                variant='outline'
-                className='flex items-center gap-2 bg-gray-800 text-gray-300 hover:bg-gray-700'
-              >
-                <Share2 className='h-4 w-4' />
-                Share
+                {isExpanded ? (
+                  <>
+                    折りたたむ <ChevronUp className='ml-1 h-4 w-4' />
+                  </>
+                ) : (
+                  <>
+                    もっと見る <ChevronDown className='ml-1 h-4 w-4' />
+                  </>
+                )}
               </Button>
             </div>
-            <p className='mb-4'>{videoData.description}</p>
             <div className='mb-4'>
               <h3 className='text-xl font-semibold mb-2'>Comments</h3>
               <Input
