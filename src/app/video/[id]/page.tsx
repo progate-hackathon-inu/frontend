@@ -24,6 +24,7 @@ const videoData = {
     likes: '1.5K',
     views: '10万',
     uploadDate: '2023年4月1日',
+    uploadTime: '14:30', // 投稿時刻を追加
   },
   tags: ['アルゴリズム', '可視化', 'プログラミング', 'コンピューターサイエンス'],
 }
@@ -179,7 +180,7 @@ export default function WatchPage() {
             </div>
             <h2 className='text-2xl font-bold mb-2'>{videoData.title}</h2>
             <VideoTags tags={videoData.tags} />
-            <div className='flex items-center mb-4'>
+            <div className='flex items-center justify-between mb-4'>
               <div className='flex items-center gap-2'>
                 <Avatar>
                   <AvatarImage src={videoData.creator.avatar} alt={videoData.creator.name} />
@@ -187,15 +188,18 @@ export default function WatchPage() {
                 </Avatar>
                 <span className='font-semibold'>{videoData.creator.name}</span>
               </div>
-            </div>
-            <div className='flex gap-4 mb-4'>
-              <Button
-                variant='outline'
-                className='flex items-center gap-2 bg-gray-800 text-gray-300 hover:bg-gray-700'
-              >
-                <ThumbsUp className='h-4 w-4' />
-                {videoData.stats.likes}
-              </Button>
+              <div className='flex items-center gap-4'>
+                <span className='text-sm text-gray-400'>
+                  {videoData.stats.uploadDate} {videoData.stats.uploadTime}
+                </span>
+                <Button
+                  variant='outline'
+                  className='flex items-center gap-2 bg-gray-800 text-gray-300 hover:bg-gray-700'
+                >
+                  <ThumbsUp className='h-4 w-4' />
+                  {videoData.stats.likes}
+                </Button>
+              </div>
             </div>
             <div className='mb-4 bg-gray-800 p-4 rounded-lg'>
               <p className={`${isExpanded ? '' : 'line-clamp-2'}`}>{videoData.description}</p>
