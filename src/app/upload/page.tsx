@@ -204,12 +204,12 @@ export default function Component() {
               </div>
             )}
           </div>
-          <div className='bg-gray-800 p-4 rounded-lg space-y-4'>
-            <div>
+          <div className='space-y-4'>
+            <div className='bg-gray-800 p-4 rounded-lg'>
               <h3 className='text-lg font-semibold mb-2'>タイトル</h3>
               <p className='text-gray-300'>{title || '（未入力）'}</p>
             </div>
-            <div>
+            <div className='bg-gray-800 p-4 rounded-lg'>
               <h3 className='text-lg font-semibold mb-2'>タグ</h3>
               <div className='flex flex-wrap gap-2'>
                 {tags.length > 0 ? (
@@ -223,7 +223,7 @@ export default function Component() {
                 )}
               </div>
             </div>
-            <div>
+            <div className='bg-gray-800 p-4 rounded-lg'>
               <h3 className='text-lg font-semibold mb-2'>動画説明</h3>
               {description ? (
                 <p className='text-gray-300 whitespace-pre-wrap'>{description}</p>
@@ -231,8 +231,10 @@ export default function Component() {
                 <p className='text-sm text-gray-400'>（未入力）</p>
               )}
             </div>
-            <h3 className='text-lg font-semibold mb-2'>アルゴリズム解説</h3>
-            <Article algorithmData={algorithmExplanation} />
+            <div className='bg-gray-800 p-4 rounded-lg'>
+              <h3 className='text-lg font-semibold mb-2'>アルゴリズム解説</h3>
+              <Article algorithmData={algorithmExplanation} />
+            </div>
           </div>
           {manimCode && (
             <p className='text-sm text-gray-400'>Manimコード長: {manimCode.length} 文字</p>
