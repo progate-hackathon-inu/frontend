@@ -15,27 +15,30 @@ type RelatedVideosProps = {
 
 export default function RelatedVideos({ videos }: RelatedVideosProps) {
   return (
-    <div className='grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-3 gap-4'>
-      {videos.map((video) => (
-        <div key={video.id} className='flex flex-col'>
-          <div className='w-full aspect-video relative mb-2'>
-            <Image
-              src={video.thumbnail}
-              alt={video.title}
-              layout='fill'
-              objectFit='cover'
-              className='rounded'
-            />
+    <div>
+      <h3 className='text-lg font-bold mb-4'>関連動画</h3>
+      <div className='grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-3 xl:grid-cols-4 gap-4'>
+        {videos.map((video) => (
+          <div key={video.id} className='flex flex-col'>
+            <div className='w-full aspect-video relative mb-2'>
+              <Image
+                src={video.thumbnail}
+                alt={video.title}
+                layout='fill'
+                objectFit='cover'
+                className='rounded scale-85' // scale-90 から scale-85 に変更してさらに小さく
+              />
+            </div>
+            <div>
+              <h4 className='text-sm font-semibold line-clamp-2'>{video.title}</h4>
+              <p className='text-xs text-gray-400'>{video.creator}</p>
+              <p className='text-xs text-gray-400'>
+                {video.views} 視聴 • {video.age}
+              </p>
+            </div>
           </div>
-          <div>
-            <h4 className='text-sm font-semibold line-clamp-2'>{video.title}</h4>
-            <p className='text-xs text-gray-400'>{video.creator}</p>
-            <p className='text-xs text-gray-400'>
-              {video.views} 視聴 • {video.age}
-            </p>
-          </div>
-        </div>
-      ))}
+        ))}
+      </div>
     </div>
   )
 }

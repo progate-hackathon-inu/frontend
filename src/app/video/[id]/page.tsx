@@ -123,7 +123,7 @@ export default function WatchPage() {
   return (
     <div className='min-h-screen bg-gray-900 text-gray-100'>
       <main className='container mx-auto p-4'>
-        <div className='flex flex-col lg:flex-row gap-8'>
+        <div className='flex flex-col lg:flex-row gap-8 mb-5'>
           <div className='lg:w-1/2'>
             <div className='aspect-video mb-4'>
               <video className={videoData.className} controls src={videoData.src}>
