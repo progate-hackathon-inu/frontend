@@ -2,11 +2,11 @@
 
 import { Avatar, AvatarFallback, AvatarImage } from '@/components/ui/avatar'
 import { Button } from '@/components/ui/button'
-import { Input } from '@/components/ui/input'
 import { ThumbsUp, ChevronDown, ChevronUp } from 'lucide-react'
 import RelatedVideos from '@/components/RelatedVideos'
 import Article from '@/components/Article'
 import { useState, useEffect } from 'react'
+import Comments from '@/components/Comments'
 
 const videoData = {
   className: 'w-full h-full',
@@ -131,44 +131,6 @@ const sampleComments = [
   },
 ]
 
-interface Comment {
-  id: number
-  user: {
-    name: string
-    avatar: string
-  }
-  content: string
-  likes: number
-  timestamp: string
-}
-
-function Comments({ comments }: { comments: Comment[] }) {
-  return (
-    <div className='mt-8'>
-      <h3 className='text-xl font-semibold mb-4'>コメント</h3>
-      <ul className='space-y-4'>
-        {comments.map((comment) => (
-          <li key={comment.id} className='bg-gray-800 p-4 rounded-lg'>
-            <div className='flex items-start space-x-3'>
-              <Avatar>
-                <AvatarImage src={comment.user.avatar} alt={comment.user.name} />
-                <AvatarFallback>{comment.user.name.slice(0, 2)}</AvatarFallback>
-              </Avatar>
-              <div className='flex-1'>
-                <div className='flex items-center justify-between'>
-                  <h4 className='font-semibold'>{comment.user.name}</h4>
-                  <span className='text-sm text-gray-400'>{comment.timestamp}</span>
-                </div>
-                <p className='mt-1'>{comment.content}</p>
-              </div>
-            </div>
-          </li>
-        ))}
-      </ul>
-    </div>
-  )
-}
-
 export default function WatchPage() {
   const [isExpanded, setIsExpanded] = useState(false)
   const [algorithmData, setAlgorithmData] = useState<string | null>(null)
@@ -237,14 +199,6 @@ export default function WatchPage() {
                   </>
                 )}
               </Button>
-            </div>
-            <div className='mb-4'>
-              <h3 className='text-xl font-semibold mb-2'>コメントを追加</h3>
-              <Input
-                placeholder='コメントを入力...'
-                className='mb-2 bg-gray-800 text-gray-100 border-gray-700'
-              />
-              <Button className='bg-blue-600 hover:bg-blue-700'>コメントする</Button>
             </div>
             <Comments comments={sampleComments} />
           </div>
