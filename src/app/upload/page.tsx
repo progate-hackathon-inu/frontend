@@ -7,6 +7,7 @@ import { Label } from '@/components/ui/label'
 import { Tabs, TabsContent, TabsList, TabsTrigger } from '@/components/ui/tabs'
 import { Upload, Play, Code, Film, File, Video, X } from 'lucide-react'
 import { Badge } from '@/components/ui/badge'
+import Article from '@/components/Article'
 
 export default function Component() {
   const [title, setTitle] = useState('')
@@ -18,6 +19,7 @@ export default function Component() {
   const [previewUrl, setPreviewUrl] = useState<string | null>(null)
   const [activeTab, setActiveTab] = useState('code')
   const [description, setDescription] = useState('')
+  const [algorithmExplanation, setAlgorithmExplanation] = useState('')
 
   const handleConvert = (e: React.FormEvent) => {
     e.preventDefault()
@@ -174,6 +176,18 @@ export default function Component() {
                 rows={4}
               />
             </div>
+            <div className='space-y-2'>
+              <Label htmlFor='algorithm-explanation' className='text-lg'>
+                アルゴリズム解説
+              </Label>
+              <Textarea
+                id='algorithm-explanation'
+                value={algorithmExplanation}
+                onChange={(e) => setAlgorithmExplanation(e.target.value)}
+                className='w-full h-40 bg-gray-800 border-gray-700 text-white'
+                placeholder='アルゴリズムの解説をマークダウン形式で入力してください'
+              />
+            </div>
           </form>
         </div>
         <div className='space-y-4'>
@@ -217,6 +231,8 @@ export default function Component() {
                 <p className='text-sm text-gray-400'>（未入力）</p>
               )}
             </div>
+            <h3 className='text-lg font-semibold mb-2'>アルゴリズム解説</h3>
+            <Article algorithmData={algorithmExplanation} />
           </div>
           {manimCode && (
             <p className='text-sm text-gray-400'>Manimコード長: {manimCode.length} 文字</p>
