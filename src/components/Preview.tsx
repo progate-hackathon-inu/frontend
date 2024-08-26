@@ -20,8 +20,6 @@ export default function Preview({
   manimFile,
   videoFile,
 }: PreviewProps) {
-  // tagsの変換処理を削除
-
   return (
     <div className='space-y-4'>
       <h2 className='text-2xl font-semibold mb-4'>プレビュー</h2>

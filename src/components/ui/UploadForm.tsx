@@ -70,6 +70,7 @@ export default function UploadForm({ onSubmit, onChange }: UploadFormProps) {
     const file = e.target.files?.[0]
     if (file) {
       setVideoFile(file)
+      onChange({ videoFile: file }) // 親コンポーネントに変更を通知
     }
   }
 
@@ -110,7 +111,7 @@ export default function UploadForm({ onSubmit, onChange }: UploadFormProps) {
             handleChange('title', e.target.value)
           }}
           className='w-full bg-gray-800 border-gray-700 text-white'
-          placeholder='動画のタイトルを入力'
+          placeholder='動画タイトルを入力'
         />
       </div>
       <Tabs defaultValue='code' className='w-full' onValueChange={setActiveTab}>

@@ -1,6 +1,6 @@
 'use client'
 import dynamic from 'next/dynamic'
-import { useState } from 'react'
+import { useState, useEffect } from 'react'
 
 const UploadForm = dynamic(() => import('@/components/ui/UploadForm'), { ssr: false })
 const Preview = dynamic(() => import('@/components/Preview'), { ssr: false })
@@ -20,17 +20,27 @@ export default function Component() {
   const [previewUrl, setPreviewUrl] = useState<string | null>(null)
 
   const handleFormChange = (data: Partial<typeof formData>) => {
-    setFormData((prevData) => ({ ...prevData, ...data }))
-    if (data.videoFile) {
-      setPreviewUrl(URL.createObjectURL(data.videoFile))
-    }
+    setFormData((prevData) => {
+      const newData = { ...prevData, ...data }
+      if (newData.videoFile && newData.videoFile !== prevData.videoFile) {
+        // 新しい動画ファイルが選択された場合、プレビューURLを更新
+        setPreviewUrl(URL.createObjectURL(newData.videoFile))
+      }
+      return newData
+    })
   }
+
+  useEffect(() => {
+    // コンポーネントのクリーンアップ時にオブジェクトURLを解放
+    return () => {
+      if (previewUrl) {
+        URL.revokeObjectURL(previewUrl)
+      }
+    }
+  }, [previewUrl])
 
   const handleFormSubmit = (data: typeof formData) => {
     setFormData(data)
-    if (data.videoFile) {
-      setPreviewUrl(URL.createObjectURL(data.videoFile))
-    }
     console.log('Form submitted:', data)
     // ここで実際のアップロードまたは変換処理を行います
   }
