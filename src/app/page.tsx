@@ -1,4 +1,3 @@
-import Sidebar from '@/components/Sidebar'
 import VideoCard from '@/components/VideoCard'
 
 // データを別のオブジェクトとして定義
@@ -61,7 +60,7 @@ const featuredVideos = [
     likes: 380,
     imageUrl:
       'https://encrypted-tbn0.gstatic.com/images?q=tbn:ANd9GcTahPlO0dH-nIRvDSfr7TawBUX4wUq4En9sjg&s',
-    tags: ['ソート', 'アルゴリズム', 'データ構造', 'プログラミング'],
+    tags: ['ソート', 'アルゴリズム', 'データ構造', 'プロ��ラミング'],
   },
   {
     id: 8,
@@ -127,18 +126,13 @@ const featuredVideos = [
 
 export default function Component() {
   return (
-    <div className='flex flex-col min-h-screen'>
-      <div className='flex flex-1'>
-        <Sidebar />
-        <main className='flex-1 p-6 bg-gray-900'>
-          <h1 className='text-2xl font-bold mb-6 text-white'>Featured Videos</h1>
-          <div className='grid grid-cols-1 gap-6 sm:grid-cols-2 lg:grid-cols-3 xl:grid-cols-4 2xl:grid-cols-5'>
-            {featuredVideos.map((video) => (
-              <VideoCard key={video.id} video={video} />
-            ))}
-          </div>
-        </main>
+    <>
+      <h1 className='text-2xl font-bold mb-6 text-white'>Featured Videos</h1>
+      <div className='grid grid-cols-1 gap-6 sm:grid-cols-2 lg:grid-cols-3 xl:grid-cols-4 2xl:grid-cols-5'>
+        {featuredVideos.map((video) => (
+          <VideoCard key={video.id} video={video} />
+        ))}
       </div>
-    </div>
+    </>
   )
 }

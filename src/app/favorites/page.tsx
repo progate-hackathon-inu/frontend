@@ -1,5 +1,4 @@
 'use client'
-import Sidebar from '@/components/Sidebar'
 import { Avatar, AvatarFallback, AvatarImage } from '@/components/ui/avatar'
 import { Heart, Play } from 'lucide-react'
 import Image from 'next/image'
@@ -7,7 +6,6 @@ import Image from 'next/image'
 export default function Component() {
   return (
     <div className='min-h-screen bg-gray-900 text-gray-200 flex'>
-      <Sidebar />
       {/* Main content */}
       <div className='flex-1 flex flex-col'>
         {/* Main content */}
