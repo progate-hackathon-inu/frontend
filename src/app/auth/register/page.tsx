@@ -23,17 +23,15 @@ export default function Component() {
     <div className='min-h-screen bg-gray-900 flex items-center justify-center p-4'>
       <div className='max-w-md w-full bg-gray-800 rounded-lg shadow-md overflow-hidden'>
         <div className='p-6 sm:p-8'>
-          <h2 className='text-2xl font-semibold text-gray-100 mb-6 text-center'>
-            Create an Account
-          </h2>
+          <h2 className='text-2xl font-semibold text-gray-100 mb-6 text-center'>アカウント作成</h2>
           <form onSubmit={handleSubmit} className='space-y-4'>
             <div className='space-y-2'>
               <Label htmlFor='name' className='text-sm font-medium text-gray-300'>
-                Full Name
+                氏名
               </Label>
               <Input
                 id='name'
-                placeholder='Enter your full name'
+                placeholder='氏名を入力してください'
                 type='text'
                 value={name}
                 onChange={(e) => setName(e.target.value)}
@@ -43,11 +41,11 @@ export default function Component() {
             </div>
             <div className='space-y-2'>
               <Label htmlFor='email' className='text-sm font-medium text-gray-300'>
-                Email
+                メールアドレス
               </Label>
               <Input
                 id='email'
-                placeholder='Enter your email'
+                placeholder='メールアドレスを入力してください'
                 type='email'
                 value={email}
                 onChange={(e) => setEmail(e.target.value)}
@@ -57,11 +55,11 @@ export default function Component() {
             </div>
             <div className='space-y-2'>
               <Label htmlFor='password' className='text-sm font-medium text-gray-300'>
-                Password
+                パスワード
               </Label>
               <Input
                 id='password'
-                placeholder='Create a password'
+                placeholder='パスワードを作成してください'
                 type='password'
                 value={password}
                 onChange={(e) => setPassword(e.target.value)}
@@ -71,11 +69,11 @@ export default function Component() {
             </div>
             <div className='space-y-2'>
               <Label htmlFor='confirm-password' className='text-sm font-medium text-gray-300'>
-                Confirm Password
+                パスワード（確認）
               </Label>
               <Input
                 id='confirm-password'
-                placeholder='Confirm your password'
+                placeholder='パスワードを再入力してください'
                 type='password'
                 value={confirmPassword}
                 onChange={(e) => setConfirmPassword(e.target.value)}
@@ -91,10 +89,10 @@ export default function Component() {
                 className='h-4 w-4 text-gray-300 focus:ring-gray-500 border-gray-600 rounded'
               />
               <label htmlFor='terms' className='ml-2 block text-sm text-gray-300'>
-                I agree to the{' '}
                 <a href='#' className='text-gray-100 hover:underline'>
-                  Terms and Conditions
+                  利用規約
                 </a>
+                に同意します
               </label>
             </div>
             <Button
@@ -102,15 +100,15 @@ export default function Component() {
               className='w-full bg-gray-700 hover:bg-gray-600 text-white font-semibold py-2 px-4 rounded-md transition duration-300 ease-in-out'
               disabled={!agreeTerms}
             >
-              Sign Up
+              登録
             </Button>
           </form>
         </div>
         <div className='px-6 py-4 bg-gray-700 border-t border-gray-600 text-center'>
           <p className='text-sm text-gray-300'>
-            Already have an account?{' '}
+            すでにアカウントをお持ちですか？{' '}
             <Link href='/auth/login' className='font-medium text-gray-100 hover:underline'>
-              Sign in
+              ログイン
             </Link>
           </p>
         </div>
