@@ -5,9 +5,10 @@ import { Input } from '@/components/ui/input'
 import { Textarea } from '@/components/ui/textarea'
 import { Label } from '@/components/ui/label'
 import { Tabs, TabsContent, TabsList, TabsTrigger } from '@/components/ui/tabs'
-import { Upload, Play, Code, Film, File, Video, X } from 'lucide-react'
+import { Upload, Code, Film, File, Video, X } from 'lucide-react'
 import { Badge } from '@/components/ui/badge'
 import Article from '@/components/Article'
+import Preview from '@/components/Preview'
 
 export default function Component() {
   const [title, setTitle] = useState('')
@@ -191,56 +192,19 @@ export default function Component() {
           </form>
         </div>
         <div className='space-y-4'>
-          <h2 className='text-2xl font-semibold mb-4'>プレビュー</h2>
-          <div className='aspect-video bg-gray-800 rounded-lg flex items-center justify-center overflow-hidden'>
-            {previewUrl ? (
-              <video src={previewUrl} controls className='w-full h-full'>
-                お使いのブラウザは動画タグをサポートしていません。
-              </video>
-            ) : (
-              <div className='text-center'>
-                <Play className='mx-auto h-16 w-16 text-gray-600' />
-                <p className='mt-4 text-gray-400'>プレビューはここに表示されます</p>
-              </div>
-            )}
+          <Preview
+            title={title}
+            tags={tags}
+            description={description}
+            previewUrl={previewUrl}
+            manimCode={manimCode}
+            manimFile={manimFile}
+            videoFile={videoFile}
+          />
+          <div className='bg-gray-800 p-4 rounded-lg'>
+            <h3 className='text-lg font-semibold mb-2'>アルゴリズム解説</h3>
+            <Article algorithmData={algorithmExplanation} />
           </div>
-          <div className='space-y-4'>
-            <div className='bg-gray-800 p-4 rounded-lg'>
-              <h3 className='text-lg font-semibold mb-2'>タイトル</h3>
-              <p className='text-gray-300'>{title || '（未入力）'}</p>
-            </div>
-            <div className='bg-gray-800 p-4 rounded-lg'>
-              <h3 className='text-lg font-semibold mb-2'>タグ</h3>
-              <div className='flex flex-wrap gap-2'>
-                {tags.length > 0 ? (
-                  tags.map((tag) => (
-                    <Badge key={tag} variant='secondary' className='bg-gray-700 text-white'>
-                      {tag}
-                    </Badge>
-                  ))
-                ) : (
-                  <p className='text-sm text-gray-400'>タグ: なし</p>
-                )}
-              </div>
-            </div>
-            <div className='bg-gray-800 p-4 rounded-lg'>
-              <h3 className='text-lg font-semibold mb-2'>動画説明</h3>
-              {description ? (
-                <p className='text-gray-300 whitespace-pre-wrap'>{description}</p>
-              ) : (
-                <p className='text-sm text-gray-400'>（未入力）</p>
-              )}
-            </div>
-            <div className='bg-gray-800 p-4 rounded-lg'>
-              <h3 className='text-lg font-semibold mb-2'>アルゴリズム解説</h3>
-              <Article algorithmData={algorithmExplanation} />
-            </div>
-          </div>
-          {manimCode && (
-            <p className='text-sm text-gray-400'>Manimコード長: {manimCode.length} 文字</p>
-          )}
-          {manimFile && <p className='text-sm text-gray-400'>Manimファイル: {manimFile.name}</p>}
-          {videoFile && <p className='text-sm text-gray-400'>動画ファイル: {videoFile.name}</p>}
           {activeTab === 'video' ? (
             <Button
               onClick={handleUpload}
