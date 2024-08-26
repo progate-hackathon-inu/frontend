@@ -1,25 +1,15 @@
 'use client'
-import { useRouter } from 'next/navigation'
-import { useEffect, useState } from 'react'
+import { useSidebarStore } from '@/store/sidebarStore'
 import { Button } from '@/components/ui/button'
 import { Home, Compass, Upload, Heart } from 'lucide-react'
 
 export default function Sidebar() {
-  const router = useRouter()
-  const [isMounted, setIsMounted] = useState(false)
-
-  useEffect(() => {
-    setIsMounted(true)
-  }, [])
-
-  const handleNavigation = (path: string) => {
-    if (isMounted) {
-      router.push(path)
-    }
-  }
+  const isOpen = useSidebarStore((state) => state.isOpen)
 
   return (
-    <aside className='w-64 bg-gray-800 p-4 hidden md:block'>
+    <aside
+      className={`fixed top-0 left-0 h-full w-64 bg-gray-800 p-4 transition-transform duration-300 ease-in-out ${isOpen ? 'translate-x-0' : '-translate-x-full'} z-50`}
+    >
       <div className='mb-8'>
         <h1 className='text-2xl font-bold text-white'>VideoApp</h1>
       </div>
@@ -27,7 +17,6 @@ export default function Sidebar() {
         <Button
           variant='ghost'
           className='w-full justify-start text-gray-300 hover:text-white hover:bg-gray-700'
-          onClick={() => handleNavigation('/')}
         >
           <Home className='mr-2 h-5 w-5' />
           ホーム
@@ -42,7 +31,6 @@ export default function Sidebar() {
         <Button
           variant='ghost'
           className='w-full justify-start text-gray-300 hover:text-white hover:bg-gray-700'
-          onClick={() => handleNavigation('/upload')}
         >
           <Upload className='mr-2 h-5 w-5' />
           アップロード
@@ -50,7 +38,6 @@ export default function Sidebar() {
         <Button
           variant='ghost'
           className='w-full justify-start text-gray-300 hover:text-white hover:bg-gray-700'
-          onClick={() => handleNavigation('/favorites')}
         >
           <Heart className='mr-2 h-5 w-5' />
           お気に入り

@@ -5,11 +5,13 @@ import { useRouter } from 'next/navigation'
 import { Input } from '@/components/ui/input'
 import { Button } from '@/components/ui/button'
 import Link from 'next/link'
-import { Search, User } from 'lucide-react'
+import { Search, User, Menu } from 'lucide-react'
+import { useSidebarStore } from '@/store/sidebarStore'
 
 export default function Header() {
   const [searchQuery, setSearchQuery] = useState('')
   const router = useRouter()
+  const toggleSidebar = useSidebarStore((state) => state.toggle)
 
   const handleSearch = (e: React.FormEvent) => {
     e.preventDefault()
@@ -20,9 +22,14 @@ export default function Header() {
 
   return (
     <header className='flex items-center justify-between p-4 bg-gray-800'>
-      <Link href='/' className='text-white text-2xl font-bold hover:text-gray-300'>
-        ManimTube
-      </Link>
+      <div className='flex items-center'>
+        <Button variant='ghost' className='mr-2 text-white' onClick={toggleSidebar}>
+          <Menu size={24} />
+        </Button>
+        <Link href='/' className='text-white text-2xl font-bold hover:text-gray-300'>
+          ManimTube
+        </Link>
+      </div>
       <div className='flex items-center space-x-4'>
         <form onSubmit={handleSearch} className='relative'>
           <Input
