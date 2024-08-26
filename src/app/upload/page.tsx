@@ -17,6 +17,7 @@ export default function Component() {
   const [manimFile, setManimFile] = useState<File | null>(null)
   const [previewUrl, setPreviewUrl] = useState<string | null>(null)
   const [activeTab, setActiveTab] = useState('code')
+  const [description, setDescription] = useState('')
 
   const handleConvert = (e: React.FormEvent) => {
     e.preventDefault()
@@ -59,7 +60,7 @@ export default function Component() {
   return (
     <div className='min-h-screen bg-gray-900 text-gray-200 p-4 md:p-8'>
       <div className='max-w-6xl mx-auto grid grid-cols-1 md:grid-cols-2 gap-8'>
-        <div className='space-y-6'>
+        <div className='space-y-4'>
           <form
             onSubmit={activeTab === 'video' ? handleUpload : handleConvert}
             className='space-y-6'
@@ -160,6 +161,19 @@ export default function Component() {
                 placeholder='タグを入力してEnterを押す'
               />
             </div>
+            <div className='space-y-2'>
+              <Label htmlFor='description' className='text-lg'>
+                動画説明
+              </Label>
+              <Textarea
+                id='description'
+                value={description}
+                onChange={(e) => setDescription(e.target.value)}
+                className='w-full bg-gray-800 border-gray-700 text-white'
+                placeholder='動画の説明を入力してください'
+                rows={4}
+              />
+            </div>
           </form>
         </div>
         <div className='space-y-4'>
@@ -176,25 +190,39 @@ export default function Component() {
               </div>
             )}
           </div>
-          <div className='bg-gray-800 p-4 rounded-lg'>
-            <h3 className='font-semibold mb-2'>{title || 'タイトル'}</h3>
-            <div className='flex flex-wrap gap-2 mb-2'>
-              {tags.length > 0 ? (
-                tags.map((tag) => (
-                  <Badge key={tag} variant='secondary' className='bg-gray-700 text-white'>
-                    {tag}
-                  </Badge>
-                ))
+          <div className='bg-gray-800 p-4 rounded-lg space-y-4'>
+            <div>
+              <h3 className='text-lg font-semibold mb-2'>タイトル</h3>
+              <p className='text-gray-300'>{title || '（未入力）'}</p>
+            </div>
+            <div>
+              <h3 className='text-lg font-semibold mb-2'>タグ</h3>
+              <div className='flex flex-wrap gap-2'>
+                {tags.length > 0 ? (
+                  tags.map((tag) => (
+                    <Badge key={tag} variant='secondary' className='bg-gray-700 text-white'>
+                      {tag}
+                    </Badge>
+                  ))
+                ) : (
+                  <p className='text-sm text-gray-400'>タグ: なし</p>
+                )}
+              </div>
+            </div>
+            <div>
+              <h3 className='text-lg font-semibold mb-2'>動画説明</h3>
+              {description ? (
+                <p className='text-gray-300 whitespace-pre-wrap'>{description}</p>
               ) : (
-                <p className='text-sm text-gray-400'>タグ: なし</p>
+                <p className='text-sm text-gray-400'>（未入力）</p>
               )}
             </div>
-            {manimCode && (
-              <p className='text-sm text-gray-400'>Manimコード長: {manimCode.length} 文字</p>
-            )}
-            {manimFile && <p className='text-sm text-gray-400'>Manimファイル: {manimFile.name}</p>}
-            {videoFile && <p className='text-sm text-gray-400'>動画ファイル: {videoFile.name}</p>}
           </div>
+          {manimCode && (
+            <p className='text-sm text-gray-400'>Manimコード長: {manimCode.length} 文字</p>
+          )}
+          {manimFile && <p className='text-sm text-gray-400'>Manimファイル: {manimFile.name}</p>}
+          {videoFile && <p className='text-sm text-gray-400'>動画ファイル: {videoFile.name}</p>}
           {activeTab === 'video' ? (
             <Button
               onClick={handleUpload}
