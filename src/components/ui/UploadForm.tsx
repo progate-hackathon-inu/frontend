@@ -44,7 +44,12 @@ export default function UploadForm({ onSubmit, onChange }: UploadFormProps) {
   const [algorithmExplanation, setAlgorithmExplanation] = useState('')
 
   const handleChange = (field: string, value: string | File | string[] | null) => {
-    onChange({ [field]: value })
+    if (field === 'tags') {
+      // tagsの場合は、現在の配列を更新する
+      onChange({ tags: [...tags, value as string] })
+    } else {
+      onChange({ [field]: value })
+    }
   }
 
   const handleSubmit = (e: React.FormEvent) => {
@@ -78,13 +83,17 @@ export default function UploadForm({ onSubmit, onChange }: UploadFormProps) {
   const handleAddTag = (e: React.KeyboardEvent<HTMLInputElement>) => {
     if (e.key === 'Enter' && currentTag.trim() !== '') {
       e.preventDefault()
-      setTags((prevTags) => [...prevTags, currentTag.trim()])
+      const newTags = [...tags, currentTag.trim()]
+      setTags(newTags)
       setCurrentTag('')
+      onChange({ tags: newTags }) // 親コンポーネントに新しいタグ配列を通知
     }
   }
 
   const handleRemoveTag = (tagToRemove: string) => {
-    setTags((prevTags) => prevTags.filter((tag) => tag !== tagToRemove))
+    const newTags = tags.filter((tag) => tag !== tagToRemove)
+    setTags(newTags)
+    onChange({ tags: newTags }) // 親コンポーネントに更新されたタグ配列を通知
   }
 
   return (
@@ -174,6 +183,7 @@ export default function UploadForm({ onSubmit, onChange }: UploadFormProps) {
             <Badge key={tag} variant='secondary' className='bg-gray-700 text-white'>
               {tag}
               <button
+                type='button' // フォームの送信を防ぐ
                 onClick={() => handleRemoveTag(tag)}
                 className='ml-1 text-gray-400 hover:text-white'
               >
@@ -185,10 +195,7 @@ export default function UploadForm({ onSubmit, onChange }: UploadFormProps) {
         <Input
           id='tags'
           value={currentTag}
-          onChange={(e) => {
-            setCurrentTag(e.target.value)
-            handleChange('tags', e.target.value)
-          }}
+          onChange={(e) => setCurrentTag(e.target.value)}
           onKeyDown={handleAddTag}
           className='w-full bg-gray-800 border-gray-700 text-white'
           placeholder='タグを入力してEnterを押す'
