@@ -22,9 +22,10 @@ const Article: React.FC<ArticleProps> = ({ algorithmData }) => {
   // handleMouseMove関数をuseCallbackでメモ化
   const handleMouseMove = useCallback(
     (e: MouseEvent) => {
-      if (isDragging && containerRef.current) {
+      if (isDragging && containerRef.current && resizeRef.current) {
         const containerRect = containerRef.current.getBoundingClientRect()
-        const newHeight = e.clientY - containerRect.top
+        const resizeRect = resizeRef.current.getBoundingClientRect()
+        const newHeight = e.clientY - containerRect.top - resizeRect.height
         setHeight(Math.max(200, Math.min(1000, newHeight)))
       }
     },
