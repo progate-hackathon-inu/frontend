@@ -7,7 +7,7 @@ import RelatedVideos from '@/components/RelatedVideos'
 import Article from '@/components/Article'
 import { useState, useEffect } from 'react'
 import Comments from '@/components/Comments'
-import { Badge } from '@/components/ui/badge'
+import Link from 'next/link'
 
 const videoData = {
   className: 'w-full h-full',
@@ -136,11 +136,15 @@ const sampleComments = [
 
 function VideoTags({ tags }: { tags: string[] }) {
   return (
-    <div className='flex flex-wrap gap-2 mb-4'>
+    <div className='flex flex-wrap gap-1 mb-4'>
       {tags.map((tag, index) => (
-        <Badge key={index} variant='secondary'>
+        <Link
+          key={index}
+          href={`/search?tag=${encodeURIComponent(tag)}`}
+          className='text-xs bg-gray-700 text-gray-300 px-2 py-1 rounded hover:bg-gray-600 transition-colors'
+        >
           {tag}
-        </Badge>
+        </Link>
       ))}
     </div>
   )
