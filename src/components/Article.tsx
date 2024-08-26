@@ -12,6 +12,7 @@ const Article: React.FC<ArticleProps> = ({ algorithmData }) => {
   const [height, setHeight] = useState(500)
   const [isDragging, setIsDragging] = useState(false)
   const containerRef = useRef<HTMLDivElement>(null)
+  const contentRef = useRef<HTMLDivElement>(null)
   const resizeRef = useRef<HTMLDivElement>(null)
 
   const handleMouseDown = (e: React.MouseEvent) => {
@@ -22,11 +23,11 @@ const Article: React.FC<ArticleProps> = ({ algorithmData }) => {
   // handleMouseMove関数をuseCallbackでメモ化
   const handleMouseMove = useCallback(
     (e: MouseEvent) => {
-      if (isDragging && containerRef.current && resizeRef.current) {
+      if (isDragging && containerRef.current && contentRef.current) {
         const containerRect = containerRef.current.getBoundingClientRect()
-        const resizeRect = resizeRef.current.getBoundingClientRect()
-        const newHeight = e.clientY - containerRect.top - resizeRect.height
-        setHeight(Math.max(200, Math.min(1000, newHeight)))
+        const contentHeight = contentRef.current.scrollHeight
+        const newHeight = e.clientY - containerRect.top
+        setHeight(Math.max(200, Math.min(contentHeight, newHeight)))
       }
     },
     [isDragging, setHeight]
@@ -55,7 +56,10 @@ const Article: React.FC<ArticleProps> = ({ algorithmData }) => {
   return (
     <div ref={containerRef} className='bg-gray-800 p-6 rounded-lg'>
       <div style={{ height: `${height}px` }} className='overflow-hidden'>
-        <div className='prose prose-invert prose-lg h-full overflow-y-auto pr-4 pb-8'>
+        <div
+          ref={contentRef}
+          className='prose prose-invert prose-lg h-full overflow-y-auto pr-4 pb-8'
+        >
           <ReactMarkdown
             components={{
               code({
