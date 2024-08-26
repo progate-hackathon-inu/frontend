@@ -3,7 +3,7 @@ import { Play } from 'lucide-react'
 
 interface PreviewProps {
   title: string
-  tags: string[]
+  tags: string[] | string // string型も許可する
   description: string
   previewUrl: string | null
   manimCode: string
@@ -20,6 +20,9 @@ export default function Preview({
   manimFile,
   videoFile,
 }: PreviewProps) {
+  // tagsを配列に変換する
+  const tagsArray = Array.isArray(tags) ? tags : tags ? [tags] : []
+
   return (
     <div className='space-y-4'>
       <h2 className='text-2xl font-semibold mb-4'>プレビュー</h2>
@@ -43,8 +46,8 @@ export default function Preview({
         <div className='bg-gray-800 p-4 rounded-lg'>
           <h3 className='text-lg font-semibold mb-2'>タグ</h3>
           <div className='flex flex-wrap gap-2'>
-            {tags.length > 0 ? (
-              tags.map((tag) => (
+            {tagsArray.length > 0 ? (
+              tagsArray.map((tag) => (
                 <Badge key={tag} variant='secondary' className='bg-gray-700 text-white'>
                   {tag}
                 </Badge>

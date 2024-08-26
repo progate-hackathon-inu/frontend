@@ -1,8 +1,10 @@
 'use client'
+import dynamic from 'next/dynamic'
 import { useState } from 'react'
-import UploadForm from '@/components/ui/UploadForm'
-import Preview from '@/components/Preview'
-import Article from '@/components/Article'
+
+const UploadForm = dynamic(() => import('@/components/ui/UploadForm'), { ssr: false })
+const Preview = dynamic(() => import('@/components/Preview'), { ssr: false })
+const Article = dynamic(() => import('@/components/Article'), { ssr: false })
 
 export default function Component() {
   const [formData, setFormData] = useState({
@@ -17,6 +19,13 @@ export default function Component() {
   })
   const [previewUrl, setPreviewUrl] = useState<string | null>(null)
 
+  const handleFormChange = (data: Partial<typeof formData>) => {
+    setFormData((prevData) => ({ ...prevData, ...data }))
+    if (data.videoFile) {
+      setPreviewUrl(URL.createObjectURL(data.videoFile))
+    }
+  }
+
   const handleFormSubmit = (data: typeof formData) => {
     setFormData(data)
     if (data.videoFile) {
@@ -29,7 +38,7 @@ export default function Component() {
   return (
     <div className='min-h-screen bg-gray-900 text-gray-200 p-4 md:p-8'>
       <div className='max-w-6xl mx-auto grid grid-cols-1 md:grid-cols-2 gap-8'>
-        <UploadForm onSubmit={handleFormSubmit} />
+        <UploadForm onSubmit={handleFormSubmit} onChange={handleFormChange} />
         <div className='space-y-4'>
           <Preview
             title={formData.title}

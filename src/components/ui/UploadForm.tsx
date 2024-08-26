@@ -18,9 +18,21 @@ interface UploadFormProps {
     algorithmExplanation: string
     activeTab: string
   }) => void
+  onChange: (
+    formData: Partial<{
+      title: string
+      manimCode: string
+      tags: string[]
+      videoFile: File | null
+      manimFile: File | null
+      description: string
+      algorithmExplanation: string
+      activeTab: string
+    }>
+  ) => void
 }
 
-export default function UploadForm({ onSubmit }: UploadFormProps) {
+export default function UploadForm({ onSubmit, onChange }: UploadFormProps) {
   const [title, setTitle] = useState('')
   const [manimCode, setManimCode] = useState('')
   const [tags, setTags] = useState<string[]>([])
@@ -30,6 +42,10 @@ export default function UploadForm({ onSubmit }: UploadFormProps) {
   const [activeTab, setActiveTab] = useState('code')
   const [description, setDescription] = useState('')
   const [algorithmExplanation, setAlgorithmExplanation] = useState('')
+
+  const handleChange = (field: string, value: string | File | string[] | null) => {
+    onChange({ [field]: value })
+  }
 
   const handleSubmit = (e: React.FormEvent) => {
     e.preventDefault()
@@ -80,7 +96,10 @@ export default function UploadForm({ onSubmit }: UploadFormProps) {
         <Input
           id='title'
           value={title}
-          onChange={(e) => setTitle(e.target.value)}
+          onChange={(e) => {
+            setTitle(e.target.value)
+            handleChange('title', e.target.value)
+          }}
           className='w-full bg-gray-800 border-gray-700 text-white'
           placeholder='動画のタイトルを入力'
         />
@@ -113,7 +132,10 @@ export default function UploadForm({ onSubmit }: UploadFormProps) {
           <Textarea
             id='manim-code'
             value={manimCode}
-            onChange={(e) => setManimCode(e.target.value)}
+            onChange={(e) => {
+              setManimCode(e.target.value)
+              handleChange('manimCode', e.target.value)
+            }}
             className='w-full h-40 bg-gray-800 border-gray-700 text-white'
             placeholder='Manimコードを入力'
           />
@@ -163,7 +185,10 @@ export default function UploadForm({ onSubmit }: UploadFormProps) {
         <Input
           id='tags'
           value={currentTag}
-          onChange={(e) => setCurrentTag(e.target.value)}
+          onChange={(e) => {
+            setCurrentTag(e.target.value)
+            handleChange('tags', e.target.value)
+          }}
           onKeyDown={handleAddTag}
           className='w-full bg-gray-800 border-gray-700 text-white'
           placeholder='タグを入力してEnterを押す'
@@ -176,7 +201,10 @@ export default function UploadForm({ onSubmit }: UploadFormProps) {
         <Textarea
           id='description'
           value={description}
-          onChange={(e) => setDescription(e.target.value)}
+          onChange={(e) => {
+            setDescription(e.target.value)
+            handleChange('description', e.target.value)
+          }}
           className='w-full bg-gray-800 border-gray-700 text-white'
           placeholder='動画の説明を入力してください'
           rows={4}
@@ -189,7 +217,10 @@ export default function UploadForm({ onSubmit }: UploadFormProps) {
         <Textarea
           id='algorithm-explanation'
           value={algorithmExplanation}
-          onChange={(e) => setAlgorithmExplanation(e.target.value)}
+          onChange={(e) => {
+            setAlgorithmExplanation(e.target.value)
+            handleChange('algorithmExplanation', e.target.value)
+          }}
           className='w-full h-40 bg-gray-800 border-gray-700 text-white'
           placeholder='アルゴリズムの解説をマークダウン形式で入力してください'
         />
