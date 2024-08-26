@@ -92,6 +92,12 @@ const relatedVideos = [
   },
 ]
 
+const references = [
+  'https://zenn.dev/ryple/articles/49881fdb2fef51',
+  'https://zenn.dev/osasasasa/articles/20b67f4481107c',
+  'https://zenn.dev/moko_poi/articles/8a2dece3a7b9c9',
+]
+
 export default function WatchPage() {
   const [isExpanded, setIsExpanded] = useState(false)
   const [algorithmData, setAlgorithmData] = useState<string | null>(null)
@@ -172,10 +178,28 @@ export default function WatchPage() {
           </div>
           <div className='lg:w-1/2'>
             {algorithmData && <Article algorithmData={algorithmData} />}
+            <References references={references} />
           </div>
         </div>
         <RelatedVideos videos={relatedVideos} />
       </main>
+    </div>
+  )
+}
+
+function References({ references }: { references: string[] }) {
+  return (
+    <div className='mt-8 bg-gray-800 p-4 rounded-lg'>
+      <h3 className='text-xl font-semibold mb-4'>参考文献</h3>
+      <ul className='space-y-2'>
+        {references.map((ref, index) => (
+          <li key={index}>
+            <a href={ref} className='text-blue-400 hover:text-blue-300 break-all'>
+              {ref}
+            </a>
+          </li>
+        ))}
+      </ul>
     </div>
   )
 }
