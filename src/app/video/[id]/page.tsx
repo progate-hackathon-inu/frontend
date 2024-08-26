@@ -7,6 +7,7 @@ import RelatedVideos from '@/components/RelatedVideos'
 import Article from '@/components/Article'
 import { useState, useEffect } from 'react'
 import Comments from '@/components/Comments'
+import { Badge } from '@/components/ui/badge'
 
 const videoData = {
   className: 'w-full h-full',
@@ -24,6 +25,7 @@ const videoData = {
     views: '10万',
     uploadDate: '2023年4月1日',
   },
+  tags: ['アルゴリズム', '可視化', 'プログラミング', 'コンピューターサイエンス'],
 }
 
 const relatedVideos = [
@@ -131,6 +133,18 @@ const sampleComments = [
   },
 ]
 
+function VideoTags({ tags }: { tags: string[] }) {
+  return (
+    <div className='flex flex-wrap gap-2 mb-4'>
+      {tags.map((tag, index) => (
+        <Badge key={index} variant='secondary'>
+          {tag}
+        </Badge>
+      ))}
+    </div>
+  )
+}
+
 export default function WatchPage() {
   const [isExpanded, setIsExpanded] = useState(false)
   const [algorithmData, setAlgorithmData] = useState<string | null>(null)
@@ -164,6 +178,7 @@ export default function WatchPage() {
               </video>
             </div>
             <h2 className='text-2xl font-bold mb-2'>{videoData.title}</h2>
+            <VideoTags tags={videoData.tags} />
             <div className='flex items-center mb-4'>
               <div className='flex items-center gap-2'>
                 <Avatar>
