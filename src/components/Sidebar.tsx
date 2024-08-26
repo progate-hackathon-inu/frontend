@@ -1,10 +1,24 @@
 'use client'
+import { useRouter } from 'next/navigation'
+import { useEffect, useState } from 'react'
 import { useSidebarStore } from '@/store/sidebarStore'
 import { Button } from '@/components/ui/button'
 import { Home, Compass, Upload, Heart } from 'lucide-react'
 
 export default function Sidebar() {
   const isOpen = useSidebarStore((state) => state.isOpen)
+  const router = useRouter()
+  const [isMounted, setIsMounted] = useState(false)
+
+  useEffect(() => {
+    setIsMounted(true)
+  }, [])
+
+  const handleNavigation = (path: string) => {
+    if (isMounted) {
+      router.push(path)
+    }
+  }
 
   return (
     <aside
@@ -17,6 +31,7 @@ export default function Sidebar() {
         <Button
           variant='ghost'
           className='w-full justify-start text-gray-300 hover:text-white hover:bg-gray-700'
+          onClick={() => handleNavigation('/')}
         >
           <Home className='mr-2 h-5 w-5' />
           ホーム
@@ -24,6 +39,7 @@ export default function Sidebar() {
         <Button
           variant='ghost'
           className='w-full justify-start text-gray-300 hover:text-white hover:bg-gray-700'
+          onClick={() => handleNavigation('/explore')}
         >
           <Compass className='mr-2 h-5 w-5' />
           探索
@@ -31,6 +47,7 @@ export default function Sidebar() {
         <Button
           variant='ghost'
           className='w-full justify-start text-gray-300 hover:text-white hover:bg-gray-700'
+          onClick={() => handleNavigation('/upload')}
         >
           <Upload className='mr-2 h-5 w-5' />
           アップロード
@@ -38,6 +55,7 @@ export default function Sidebar() {
         <Button
           variant='ghost'
           className='w-full justify-start text-gray-300 hover:text-white hover:bg-gray-700'
+          onClick={() => handleNavigation('/favorites')}
         >
           <Heart className='mr-2 h-5 w-5' />
           お気に入り
