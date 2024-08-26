@@ -90,8 +90,8 @@ const relatedVideos = [
 export default function WatchPage() {
   return (
     <div className='min-h-screen bg-gray-900 text-gray-100'>
-      <main className='container mx-auto p-4 flex flex-col md:flex-row gap-4'>
-        <div className='md:w-3/4'>
+      <main className='container mx-auto p-4'>
+        <div className='mb-8'>
           <div className='aspect-video mb-4'>
             <video className={videoData.className} controls src={videoData.src}>
               お使いのブラウザは動画タグをサポートしていません。

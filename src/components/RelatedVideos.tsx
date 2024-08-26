@@ -1,7 +1,6 @@
 import Image from 'next/image'
-import Link from 'next/link'
 
-interface RelatedVideo {
+type RelatedVideo = {
   id: number
   title: string
   creator: string
@@ -10,34 +9,33 @@ interface RelatedVideo {
   thumbnail: string
 }
 
-interface RelatedVideosProps {
+type RelatedVideosProps = {
   videos: RelatedVideo[]
 }
 
 export default function RelatedVideos({ videos }: RelatedVideosProps) {
   return (
-    <aside className='md:w-1/4'>
-      <h3 className='text-xl font-semibold mb-4'>関連動画</h3>
+    <div className='grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-3 gap-4'>
       {videos.map((video) => (
-        <Link href={`/video/${video.id}`} key={video.id} className='flex gap-2 mb-4'>
-          <div className='w-40 h-24 bg-gray-800 overflow-hidden'>
+        <div key={video.id} className='flex flex-col'>
+          <div className='w-full aspect-video relative mb-2'>
             <Image
               src={video.thumbnail}
               alt={video.title}
-              width={160}
-              height={96}
-              className='w-full h-full object-cover'
+              layout='fill'
+              objectFit='cover'
+              className='rounded'
             />
           </div>
           <div>
-            <h4 className='font-semibold'>{video.title}</h4>
-            <p className='text-sm text-gray-400'>{video.creator}</p>
-            <p className='text-sm text-gray-400'>
-              {video.views}回視聴 • {video.age}
+            <h4 className='text-sm font-semibold line-clamp-2'>{video.title}</h4>
+            <p className='text-xs text-gray-400'>{video.creator}</p>
+            <p className='text-xs text-gray-400'>
+              {video.views} 視聴 • {video.age}
             </p>
           </div>
-        </Link>
+        </div>
       ))}
-    </aside>
+    </div>
   )
 }
