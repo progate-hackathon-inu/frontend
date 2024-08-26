@@ -30,12 +30,12 @@ export default function Header() {
           ManimTube
         </Link>
       </div>
-      <div className='flex items-center space-x-4'>
-        <form onSubmit={handleSearch} className='relative'>
+      <div className='flex items-center space-x-4 flex-grow justify-end'>
+        <form onSubmit={handleSearch} className='relative flex-grow max-w-md mx-4'>
           <Input
             type='search'
             placeholder='Search videos...'
-            className='w-64 pl-10 pr-4 py-2 bg-gray-700 border-gray-700 text-white placeholder-gray-400 focus:ring-gray-500 focus:border-gray-500'
+            className='w-full pl-10 pr-4 py-2 bg-gray-700 border-gray-700 text-white placeholder-gray-400 focus:ring-gray-500 focus:border-gray-500'
             value={searchQuery}
             onChange={(e) => setSearchQuery(e.target.value)}
           />
@@ -43,16 +43,18 @@ export default function Header() {
             <Search className='text-gray-400' size={20} />
           </Button>
         </form>
-        <Link href='/auth/login'>
-          <Button variant='default' className='bg-gray-700 text-white'>
-            Login
-          </Button>
-        </Link>
-        <Link href='/profile'>
-          <Button variant='ghost' className='p-2'>
-            <User className='text-white' size={24} />
-          </Button>
-        </Link>
+        <div className='hidden sm:flex items-center space-x-4'>
+          <Link href='/auth/login'>
+            <Button variant='default' className='bg-gray-700 text-white'>
+              Login
+            </Button>
+          </Link>
+          <Link href='/profile'>
+            <Button variant='ghost' className='p-2'>
+              <User className='text-white' size={24} />
+            </Button>
+          </Link>
+        </div>
       </div>
     </header>
   )
