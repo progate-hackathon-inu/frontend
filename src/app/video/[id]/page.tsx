@@ -3,6 +3,7 @@ import { Button } from '@/components/ui/button'
 import { Input } from '@/components/ui/input'
 import { ThumbsUp, ThumbsDown, Share2 } from 'lucide-react'
 import RelatedVideos from '@/components/RelatedVideos'
+import Article from '@/components/Article'
 
 const videoData = {
   className: 'w-full h-full',
@@ -143,27 +144,7 @@ export default function WatchPage() {
             </div>
           </div>
           <div className='lg:w-1/3'>
-            <div className='bg-gray-800 p-4 rounded-lg'>
-              <h3 className='text-xl font-semibold mb-4'>アルゴリズム解説</h3>
-              <div className='prose prose-invert'>
-                <h4 className='text-lg font-medium mb-2'>概要</h4>
-                <p>この動画で使用されているアルゴリズムの概要説明...</p>
-                <h4 className='text-lg font-medium mt-4 mb-2'>主要なステップ</h4>
-                <ol className='list-decimal list-inside'>
-                  <li>ステップ1の説明</li>
-                  <li>ステップ2の説明</li>
-                  <li>ステップ3の説明</li>
-                </ol>
-                <h4 className='text-lg font-medium mt-4 mb-2'>コード例</h4>
-                <pre className='bg-gray-900 p-2 rounded'>
-                  <code className='text-sm'>
-                    {`function example() {
-  // アルゴリズムのサンプルコード
-}`}
-                  </code>
-                </pre>
-              </div>
-            </div>
+            <Article />
           </div>
         </div>
         <RelatedVideos videos={relatedVideos} />
