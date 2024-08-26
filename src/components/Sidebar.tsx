@@ -3,10 +3,11 @@ import { useRouter } from 'next/navigation'
 import { useEffect, useState } from 'react'
 import { useSidebarStore } from '@/store/sidebarStore'
 import { Button } from '@/components/ui/button'
-import { Home, Compass, Upload, Heart } from 'lucide-react'
+import { Home, Compass, Upload, Heart, Menu } from 'lucide-react'
 
 export default function Sidebar() {
   const isOpen = useSidebarStore((state) => state.isOpen)
+  const toggleSidebar = useSidebarStore((state) => state.toggle)
   const router = useRouter()
   const [isMounted, setIsMounted] = useState(false)
 
@@ -24,8 +25,14 @@ export default function Sidebar() {
     <aside
       className={`fixed top-0 left-0 h-full w-64 bg-gray-800 p-4 transition-transform duration-300 ease-in-out ${isOpen ? 'translate-x-0' : '-translate-x-full'} z-50`}
     >
-      <div className='mb-8'>
-        <h1 className='text-2xl font-bold text-white'>VideoApp</h1>
+      <div className='mb-8 flex items-center'>
+        <button
+          className='p-2 mr-2 text-white hover:bg-gray-700 rounded-md'
+          onClick={toggleSidebar}
+        >
+          <Menu size={24} />
+        </button>
+        <h1 className='text-2xl font-bold text-white'>ManimTube</h1>
       </div>
       <nav className='space-y-2'>
         <Button
@@ -34,7 +41,7 @@ export default function Sidebar() {
           onClick={() => handleNavigation('/')}
         >
           <Home className='mr-2 h-5 w-5' />
-          ホーム
+          <span>ホーム</span>
         </Button>
         <Button
           variant='ghost'
@@ -42,7 +49,7 @@ export default function Sidebar() {
           onClick={() => handleNavigation('/explore')}
         >
           <Compass className='mr-2 h-5 w-5' />
-          探索
+          <span>探索</span>
         </Button>
         <Button
           variant='ghost'
@@ -50,7 +57,7 @@ export default function Sidebar() {
           onClick={() => handleNavigation('/upload')}
         >
           <Upload className='mr-2 h-5 w-5' />
-          アップロード
+          <span>アップロード</span>
         </Button>
         <Button
           variant='ghost'
@@ -58,7 +65,7 @@ export default function Sidebar() {
           onClick={() => handleNavigation('/favorites')}
         >
           <Heart className='mr-2 h-5 w-5' />
-          お気に入り
+          <span>お気に入り</span>
         </Button>
       </nav>
     </aside>
