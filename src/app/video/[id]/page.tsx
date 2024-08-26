@@ -6,7 +6,7 @@ import { Input } from '@/components/ui/input'
 import { ThumbsUp, ChevronDown, ChevronUp } from 'lucide-react'
 import RelatedVideos from '@/components/RelatedVideos'
 import Article from '@/components/Article'
-import { useState } from 'react'
+import { useState, useEffect } from 'react'
 
 const videoData = {
   className: 'w-full h-full',
@@ -94,6 +94,21 @@ const relatedVideos = [
 
 export default function WatchPage() {
   const [isExpanded, setIsExpanded] = useState(false)
+  const [algorithmData, setAlgorithmData] = useState<string | null>(null)
+
+  useEffect(() => {
+    async function fetchAlgorithmData() {
+      try {
+        const response = await fetch('/samplearticle.md')
+        const text = await response.text()
+        setAlgorithmData(text)
+      } catch (error) {
+        console.error('Error fetching algorithm data:', error)
+      }
+    }
+
+    fetchAlgorithmData()
+  }, [])
 
   const toggleDescription = () => {
     setIsExpanded(!isExpanded)
@@ -103,7 +118,7 @@ export default function WatchPage() {
     <div className='min-h-screen bg-gray-900 text-gray-100'>
       <main className='container mx-auto p-4'>
         <div className='flex flex-col lg:flex-row gap-8'>
-          <div className='lg:w-2/3'>
+          <div className='lg:w-1/2'>
             <div className='aspect-video mb-4'>
               <video className={videoData.className} controls src={videoData.src}>
                 お使いのブラウザは動画タグをサポートしていません。
@@ -155,8 +170,8 @@ export default function WatchPage() {
               <Button className='bg-blue-600 hover:bg-blue-700'>Comment</Button>
             </div>
           </div>
-          <div className='lg:w-1/3'>
-            <Article />
+          <div className='lg:w-1/2'>
+            {algorithmData && <Article algorithmData={algorithmData} />}
           </div>
         </div>
         <RelatedVideos videos={relatedVideos} />
