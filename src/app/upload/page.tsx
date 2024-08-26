@@ -5,12 +5,14 @@ import { Input } from '@/components/ui/input'
 import { Textarea } from '@/components/ui/textarea'
 import { Label } from '@/components/ui/label'
 import { Tabs, TabsContent, TabsList, TabsTrigger } from '@/components/ui/tabs'
-import { Upload, Play, Code, Film, File, Video } from 'lucide-react'
+import { Upload, Play, Code, Film, File, Video, X } from 'lucide-react'
+import { Badge } from '@/components/ui/badge'
 
 export default function Component() {
   const [title, setTitle] = useState('')
   const [manimCode, setManimCode] = useState('')
-  const [tags, setTags] = useState('')
+  const [tags, setTags] = useState<string[]>([])
+  const [currentTag, setCurrentTag] = useState('')
   const [videoFile, setVideoFile] = useState<File | null>(null)
   const [manimFile, setManimFile] = useState<File | null>(null)
   const [previewUrl, setPreviewUrl] = useState<string | null>(null)
@@ -40,6 +42,18 @@ export default function Component() {
     if (file) {
       setManimFile(file)
     }
+  }
+
+  const handleAddTag = (e: React.KeyboardEvent<HTMLInputElement>) => {
+    if (e.key === 'Enter' && currentTag.trim() !== '') {
+      e.preventDefault()
+      setTags((prevTags) => [...prevTags, currentTag.trim()])
+      setCurrentTag('')
+    }
+  }
+
+  const handleRemoveTag = (tagToRemove: string) => {
+    setTags((prevTags) => prevTags.filter((tag) => tag !== tagToRemove))
   }
 
   return (
@@ -124,23 +138,28 @@ export default function Component() {
               <Label htmlFor='tags' className='text-lg'>
                 タグ
               </Label>
+              <div className='flex flex-wrap gap-2 mb-2'>
+                {tags.map((tag) => (
+                  <Badge key={tag} variant='secondary' className='bg-gray-700 text-white'>
+                    {tag}
+                    <button
+                      onClick={() => handleRemoveTag(tag)}
+                      className='ml-1 text-gray-400 hover:text-white'
+                    >
+                      <X size={14} />
+                    </button>
+                  </Badge>
+                ))}
+              </div>
               <Input
                 id='tags'
-                value={tags}
-                onChange={(e) => setTags(e.target.value)}
+                value={currentTag}
+                onChange={(e) => setCurrentTag(e.target.value)}
+                onKeyDown={handleAddTag}
                 className='w-full bg-gray-800 border-gray-700 text-white'
-                placeholder='カンマで区切ってタグを入力'
+                placeholder='タグを入力してEnterを押す'
               />
             </div>
-            {activeTab === 'video' ? (
-              <Button type='submit' className='w-full bg-blue-600 hover:bg-blue-700 text-white'>
-                <Upload className='mr-2 h-4 w-4' /> 投稿する
-              </Button>
-            ) : (
-              <Button type='submit' className='w-full bg-green-600 hover:bg-green-700 text-white'>
-                <Video className='mr-2 h-4 w-4' /> 動画に変換
-              </Button>
-            )}
           </form>
         </div>
         <div className='space-y-4'>
@@ -159,13 +178,38 @@ export default function Component() {
           </div>
           <div className='bg-gray-800 p-4 rounded-lg'>
             <h3 className='font-semibold mb-2'>{title || 'タイトル'}</h3>
-            <p className='text-sm text-gray-400 mb-2'>タグ: {tags || 'なし'}</p>
+            <div className='flex flex-wrap gap-2 mb-2'>
+              {tags.length > 0 ? (
+                tags.map((tag) => (
+                  <Badge key={tag} variant='secondary' className='bg-gray-700 text-white'>
+                    {tag}
+                  </Badge>
+                ))
+              ) : (
+                <p className='text-sm text-gray-400'>タグ: なし</p>
+              )}
+            </div>
             {manimCode && (
               <p className='text-sm text-gray-400'>Manimコード長: {manimCode.length} 文字</p>
             )}
             {manimFile && <p className='text-sm text-gray-400'>Manimファイル: {manimFile.name}</p>}
             {videoFile && <p className='text-sm text-gray-400'>動画ファイル: {videoFile.name}</p>}
           </div>
+          {activeTab === 'video' ? (
+            <Button
+              onClick={handleUpload}
+              className='w-full bg-blue-600 hover:bg-blue-700 text-white'
+            >
+              <Upload className='mr-2 h-4 w-4' /> 投稿する
+            </Button>
+          ) : (
+            <Button
+              onClick={handleConvert}
+              className='w-full bg-green-600 hover:bg-green-700 text-white'
+            >
+              <Video className='mr-2 h-4 w-4' /> 動画に変換
+            </Button>
+          )}
         </div>
       </div>
     </div>
