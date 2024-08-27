@@ -16,7 +16,7 @@ export default function RootLayout({
   const toggleSidebar = useSidebarStore((state) => state.toggle)
 
   return (
-    <html lang='en'>
+    <html lang='ja'>
       <body className={inter.className}>
         <Header />
         <div className='flex'>
