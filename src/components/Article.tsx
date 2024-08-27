@@ -3,6 +3,7 @@ import ReactMarkdown from 'react-markdown'
 import { Prism as SyntaxHighlighter } from 'react-syntax-highlighter'
 import { vscDarkPlus } from 'react-syntax-highlighter/dist/cjs/styles/prism'
 import { MdDragHandle } from 'react-icons/md'
+import type { SyntaxHighlighterProps } from 'react-syntax-highlighter'
 
 interface ArticleProps {
   algorithmData: string
@@ -20,7 +21,6 @@ const Article: React.FC<ArticleProps> = ({ algorithmData }) => {
     setIsDragging(true)
   }
 
-  // handleMouseMove関数をuseCallbackでメモ化
   const handleMouseMove = useCallback(
     (e: MouseEvent) => {
       if (isDragging && containerRef.current && contentRef.current) {
@@ -70,15 +70,15 @@ const Article: React.FC<ArticleProps> = ({ algorithmData }) => {
               }: {
                 inline?: boolean
                 className?: string
-                children?: React.ReactNode // childrenを省略可能にする
+                children?: React.ReactNode
               } & React.ComponentPropsWithoutRef<'code'>): React.ReactElement => {
                 const match = /language-(\w+)/.exec(className || '')
                 return !inline && match ? (
                   <SyntaxHighlighter
-                    style={vscDarkPlus as { [key: string]: React.CSSProperties } | undefined}
+                    style={vscDarkPlus}
                     language={match[1]}
                     PreTag='div'
-                    {...props}
+                    {...(props as SyntaxHighlighterProps)}
                   >
                     {String(children).replace(/\n$/, '')}
                   </SyntaxHighlighter>
