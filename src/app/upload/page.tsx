@@ -2,7 +2,7 @@
 import dynamic from 'next/dynamic'
 import { useState, useEffect } from 'react'
 
-const UploadForm = dynamic(() => import('@/components/ui/UploadForm'), { ssr: false })
+const UploadForm = dynamic(() => import('@/components/UploadForm'), { ssr: false })
 const Preview = dynamic(() => import('@/components/Preview'), { ssr: false })
 const Article = dynamic(() => import('@/components/Article'), { ssr: false })
 

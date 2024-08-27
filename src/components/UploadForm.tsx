@@ -98,22 +98,7 @@ export default function UploadForm({ onSubmit, onChange }: UploadFormProps) {
   }
 
   return (
-    <form onSubmit={handleSubmit} className='space-y-6'>
-      <div className='space-y-2'>
-        <Label htmlFor='title' className='text-lg'>
-          タイトル
-        </Label>
-        <Input
-          id='title'
-          value={title}
-          onChange={(e) => {
-            setTitle(e.target.value)
-            handleChange('title', e.target.value)
-          }}
-          className='w-full bg-gray-800 border-gray-700 text-white'
-          placeholder='動画タイトルを入力'
-        />
-      </div>
+    <form onSubmit={handleSubmit} className='space-y-8'>
       <Tabs defaultValue='code' className='w-full' onValueChange={setActiveTab}>
         <TabsList className='grid w-full grid-cols-3 bg-gray-800 p-1 rounded-md'>
           <TabsTrigger
@@ -136,7 +121,7 @@ export default function UploadForm({ onSubmit, onChange }: UploadFormProps) {
           </TabsTrigger>
         </TabsList>
         <TabsContent value='code' className='space-y-2 mt-4'>
-          <Label htmlFor='manim-code' className='text-lg'>
+          <Label htmlFor='manim-code' className='text-lg font-semibold'>
             Manimコード
           </Label>
           <Textarea
@@ -175,11 +160,22 @@ export default function UploadForm({ onSubmit, onChange }: UploadFormProps) {
           />
         </TabsContent>
       </Tabs>
-      <div className='space-y-2'>
-        <Label htmlFor='tags' className='text-lg'>
-          タグ
-        </Label>
-        <div className='flex flex-wrap gap-2 mb-2'>
+      <div className='space-y-4'>
+        <h3 className='text-lg font-semibold'>タイトル</h3>
+        <Input
+          id='title'
+          value={title}
+          onChange={(e) => {
+            setTitle(e.target.value)
+            handleChange('title', e.target.value)
+          }}
+          className='w-full bg-gray-800 border-gray-700 text-white'
+          placeholder='タイトルを入力してください'
+        />
+      </div>
+      <div className='space-y-4'>
+        <h3 className='text-lg font-semibold'>タグ</h3>
+        <div className='flex flex-wrap gap-2 mb-2 bg-gray-800 p-2 rounded min-h-[40px]'>
           {tags.map((tag) => (
             <Badge key={tag} variant='secondary' className='bg-gray-700 text-white'>
               {tag}
@@ -202,10 +198,8 @@ export default function UploadForm({ onSubmit, onChange }: UploadFormProps) {
           placeholder='タグを入力してEnterを押す'
         />
       </div>
-      <div className='space-y-2'>
-        <Label htmlFor='description' className='text-lg'>
-          動画説明
-        </Label>
+      <div className='space-y-4'>
+        <h3 className='text-lg font-semibold'>動画説明</h3>
         <Textarea
           id='description'
           value={description}
@@ -218,10 +212,8 @@ export default function UploadForm({ onSubmit, onChange }: UploadFormProps) {
           rows={4}
         />
       </div>
-      <div className='space-y-2'>
-        <Label htmlFor='algorithm-explanation' className='text-lg'>
-          アルゴリズム解説
-        </Label>
+      <div className='space-y-4'>
+        <h3 className='text-lg font-semibold'>アルゴリズム解説</h3>
         <Textarea
           id='algorithm-explanation'
           value={algorithmExplanation}

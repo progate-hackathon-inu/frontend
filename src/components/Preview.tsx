@@ -16,12 +16,11 @@ export default function Preview({
   tags,
   description,
   previewUrl,
-  manimCode,
   manimFile,
   videoFile,
 }: PreviewProps) {
   return (
-    <div className='space-y-4'>
+    <div className='space-y-8'>
       <h2 className='text-2xl font-semibold mb-4'>プレビュー</h2>
       <div className='aspect-video bg-gray-800 rounded-lg flex items-center justify-center overflow-hidden'>
         {previewUrl ? (
@@ -36,13 +35,13 @@ export default function Preview({
         )}
       </div>
       <div className='space-y-4'>
-        <div className='bg-gray-800 p-4 rounded-lg'>
+        <div>
           <h3 className='text-lg font-semibold mb-2'>タイトル</h3>
-          <p className='text-gray-300'>{title || '（未入力）'}</p>
+          <p className='text-gray-300 bg-gray-800 p-2 rounded'>{title || '（未入力）'}</p>
         </div>
-        <div className='bg-gray-800 p-4 rounded-lg'>
+        <div>
           <h3 className='text-lg font-semibold mb-2'>タグ</h3>
-          <div className='flex flex-wrap gap-2'>
+          <div className='flex flex-wrap gap-2 bg-gray-800 p-2 rounded min-h-[40px]'>
             {tags.length > 0 ? (
               tags.map((tag) => (
                 <Badge key={tag} variant='secondary' className='bg-gray-700 text-white'>
@@ -54,16 +53,17 @@ export default function Preview({
             )}
           </div>
         </div>
-        <div className='bg-gray-800 p-4 rounded-lg'>
+        <div>
           <h3 className='text-lg font-semibold mb-2'>動画説明</h3>
-          {description ? (
-            <p className='text-gray-300 whitespace-pre-wrap'>{description}</p>
-          ) : (
-            <p className='text-sm text-gray-400'>（未入力）</p>
-          )}
+          <div className='bg-gray-800 p-2 rounded'>
+            {description ? (
+              <p className='text-gray-300 whitespace-pre-wrap'>{description}</p>
+            ) : (
+              <p className='text-sm text-gray-400'>（未入力）</p>
+            )}
+          </div>
         </div>
       </div>
-      {manimCode && <p className='text-sm text-gray-400'>Manimコード長: {manimCode.length} 文字</p>}
       {manimFile && <p className='text-sm text-gray-400'>Manimファイル: {manimFile.name}</p>}
       {videoFile && <p className='text-sm text-gray-400'>動画ファイル: {videoFile.name}</p>}
     </div>
