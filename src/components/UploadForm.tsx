@@ -49,7 +49,7 @@ export default function UploadForm({ onSubmit, onChange }: UploadFormProps) {
 
   const handleChange = (field: string, value: string | File | string[] | null) => {
     if (field === 'tags') {
-      // tagsの場���は、現在の列を更新する
+      // tagsの場は、現在の列を更新する
       onChange({ tags: [...tags, value as string] })
     } else {
       onChange({ [field]: value })
@@ -234,20 +234,6 @@ export default function UploadForm({ onSubmit, onChange }: UploadFormProps) {
         />
       </div>
       <div className='space-y-4'>
-        <h3 className='text-lg font-semibold'>アルゴリズム解説</h3>
-        <Textarea
-          id='algorithm-explanation'
-          value={algorithmExplanation}
-          onChange={(e) => {
-            setAlgorithmExplanation(e.target.value)
-            handleChange('algorithmExplanation', e.target.value)
-          }}
-          className='w-full h-96 bg-gray-800 border-gray-700 text-white'
-          placeholder='アルゴリズムの解説をマークダウン形式で入力してください'
-          rows={10}
-        />
-      </div>
-      <div className='space-y-4'>
         <h3 className='text-lg font-semibold'>参考文献</h3>
         <Input
           type='text'
@@ -273,6 +259,20 @@ export default function UploadForm({ onSubmit, onChange }: UploadFormProps) {
             </Badge>
           ))}
         </div>
+      </div>
+      <div className='space-y-4'>
+        <h3 className='text-lg font-semibold'>アルゴリズム解説</h3>
+        <Textarea
+          id='algorithm-explanation'
+          value={algorithmExplanation}
+          onChange={(e) => {
+            setAlgorithmExplanation(e.target.value)
+            handleChange('algorithmExplanation', e.target.value)
+          }}
+          className='w-full h-96 bg-gray-800 border-gray-700 text-white'
+          placeholder='アルゴリズムの解説をマークダウン形式で入力してください'
+          rows={10}
+        />
       </div>
       <Button type='submit' className='w-full bg-blue-600 hover:bg-blue-700 text-white'>
         {activeTab === 'video' ? (
