@@ -209,7 +209,7 @@ export default function UploadForm({ onSubmit, onChange }: UploadFormProps) {
           }}
           className='w-full bg-gray-800 border-gray-700 text-white'
           placeholder='動画の説明を入力してください'
-          rows={4}
+          rows={10}
         />
       </div>
       <div className='space-y-4'>
@@ -221,8 +221,9 @@ export default function UploadForm({ onSubmit, onChange }: UploadFormProps) {
             setAlgorithmExplanation(e.target.value)
             handleChange('algorithmExplanation', e.target.value)
           }}
-          className='w-full h-40 bg-gray-800 border-gray-700 text-white'
+          className='w-full h-96 bg-gray-800 border-gray-700 text-white'
           placeholder='アルゴリズムの解説をマークダウン形式で入力してください'
+          rows={10}
         />
       </div>
       <Button type='submit' className='w-full bg-blue-600 hover:bg-blue-700 text-white'>

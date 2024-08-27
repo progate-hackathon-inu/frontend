@@ -34,6 +34,8 @@ export default function Preview({
           </div>
         )}
       </div>
+      {manimFile && <p className='text-sm text-gray-400'>Manimファイル: {manimFile.name}</p>}
+      {videoFile && <p className='text-sm text-gray-400'>動画ファイル: {videoFile.name}</p>}
       <div className='space-y-4'>
         <div>
           <h3 className='text-lg font-semibold mb-2'>タイトル</h3>
@@ -64,8 +66,6 @@ export default function Preview({
           </div>
         </div>
       </div>
-      {manimFile && <p className='text-sm text-gray-400'>Manimファイル: {manimFile.name}</p>}
-      {videoFile && <p className='text-sm text-gray-400'>動画ファイル: {videoFile.name}</p>}
     </div>
   )
 }
