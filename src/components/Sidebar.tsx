@@ -32,7 +32,12 @@ export default function Sidebar() {
         >
           <Menu size={24} />
         </button>
-        <h1 className='text-2xl font-bold text-white'>ManimTube</h1>
+        <h1
+          className='text-2xl font-bold text-white cursor-pointer'
+          onClick={() => handleNavigation('/')}
+        >
+          ManimTube
+        </h1>
       </div>
       <nav className='space-y-2'>
         <Button
