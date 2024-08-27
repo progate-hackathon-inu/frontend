@@ -3,12 +3,12 @@ import { Play } from 'lucide-react'
 
 interface PreviewProps {
   title: string
-  tags: string[] // string型を削除し、配列のみを許可
+  tags: string[]
   description: string
   previewUrl: string | null
-  manimCode: string
   manimFile: File | null
   videoFile: File | null
+  references?: string[] // オプショナルに変更
 }
 
 export default function Preview({
@@ -18,6 +18,7 @@ export default function Preview({
   previewUrl,
   manimFile,
   videoFile,
+  references = [], // デフォルト値を空配列に設定
 }: PreviewProps) {
   return (
     <div className='space-y-8'>
@@ -62,6 +63,20 @@ export default function Preview({
               <p className='text-gray-300 whitespace-pre-wrap'>{description}</p>
             ) : (
               <p className='text-sm text-gray-400'>（未入力）</p>
+            )}
+          </div>
+        </div>
+        <div>
+          <h3 className='text-lg font-semibold mb-2'>参考文献</h3>
+          <div className='flex flex-wrap gap-2 bg-gray-800 p-2 rounded min-h-[40px]'>
+            {references.length > 0 ? (
+              references.map((ref, index) => (
+                <Badge key={index} variant='secondary' className='bg-gray-700 text-white'>
+                  {ref}
+                </Badge>
+              ))
+            ) : (
+              <p className='text-sm text-gray-400'>参考文献: なし</p>
             )}
           </div>
         </div>

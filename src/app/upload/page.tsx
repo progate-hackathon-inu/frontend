@@ -55,12 +55,11 @@ export default function Component() {
             tags={formData.tags}
             description={formData.description}
             previewUrl={previewUrl}
-            manimCode={formData.manimCode}
             manimFile={formData.manimFile}
             videoFile={formData.videoFile}
           />
+          <h3 className='text-lg font-semibold mb-2'>アルゴリズム解説</h3>
           <div className='bg-gray-800 p-4 rounded-lg'>
-            <h3 className='text-lg font-semibold mb-2'>アルゴリズム解説</h3>
             <Article algorithmData={formData.algorithmExplanation} />
           </div>
         </div>

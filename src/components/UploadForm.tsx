@@ -17,6 +17,7 @@ interface UploadFormProps {
     description: string
     algorithmExplanation: string
     activeTab: string
+    references: string[]
   }) => void
   onChange: (
     formData: Partial<{
@@ -28,6 +29,7 @@ interface UploadFormProps {
       description: string
       algorithmExplanation: string
       activeTab: string
+      references: string[]
     }>
   ) => void
 }
@@ -42,10 +44,12 @@ export default function UploadForm({ onSubmit, onChange }: UploadFormProps) {
   const [activeTab, setActiveTab] = useState('code')
   const [description, setDescription] = useState('')
   const [algorithmExplanation, setAlgorithmExplanation] = useState('')
+  const [references, setReferences] = useState<string[]>([])
+  const [newReference, setNewReference] = useState('')
 
   const handleChange = (field: string, value: string | File | string[] | null) => {
     if (field === 'tags') {
-      // tagsの場合は、現在の配列を更新する
+      // tagsの場���は、現在の列を更新する
       onChange({ tags: [...tags, value as string] })
     } else {
       onChange({ [field]: value })
@@ -63,6 +67,7 @@ export default function UploadForm({ onSubmit, onChange }: UploadFormProps) {
       description,
       algorithmExplanation,
       activeTab,
+      references,
     })
   }
 
@@ -95,6 +100,22 @@ export default function UploadForm({ onSubmit, onChange }: UploadFormProps) {
     const newTags = tags.filter((tag) => tag !== tagToRemove)
     setTags(newTags)
     onChange({ tags: newTags }) // 親コンポーネントに更新されたタグ配列を通知
+  }
+
+  const handleAddReference = (e: React.KeyboardEvent<HTMLInputElement>) => {
+    if (e.key === 'Enter' && newReference.trim() !== '') {
+      e.preventDefault()
+      const updatedReferences = [...references, newReference.trim()]
+      setReferences(updatedReferences)
+      setNewReference('')
+      handleChange('references', updatedReferences)
+    }
+  }
+
+  const handleRemoveReference = (index: number) => {
+    const updatedReferences = references.filter((_, i) => i !== index)
+    setReferences(updatedReferences)
+    handleChange('references', updatedReferences)
   }
 
   return (
@@ -170,7 +191,7 @@ export default function UploadForm({ onSubmit, onChange }: UploadFormProps) {
             handleChange('title', e.target.value)
           }}
           className='w-full bg-gray-800 border-gray-700 text-white'
-          placeholder='タイトルを入力してください'
+          placeholder='タイトルを入力しください'
         />
       </div>
       <div className='space-y-4'>
@@ -225,6 +246,33 @@ export default function UploadForm({ onSubmit, onChange }: UploadFormProps) {
           placeholder='アルゴリズムの解説をマークダウン形式で入力してください'
           rows={10}
         />
+      </div>
+      <div className='space-y-4'>
+        <h3 className='text-lg font-semibold'>参考文献</h3>
+        <Input
+          type='text'
+          value={newReference}
+          onChange={(e) => setNewReference(e.target.value)}
+          onKeyDown={handleAddReference}
+          placeholder='新しい参考文献を入力してEnterを押す'
+          className='w-full bg-gray-800 border-gray-700 text-white'
+        />
+        <div className='flex flex-wrap gap-2'>
+          {references.map((ref, index) => (
+            <Badge key={index} variant='secondary' className='bg-gray-700 text-white'>
+              {ref}
+              <Button
+                type='button'
+                variant='ghost'
+                size='sm'
+                className='ml-2 p-0 h-auto'
+                onClick={() => handleRemoveReference(index)}
+              >
+                <X className='h-4 w-4' />
+              </Button>
+            </Badge>
+          ))}
+        </div>
       </div>
       <Button type='submit' className='w-full bg-blue-600 hover:bg-blue-700 text-white'>
         {activeTab === 'video' ? (
