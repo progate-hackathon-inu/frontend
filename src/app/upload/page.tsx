@@ -16,6 +16,7 @@ export default function Component() {
     description: '',
     algorithmExplanation: '',
     activeTab: 'code',
+    references: [] as string[], // 参考文献の配列を追加
   })
   const [previewUrl, setPreviewUrl] = useState<string | null>(null)
 
@@ -57,6 +58,7 @@ export default function Component() {
             previewUrl={previewUrl}
             manimFile={formData.manimFile}
             videoFile={formData.videoFile}
+            references={formData.references} // 参考文献を追加
           />
           <h3 className='text-lg font-semibold mb-2'>アルゴリズム解説</h3>
           <div className='bg-gray-800 p-4 rounded-lg'>
