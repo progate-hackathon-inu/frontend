@@ -62,7 +62,7 @@ const Article: React.FC<ArticleProps> = ({ algorithmData }) => {
         >
           <ReactMarkdown
             components={{
-              code({
+              code: ({
                 inline,
                 className,
                 children,
@@ -70,12 +70,12 @@ const Article: React.FC<ArticleProps> = ({ algorithmData }) => {
               }: {
                 inline?: boolean
                 className?: string
-                children: React.ReactNode
-              } & React.HTMLAttributes<HTMLElement>) {
+                children?: React.ReactNode // childrenを省略可能にする
+              } & React.ComponentPropsWithoutRef<'code'>): React.ReactElement => {
                 const match = /language-(\w+)/.exec(className || '')
                 return !inline && match ? (
                   <SyntaxHighlighter
-                    style={vscDarkPlus}
+                    style={vscDarkPlus as { [key: string]: React.CSSProperties } | undefined}
                     language={match[1]}
                     PreTag='div'
                     {...props}
