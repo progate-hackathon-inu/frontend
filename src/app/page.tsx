@@ -4,7 +4,8 @@ import VideoCard from '@/components/VideoCard'
 const featuredVideos = [
   {
     id: 1,
-    title: 'Sorting Algorithm Visualization',
+    title:
+      'Sorting Algorithm Visualization aaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaa',
     author: 'AlgoMaster',
     views: 10000,
     likes: 500,

@@ -59,7 +59,7 @@ export default function Sidebar() {
         <Button
           variant='ghost'
           className='w-full justify-start text-gray-300 hover:text-white hover:bg-gray-700'
-          onClick={() => handleNavigation('/upload')}
+          onClick={() => handleNavigation('/protected/upload')}
         >
           <Upload className='mr-2 h-5 w-5' />
           <span>アップロード</span>

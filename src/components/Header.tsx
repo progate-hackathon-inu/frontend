@@ -7,6 +7,7 @@ import { Button } from '@/components/ui/button'
 import Link from 'next/link'
 import { Search, User, Menu } from 'lucide-react'
 import { useSidebarStore } from '@/store/sidebarStore'
+import UserMenu from './UserMenu'
 
 export default function Header() {
   const [searchQuery, setSearchQuery] = useState('')
@@ -43,18 +44,7 @@ export default function Header() {
             <Search className='text-gray-400' size={20} />
           </Button>
         </form>
-        <div className='hidden sm:flex items-center space-x-4'>
-          <Link href='/auth/login'>
-            <Button variant='default' className='bg-gray-700 text-white'>
-              Login
-            </Button>
-          </Link>
-          <Link href='/profile'>
-            <Button variant='ghost' className='p-2'>
-              <User className='text-white' size={24} />
-            </Button>
-          </Link>
-        </div>
+        <UserMenu />
       </div>
     </header>
   )
