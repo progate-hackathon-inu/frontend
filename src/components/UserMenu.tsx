@@ -8,6 +8,7 @@ import { Button } from '@/components/ui/button'
 import { User as UserIcon } from 'lucide-react'
 import { createClient } from '@/utils/supabase/client'
 import { useEffect, useState } from 'react'
+import { User } from '@supabase/supabase-js'
 
 type UserMetadata = {
   avatar_url?: string
@@ -15,7 +16,7 @@ type UserMetadata = {
 
 function UserMenu(): React.ReactElement {
   const router = useRouter()
-  const [user, setUser] = useState<any | null>(null)
+  const [user, setUser] = useState<User | null>(null)
   const [loading, setLoading] = useState(true)
   const supabase = createClient()
 
