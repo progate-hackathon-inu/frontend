@@ -41,7 +41,9 @@ export default function Header() {
         </Link>
       </div>
       <div className='flex items-center space-x-4 flex-grow justify-end'>
-        <div className={`relative flex-grow max-w-md mx-4 ${isSearchOpen ? 'block' : 'hidden md:block'}`}>
+        <div
+          className={`relative flex-grow max-w-md mx-4 ${isSearchOpen ? 'block' : 'hidden md:block'}`}
+        >
           <form onSubmit={handleSearch} className='w-full'>
             <Input
               id='search-input'

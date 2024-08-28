@@ -51,7 +51,7 @@ function UserMenu(): React.ReactElement {
   }
 
   if (loading) {
-    return <div className="w-8 h-8 rounded-full bg-gray-700 animate-pulse"></div>
+    return <div className='w-8 h-8 rounded-full bg-gray-700 animate-pulse'></div>
   }
 
   return (
@@ -59,12 +59,12 @@ function UserMenu(): React.ReactElement {
       {!user ? (
         <>
           <Link href='/login'>
-            <Button variant='default' size="responsive" className='bg-gray-700 text-white'>
+            <Button variant='default' size='responsive' className='bg-gray-700 text-white'>
               Login
             </Button>
           </Link>
           <Link href='/profile'>
-            <Button variant='ghost' size="icon" className='p-2'>
+            <Button variant='ghost' size='icon' className='p-2'>
               <UserIcon className='text-white' size={24} />
             </Button>
           </Link>
@@ -76,26 +76,21 @@ function UserMenu(): React.ReactElement {
               <Image
                 src={(user.user_metadata as UserMetadata).avatar_url || '/default.png'}
                 alt='User Avatar'
-                layout="fill"
-                objectFit="cover"
+                layout='fill'
+                objectFit='cover'
                 className='rounded-full'
               />
             </div>
           </Link>
-          <Button 
-            variant='default' 
-            size="responsive" 
-            className='bg-gray-700 text-white hidden sm:inline-flex' 
+          <Button
+            variant='default'
+            size='responsive'
+            className='bg-gray-700 text-white hidden sm:inline-flex'
             onClick={handleLogout}
           >
             Logout
           </Button>
-          <Button
-            variant='ghost'
-            size="icon"
-            className='p-2 sm:hidden'
-            onClick={handleLogout}
-          >
+          <Button variant='ghost' size='icon' className='p-2 sm:hidden' onClick={handleLogout}>
             <LogOut className='text-white' size={24} />
           </Button>
         </>
