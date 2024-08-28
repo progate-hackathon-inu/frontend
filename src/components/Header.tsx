@@ -5,7 +5,7 @@ import { useRouter } from 'next/navigation'
 import { Input } from '@/components/ui/input'
 import { Button } from '@/components/ui/button'
 import Link from 'next/link'
-import { Search, User, Menu } from 'lucide-react'
+import { Search, Menu } from 'lucide-react'
 import { useSidebarStore } from '@/store/sidebarStore'
 import UserMenu from './UserMenu'
 
