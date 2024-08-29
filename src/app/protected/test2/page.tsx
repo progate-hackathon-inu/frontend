@@ -13,6 +13,8 @@ export default function Test2() {
   const [user, setUser] = useState<object | null>(null)
   const [session, setSession] = useState<Session | null>(null)
   const [videos, setVideos] = useState<object[]>([])
+  const [videoTags, setVideoTags] = useState<object[]>([])
+  const [tags, setTags] = useState<object[]>([])
 
   useEffect(() => {
     const fetchData = async () => {
@@ -48,9 +50,31 @@ export default function Test2() {
       }
     }
 
+    const fetchVideoTags = async () => {
+      const { data, error } = await supabase.from('video_tags').select('*')
+
+      if (error) {
+        setError(error.message)
+      } else {
+        setVideoTags(data)
+      }
+    }
+
+    const fetchTags = async () => {
+      const { data, error } = await supabase.from('tags').select('*')
+
+      if (error) {
+        setError(error.message)
+      } else {
+        setTags(data)
+      }
+    }
+
     fetchData()
     fetchSession()
     fetchVideos()
+    fetchVideoTags()
+    fetchTags()
 
     // セッション変更のリスナーを設定
     const { data: authListener } = supabase.auth.onAuthStateChange((_event, session) => {
@@ -98,6 +122,20 @@ export default function Test2() {
         <pre className='bg-gray-800 p-4 rounded'>{JSON.stringify(videos, null, 2)}</pre>
       ) : (
         <p>ビデオデータを読み込み中...</p>
+      )}
+
+      <h2 className='text-xl font-semibold mb-2'>ビデオタグ一覧</h2>
+      {videoTags.length > 0 ? (
+        <pre className='bg-gray-800 p-4 rounded'>{JSON.stringify(videoTags, null, 2)}</pre>
+      ) : (
+        <p>ビデオタグデータを読み込み中...</p>
+      )}
+
+      <h2 className='text-xl font-semibold mb-2'>タグ一覧</h2>
+      {tags.length > 0 ? (
+        <pre className='bg-gray-800 p-4 rounded'>{JSON.stringify(tags, null, 2)}</pre>
+      ) : (
+        <p>タグデータを読み込み中...</p>
       )}
     </div>
   )
