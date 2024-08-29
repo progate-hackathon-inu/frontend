@@ -42,7 +42,6 @@ export async function fetchVideosWithLikesAndComments() {
       ),
       video_tags (
         tags (
-          id,
           name
         )
       ),
@@ -66,13 +65,13 @@ export async function fetchVideosWithLikesAndComments() {
     comments: video.comments.sort(
       (a, b) => new Date(b.created_at).getTime() - new Date(a.created_at).getTime()
     ),
-    tags: video.video_tags.map((vt: { tags: { id: number; name: string } }) => vt.tags),
+    tags: video.video_tags.map((tag: { tags: { name: string } }) => tag.tags.name),
     references: video.video_references.map(
       (vr: { reference_items: { id: number; title: string; url: string } }) => vr.reference_items
     ),
-    likes: undefined, // いいねの詳細情報を削除
-    video_tags: undefined, // 元のvideo_tags情報を削除
-    video_references: undefined, // 元のvideo_references情報を削除
+    likes: undefined,
+    video_tags: undefined,
+    video_references: undefined,
   }))
 
   return formattedData
