@@ -13,33 +13,40 @@ export default function Component() {
     tags: [] as string[],
     videoFile: null as File | null,
     manimFile: null as File | null,
+    thumbnailFile: null as File | null, // サムネイルファイルを追加
     description: '',
     algorithmExplanation: '',
     activeTab: 'code',
-    references: [] as string[], // 参考文献の配列を追加
+    references: [] as string[],
   })
+
   const [previewUrl, setPreviewUrl] = useState<string | null>(null)
   const [isLoading, setIsLoading] = useState(false) // ロード状態を追加
+  const [thumbnailUrl, setThumbnailUrl] = useState<string | null>(null) // サムネイルURLの状態を追加
 
   const handleFormChange = (data: Partial<typeof formData>) => {
     setFormData((prevData) => {
       const newData = { ...prevData, ...data }
       if (newData.videoFile && newData.videoFile !== prevData.videoFile) {
-        // 新しい動画ファイルが選択された場合、プレビューURLを更新
         setPreviewUrl(URL.createObjectURL(newData.videoFile))
+      }
+      if (newData.thumbnailFile && newData.thumbnailFile !== prevData.thumbnailFile) {
+        setThumbnailUrl(URL.createObjectURL(newData.thumbnailFile))
       }
       return newData
     })
   }
 
   useEffect(() => {
-    // コンポーネントのクリーンアップ時にオブジェクトURLを解放
     return () => {
       if (previewUrl) {
         URL.revokeObjectURL(previewUrl)
       }
+      if (thumbnailUrl) {
+        URL.revokeObjectURL(thumbnailUrl)
+      }
     }
-  }, [previewUrl])
+  }, [previewUrl, thumbnailUrl])
 
   const handleFormSubmit = async (data: typeof formData) => {
     setFormData(data)
@@ -73,6 +80,7 @@ export default function Component() {
             videoFile={formData.videoFile}
             references={formData.references} // 参考文献を追加
             isLoading={isLoading} // ロード状態を渡す
+            thumbnailUrl={thumbnailUrl} // サムネイルURLを渡す
           />
           <h3 className='text-lg font-semibold mb-2'>アルゴリズム解説</h3>
           <div className='bg-gray-800 p-4 rounded-lg'>
