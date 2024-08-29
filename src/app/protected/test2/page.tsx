@@ -2,6 +2,7 @@
 
 import { useEffect, useState } from 'react'
 import { createClient, Session } from '@supabase/supabase-js'
+import { fetchVideosWithTags } from './action'
 
 const supabaseUrl = process.env.NEXT_PUBLIC_SUPABASE_URL || ''
 const supabaseKey = process.env.NEXT_PUBLIC_SUPABASE_ANON_KEY || ''
@@ -113,24 +114,12 @@ export default function Test2() {
       }
     }
 
-    const fetchVideosWithTags = async () => {
-      const { data, error } = await supabase.from('videos').select(`
-        *,
-        video_tags (
-          tags (
-            name
-          )
-        )
-      `)
-
-      if (error) {
-        setError(error.message)
-      } else {
-        const formattedData = data.map((video) => ({
-          ...video,
-          video_tags: video.video_tags.map((tag: { tags: { name: string } }) => tag.tags.name),
-        }))
-        setVideosWithTags(formattedData)
+    const fetchVideosWithTagsData = async () => {
+      try {
+        const data = await fetchVideosWithTags()
+        setVideosWithTags(data)
+      } catch (error) {
+        setError((error as Error).message)
       }
     }
 
@@ -143,7 +132,7 @@ export default function Test2() {
     fetchReferenceItems()
     fetchLikes()
     fetchComments()
-    fetchVideosWithTags()
+    fetchVideosWithTagsData()
 
     // セッション変更のリスナーを設定
     const { data: authListener } = supabase.auth.onAuthStateChange((_event, session) => {
