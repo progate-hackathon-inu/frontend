@@ -2,7 +2,6 @@ import React, { useState } from 'react'
 import { Button } from '@/components/ui/button'
 import { Input } from '@/components/ui/input'
 import { Textarea } from '@/components/ui/textarea'
-import { Label } from '@/components/ui/label'
 import { Upload, File, X } from 'lucide-react'
 import { Badge } from '@/components/ui/badge'
 
@@ -11,6 +10,7 @@ interface UploadFormProps {
     title: string
     tags: string[]
     manimFile: File | null
+    thumbnailFile: File | null
     description: string
     algorithmExplanation: string
     references: string[]
@@ -19,6 +19,7 @@ interface UploadFormProps {
     formData: Partial<{
       title: string
       manimCode: string
+      thumbnailFile: File | null
       tags: string[]
       manimFile: File | null
       description: string
@@ -33,6 +34,7 @@ export default function UploadForm({ onSubmit, onChange }: UploadFormProps) {
   const [tags, setTags] = useState<string[]>([])
   const [currentTag, setCurrentTag] = useState('')
   const [manimFile, setManimFile] = useState<File | null>(null)
+  const [thumbnailFile, setThumbnailFile] = useState<File | null>(null)
   const [description, setDescription] = useState('')
   const [algorithmExplanation, setAlgorithmExplanation] = useState('')
   const [references, setReferences] = useState<string[]>([])
@@ -53,6 +55,7 @@ export default function UploadForm({ onSubmit, onChange }: UploadFormProps) {
       title,
       tags,
       manimFile,
+      thumbnailFile,
       description,
       algorithmExplanation,
       references,
@@ -62,6 +65,13 @@ export default function UploadForm({ onSubmit, onChange }: UploadFormProps) {
     const file = e.target.files?.[0]
     if (file) {
       setManimFile(file)
+    }
+  }
+
+  const handleThumbnailFileChange = (e: React.ChangeEvent<HTMLInputElement>) => {
+    const file = e.target.files?.[0]
+    if (file) {
+      setThumbnailFile(file)
     }
   }
 
@@ -99,19 +109,29 @@ export default function UploadForm({ onSubmit, onChange }: UploadFormProps) {
 
   return (
     <form onSubmit={handleSubmit} className='space-y-8'>
-      <Label htmlFor='manim-file' className='text-lg'>
-        Manimファイル
-      </Label>
-      <Input
-        id='manim-file'
-        type='file'
-        accept='.py'
-        onChange={handleManimFileChange}
-        className='w-full bg-gray-800 border-gray-700 text-white file:bg-gray-700 file:text-white file:border-0 file:rounded-md file:px-4 file:py-2 hover:file:bg-gray-600'
-      />
+      <div className='space-y-4'>
+        <h3 className='text-lg font-semibold'>Manimファイル</h3>
+        <Input
+          id='manim-file'
+          type='file'
+          accept='.py'
+          onChange={handleManimFileChange}
+          className='w-full bg-gray-800 border-gray-700 text-white file:bg-gray-700 file:text-white file:border-0 file:rounded-md file:px-4 file:py-2 hover:file:bg-gray-600'
+        />
+      </div>
       <Button type='submit' className='w-full bg-blue-600 hover:bg-blue-700 text-white'>
         <Upload className='mr-2 h-4 w-4' /> 動画に変換する
       </Button>
+      <div className='space-y-4'>
+        <h3 className='text-lg font-semibold'>サムネイルファイル</h3>
+        <Input
+          id='thumbnail-file'
+          type='file'
+          accept='.png, .jpg, .jpeg'
+          onChange={handleThumbnailFileChange}
+          className='w-full bg-gray-800 border-gray-700 text-white file:bg-gray-700 file:text-white file:border-0 file:rounded-md file:px-4 file:py-2 hover:file:bg-gray-600'
+        />
+      </div>
       <div className='space-y-4'>
         <h3 className='text-lg font-semibold'>タイトル</h3>
         <Input
