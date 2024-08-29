@@ -2,33 +2,28 @@ import React, { useState } from 'react'
 import { Button } from '@/components/ui/button'
 import { Input } from '@/components/ui/input'
 import { Textarea } from '@/components/ui/textarea'
-import { Label } from '@/components/ui/label'
-import { Tabs, TabsContent, TabsList, TabsTrigger } from '@/components/ui/tabs'
-import { Upload, Code, Film, File, Video, X } from 'lucide-react'
+import { Upload, File, X } from 'lucide-react'
 import { Badge } from '@/components/ui/badge'
 
 interface UploadFormProps {
   onSubmit: (formData: {
     title: string
-    manimCode: string
     tags: string[]
-    videoFile: File | null
     manimFile: File | null
+    thumbnailFile: File | null
     description: string
     algorithmExplanation: string
-    activeTab: string
     references: string[]
   }) => void
   onChange: (
     formData: Partial<{
       title: string
       manimCode: string
+      thumbnailFile: File | null
       tags: string[]
-      videoFile: File | null
       manimFile: File | null
       description: string
       algorithmExplanation: string
-      activeTab: string
       references: string[]
     }>
   ) => void
@@ -36,12 +31,10 @@ interface UploadFormProps {
 
 export default function UploadForm({ onSubmit, onChange }: UploadFormProps) {
   const [title, setTitle] = useState('')
-  const [manimCode, setManimCode] = useState('')
   const [tags, setTags] = useState<string[]>([])
   const [currentTag, setCurrentTag] = useState('')
-  const [videoFile, setVideoFile] = useState<File | null>(null)
   const [manimFile, setManimFile] = useState<File | null>(null)
-  const [activeTab, setActiveTab] = useState('code')
+  const [thumbnailFile, setThumbnailFile] = useState<File | null>(null)
   const [description, setDescription] = useState('')
   const [algorithmExplanation, setAlgorithmExplanation] = useState('')
   const [references, setReferences] = useState<string[]>([])
@@ -60,29 +53,26 @@ export default function UploadForm({ onSubmit, onChange }: UploadFormProps) {
     e.preventDefault()
     onSubmit({
       title,
-      manimCode,
       tags,
-      videoFile,
       manimFile,
+      thumbnailFile,
       description,
       algorithmExplanation,
-      activeTab,
       references,
     })
   }
-
-  const handleVideoFileChange = (e: React.ChangeEvent<HTMLInputElement>) => {
-    const file = e.target.files?.[0]
-    if (file) {
-      setVideoFile(file)
-      onChange({ videoFile: file }) // 親コンポーネントに変更を通知
-    }
-  }
-
   const handleManimFileChange = (e: React.ChangeEvent<HTMLInputElement>) => {
     const file = e.target.files?.[0]
     if (file) {
       setManimFile(file)
+    }
+  }
+
+  const handleThumbnailFileChange = (e: React.ChangeEvent<HTMLInputElement>) => {
+    const file = e.target.files?.[0]
+    if (file) {
+      setThumbnailFile(file)
+      handleChange('thumbnailFile', file) // サムネイルファイルの変更を通知
     }
   }
 
@@ -120,67 +110,29 @@ export default function UploadForm({ onSubmit, onChange }: UploadFormProps) {
 
   return (
     <form onSubmit={handleSubmit} className='space-y-8'>
-      <Tabs defaultValue='code' className='w-full' onValueChange={setActiveTab}>
-        <TabsList className='grid w-full grid-cols-3 bg-gray-800 p-1 rounded-md'>
-          <TabsTrigger
-            value='code'
-            className='flex items-center py-2 px-3 rounded-md data-[state=active]:bg-gray-700 data-[state=active]:text-white hover:bg-gray-700 transition-colors'
-          >
-            <Code className='mr-2 h-4 w-4' /> Manimコード
-          </TabsTrigger>
-          <TabsTrigger
-            value='manim-file'
-            className='flex items-center py-2 px-3 rounded-md data-[state=active]:bg-gray-700 data-[state=active]:text-white hover:bg-gray-700 transition-colors'
-          >
-            <File className='mr-2 h-4 w-4' /> Manimファイル
-          </TabsTrigger>
-          <TabsTrigger
-            value='video'
-            className='flex items-center py-2 px-3 rounded-md data-[state=active]:bg-gray-700 data-[state=active]:text-white hover:bg-gray-700 transition-colors'
-          >
-            <Film className='mr-2 h-4 w-4' /> 動画ファイル
-          </TabsTrigger>
-        </TabsList>
-        <TabsContent value='code' className='space-y-2 mt-4'>
-          <Label htmlFor='manim-code' className='text-lg font-semibold'>
-            Manimコード
-          </Label>
-          <Textarea
-            id='manim-code'
-            value={manimCode}
-            onChange={(e) => {
-              setManimCode(e.target.value)
-              handleChange('manimCode', e.target.value)
-            }}
-            className='w-full h-40 bg-gray-800 border-gray-700 text-white'
-            placeholder='Manimコードを入力'
-          />
-        </TabsContent>
-        <TabsContent value='manim-file' className='space-y-2 mt-4'>
-          <Label htmlFor='manim-file' className='text-lg'>
-            Manimファイル
-          </Label>
-          <Input
-            id='manim-file'
-            type='file'
-            accept='.py'
-            onChange={handleManimFileChange}
-            className='w-full bg-gray-800 border-gray-700 text-white file:bg-gray-700 file:text-white file:border-0 file:rounded-md file:px-4 file:py-2 hover:file:bg-gray-600'
-          />
-        </TabsContent>
-        <TabsContent value='video' className='space-y-2 mt-4'>
-          <Label htmlFor='video-file' className='text-lg'>
-            動画ファイル
-          </Label>
-          <Input
-            id='video-file'
-            type='file'
-            accept='video/*'
-            onChange={handleVideoFileChange}
-            className='w-full bg-gray-800 border-gray-700 text-white file:bg-gray-700 file:text-white file:border-0 file:rounded-md file:px-4 file:py-2 hover:file:bg-gray-600'
-          />
-        </TabsContent>
-      </Tabs>
+      <div className='space-y-4'>
+        <h3 className='text-lg font-semibold'>Manimファイル</h3>
+        <Input
+          id='manim-file'
+          type='file'
+          accept='.py'
+          onChange={handleManimFileChange}
+          className='w-full bg-gray-800 border-gray-700 text-white file:bg-gray-700 file:text-white file:border-0 file:rounded-md file:px-4 file:py-2 hover:file:bg-gray-600'
+        />
+      </div>
+      <Button type='submit' className='w-full bg-blue-600 hover:bg-blue-700 text-white'>
+        <Upload className='mr-2 h-4 w-4' /> 動画に変換する
+      </Button>
+      <div className='space-y-4'>
+        <h3 className='text-lg font-semibold'>サムネイルファイル</h3>
+        <Input
+          id='thumbnail-file'
+          type='file'
+          accept='.png, .jpg, .jpeg'
+          onChange={handleThumbnailFileChange}
+          className='w-full bg-gray-800 border-gray-700 text-white file:bg-gray-700 file:text-white file:border-0 file:rounded-md file:px-4 file:py-2 hover:file:bg-gray-600'
+        />
+      </div>
       <div className='space-y-4'>
         <h3 className='text-lg font-semibold'>タイトル</h3>
         <Input
@@ -275,15 +227,7 @@ export default function UploadForm({ onSubmit, onChange }: UploadFormProps) {
         />
       </div>
       <Button type='submit' className='w-full bg-blue-600 hover:bg-blue-700 text-white'>
-        {activeTab === 'video' ? (
-          <>
-            <Upload className='mr-2 h-4 w-4' /> 投稿する
-          </>
-        ) : (
-          <>
-            <Video className='mr-2 h-4 w-4' /> 動画に変換
-          </>
-        )}
+        投稿する
       </Button>
     </form>
   )

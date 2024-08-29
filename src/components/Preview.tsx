@@ -1,5 +1,6 @@
 import { Badge } from '@/components/ui/badge'
-import { Play } from 'lucide-react'
+import { Play, Loader } from 'lucide-react'
+import Image from 'next/image'
 
 interface PreviewProps {
   title: string
@@ -8,7 +9,9 @@ interface PreviewProps {
   previewUrl: string | null
   manimFile: File | null
   videoFile: File | null
-  references?: string[] // オプショナルに変更
+  references?: string[]
+  isLoading: boolean // ロード状態を追加
+  thumbnailUrl: string | null // サムネイルURLを追加
 }
 
 export default function Preview({
@@ -18,13 +21,17 @@ export default function Preview({
   previewUrl,
   manimFile,
   videoFile,
-  references = [], // デフォルト値を空配列に設定
+  references = [],
+  isLoading, // ロード状態を追加
+  thumbnailUrl, // サムネイルURLを追加
 }: PreviewProps) {
   return (
     <div className='space-y-8'>
       <h2 className='text-2xl font-semibold mb-4'>プレビュー</h2>
       <div className='aspect-video bg-gray-800 rounded-lg flex items-center justify-center overflow-hidden'>
-        {previewUrl ? (
+        {isLoading ? (
+          <Loader className='animate-spin h-16 w-16 text-gray-600' />
+        ) : previewUrl ? (
           <video src={previewUrl} controls className='w-full h-full'>
             お使いのブラウザは動画タグをサポートしていません。
           </video>
@@ -35,6 +42,21 @@ export default function Preview({
           </div>
         )}
       </div>
+      <div>
+        <h3 className='text-lg font-semibold mb-2'>サムネイル画像</h3>
+      </div>
+      {thumbnailUrl && (
+        <div className='mt-4'>
+          <Image
+            src={thumbnailUrl}
+            alt='サムネイル'
+            layout='responsive'
+            width={700}
+            height={475}
+            className='rounded-lg'
+          />
+        </div>
+      )}
       {manimFile && <p className='text-sm text-gray-400'>Manimファイル: {manimFile.name}</p>}
       {videoFile && <p className='text-sm text-gray-400'>動画ファイル: {videoFile.name}</p>}
       <div className='space-y-4'>
