@@ -21,6 +21,8 @@ export default function Test2() {
   const [likes, setLikes] = useState<object[]>([])
   const [comments, setComments] = useState<object[]>([])
 
+  const [videosWithTags, setVideosWithTags] = useState<object[]>([])
+
   useEffect(() => {
     const fetchData = async () => {
       const { data, error } = await supabase.from('users').select('*')
@@ -111,6 +113,27 @@ export default function Test2() {
       }
     }
 
+    const fetchVideosWithTags = async () => {
+      const { data, error } = await supabase.from('videos').select(`
+        *,
+        video_tags (
+          tags (
+            name
+          )
+        )
+      `)
+
+      if (error) {
+        setError(error.message)
+      } else {
+        const formattedData = data.map((video) => ({
+          ...video,
+          video_tags: video.video_tags.map((tag: { tags: { name: string } }) => tag.tags.name),
+        }))
+        setVideosWithTags(formattedData)
+      }
+    }
+
     fetchData()
     fetchSession()
     fetchVideos()
@@ -120,6 +143,7 @@ export default function Test2() {
     fetchReferenceItems()
     fetchLikes()
     fetchComments()
+    fetchVideosWithTags()
 
     // セッション変更のリスナーを設定
     const { data: authListener } = supabase.auth.onAuthStateChange((_event, session) => {
@@ -209,6 +233,13 @@ export default function Test2() {
         <pre className='bg-gray-800 p-4 rounded'>{JSON.stringify(comments, null, 2)}</pre>
       ) : (
         <p>コメントデータを読み込み中...</p>
+      )}
+
+      <h2 className='text-xl font-semibold mb-2'>ビデオとタグ一覧</h2>
+      {videosWithTags.length > 0 ? (
+        <pre className='bg-gray-800 p-4 rounded'>{JSON.stringify(videosWithTags, null, 2)}</pre>
+      ) : (
+        <p>ビデオとタグデータを読み込み中...</p>
       )}
     </div>
   )
