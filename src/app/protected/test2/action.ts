@@ -39,10 +39,7 @@ export async function fetchVideosWithLikesAndComments() {
       user_id
     ),
     comments (
-      id,
-      user_id,
       content,
-      created_at,
       users (
         username,
         avatar
@@ -73,10 +70,7 @@ export async function fetchVideosWithLikesAndComments() {
     comments_count: video.comments.length,
     comments: video.comments
       .map((comment) => ({
-        id: comment.id,
         content: comment.content,
-        user_id: comment.user_id,
-        created_at: comment.created_at,
         username: comment.users.username,
         avatar: comment.users.avatar,
       }))
