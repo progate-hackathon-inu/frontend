@@ -2,7 +2,7 @@
 
 import { useEffect, useState } from 'react'
 import { createClient, Session } from '@supabase/supabase-js'
-import { fetchVideosWithTags } from './action'
+import { fetchVideosWithTags, fetchVideosWithLikesAndComments } from './action'
 
 const supabaseUrl = process.env.NEXT_PUBLIC_SUPABASE_URL || ''
 const supabaseKey = process.env.NEXT_PUBLIC_SUPABASE_ANON_KEY || ''
@@ -23,6 +23,7 @@ export default function Test2() {
   const [comments, setComments] = useState<object[]>([])
 
   const [videosWithTags, setVideosWithTags] = useState<object[]>([])
+  const [videosWithLikesAndComments, setVideosWithLikesAndComments] = useState<object[]>([])
 
   useEffect(() => {
     const fetchData = async () => {
@@ -123,6 +124,15 @@ export default function Test2() {
       }
     }
 
+    const fetchVideosWithLikesAndCommentsData = async () => {
+      try {
+        const data = await fetchVideosWithLikesAndComments()
+        setVideosWithLikesAndComments(data)
+      } catch (error) {
+        setError((error as Error).message)
+      }
+    }
+
     fetchData()
     fetchSession()
     fetchVideos()
@@ -133,6 +143,7 @@ export default function Test2() {
     fetchLikes()
     fetchComments()
     fetchVideosWithTagsData()
+    fetchVideosWithLikesAndCommentsData()
 
     // セッション変更のリスナーを設定
     const { data: authListener } = supabase.auth.onAuthStateChange((_event, session) => {
@@ -229,6 +240,15 @@ export default function Test2() {
         <pre className='bg-gray-800 p-4 rounded'>{JSON.stringify(videosWithTags, null, 2)}</pre>
       ) : (
         <p>ビデオとタグデータを読み込み中...</p>
+      )}
+
+      <h2 className='text-xl font-semibold mb-2'>ビデオ、いいね、コメント一覧</h2>
+      {videosWithLikesAndComments.length > 0 ? (
+        <pre className='bg-gray-800 p-4 rounded'>
+          {JSON.stringify(videosWithLikesAndComments, null, 2)}
+        </pre>
+      ) : (
+        <p>ビデオ、いいね、コメントデータを読み込み中...</p>
       )}
     </div>
   )
