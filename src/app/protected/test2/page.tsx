@@ -16,6 +16,11 @@ export default function Test2() {
   const [videoTags, setVideoTags] = useState<object[]>([])
   const [tags, setTags] = useState<object[]>([])
 
+  const [videoReferences, setVideoReferences] = useState<object[]>([])
+  const [referenceItems, setReferenceItems] = useState<object[]>([])
+  const [likes, setLikes] = useState<object[]>([])
+  const [comments, setComments] = useState<object[]>([])
+
   useEffect(() => {
     const fetchData = async () => {
       const { data, error } = await supabase.from('users').select('*')
@@ -70,11 +75,51 @@ export default function Test2() {
       }
     }
 
+    const fetchVideoReferences = async () => {
+      const { data, error } = await supabase.from('video_references').select('*')
+      if (error) {
+        setError(error.message)
+      } else {
+        setVideoReferences(data)
+      }
+    }
+
+    const fetchReferenceItems = async () => {
+      const { data, error } = await supabase.from('reference_items').select('*')
+      if (error) {
+        setError(error.message)
+      } else {
+        setReferenceItems(data)
+      }
+    }
+
+    const fetchLikes = async () => {
+      const { data, error } = await supabase.from('likes').select('*')
+      if (error) {
+        setError(error.message)
+      } else {
+        setLikes(data)
+      }
+    }
+
+    const fetchComments = async () => {
+      const { data, error } = await supabase.from('comments').select('*')
+      if (error) {
+        setError(error.message)
+      } else {
+        setComments(data)
+      }
+    }
+
     fetchData()
     fetchSession()
     fetchVideos()
     fetchVideoTags()
     fetchTags()
+    fetchVideoReferences()
+    fetchReferenceItems()
+    fetchLikes()
+    fetchComments()
 
     // セッション変更のリスナーを設定
     const { data: authListener } = supabase.auth.onAuthStateChange((_event, session) => {
@@ -136,6 +181,34 @@ export default function Test2() {
         <pre className='bg-gray-800 p-4 rounded'>{JSON.stringify(tags, null, 2)}</pre>
       ) : (
         <p>タグデータを読み込み中...</p>
+      )}
+
+      <h2 className='text-xl font-semibold mb-2'>ビデオリファレンス一覧</h2>
+      {videoReferences.length > 0 ? (
+        <pre className='bg-gray-800 p-4 rounded'>{JSON.stringify(videoReferences, null, 2)}</pre>
+      ) : (
+        <p>ビデオリファレンスデータを読み込み中...</p>
+      )}
+
+      <h2 className='text-xl font-semibold mb-2'>リファレンスアイテム一覧</h2>
+      {referenceItems.length > 0 ? (
+        <pre className='bg-gray-800 p-4 rounded'>{JSON.stringify(referenceItems, null, 2)}</pre>
+      ) : (
+        <p>リファレンスアイテムデータを読み込み中...</p>
+      )}
+
+      <h2 className='text-xl font-semibold mb-2'>いいね一覧</h2>
+      {likes.length > 0 ? (
+        <pre className='bg-gray-800 p-4 rounded'>{JSON.stringify(likes, null, 2)}</pre>
+      ) : (
+        <p>いいねデータを読み込み中...</p>
+      )}
+
+      <h2 className='text-xl font-semibold mb-2'>コメント一覧</h2>
+      {comments.length > 0 ? (
+        <pre className='bg-gray-800 p-4 rounded'>{JSON.stringify(comments, null, 2)}</pre>
+      ) : (
+        <p>コメントデータを読み込み中...</p>
       )}
     </div>
   )
