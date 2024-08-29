@@ -9,13 +9,10 @@ import { Badge } from '@/components/ui/badge'
 interface UploadFormProps {
   onSubmit: (formData: {
     title: string
-    manimCode: string
     tags: string[]
-    videoFile: File | null
     manimFile: File | null
     description: string
     algorithmExplanation: string
-    activeTab: string
     references: string[]
   }) => void
   onChange: (
@@ -23,11 +20,9 @@ interface UploadFormProps {
       title: string
       manimCode: string
       tags: string[]
-      videoFile: File | null
       manimFile: File | null
       description: string
       algorithmExplanation: string
-      activeTab: string
       references: string[]
     }>
   ) => void
@@ -56,13 +51,10 @@ export default function UploadForm({ onSubmit, onChange }: UploadFormProps) {
     e.preventDefault()
     onSubmit({
       title,
-      manimCode: '', // 必要に応じて適切な値を設定
       tags,
-      videoFile: null, // 必要に応じて適切な値を設定
       manimFile,
       description,
       algorithmExplanation,
-      activeTab: '', // 必要に応じて適切な値を設定
       references,
     })
   }
