@@ -9,10 +9,17 @@ const supabase = createClient(supabaseUrl, supabaseKey)
 export async function fetchVideosWithTags() {
   const { data, error } = await supabase.from('videos').select(`
     *,
+    users!user_id (
+      username,
+      avatar
+    ),
     video_tags (
       tags (
         name
       )
+    ),
+    likes (
+      user_id
     )
   `)
 
@@ -22,7 +29,12 @@ export async function fetchVideosWithTags() {
 
   const formattedData = data.map((video) => ({
     ...video,
+    username: video.users.username,
+    avatar: video.users.avatar,
+    users: undefined,
     video_tags: video.video_tags.map((tag: { tags: { name: string } }) => tag.tags.name),
+    likes_count: video.likes.length,
+    likes: undefined,
   }))
 
   return formattedData
