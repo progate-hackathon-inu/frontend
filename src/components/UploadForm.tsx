@@ -72,6 +72,7 @@ export default function UploadForm({ onSubmit, onChange }: UploadFormProps) {
     const file = e.target.files?.[0]
     if (file) {
       setThumbnailFile(file)
+      handleChange('thumbnailFile', file) // サムネイルファイルの変更を通知
     }
   }
 

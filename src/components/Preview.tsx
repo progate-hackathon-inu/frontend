@@ -1,5 +1,6 @@
 import { Badge } from '@/components/ui/badge'
 import { Play, Loader } from 'lucide-react'
+import Image from 'next/image'
 
 interface PreviewProps {
   title: string
@@ -10,6 +11,7 @@ interface PreviewProps {
   videoFile: File | null
   references?: string[]
   isLoading: boolean // ロード状態を追加
+  thumbnailUrl: string | null // サムネイルURLを追加
 }
 
 export default function Preview({
@@ -21,6 +23,7 @@ export default function Preview({
   videoFile,
   references = [],
   isLoading, // ロード状態を追加
+  thumbnailUrl, // サムネイルURLを追加
 }: PreviewProps) {
   return (
     <div className='space-y-8'>
@@ -39,6 +42,21 @@ export default function Preview({
           </div>
         )}
       </div>
+      <div>
+        <h3 className='text-lg font-semibold mb-2'>サムネイル画像</h3>
+      </div>
+      {thumbnailUrl && (
+        <div className='mt-4'>
+          <Image
+            src={thumbnailUrl}
+            alt='サムネイル'
+            layout='responsive'
+            width={700}
+            height={475}
+            className='rounded-lg'
+          />
+        </div>
+      )}
       {manimFile && <p className='text-sm text-gray-400'>Manimファイル: {manimFile.name}</p>}
       {videoFile && <p className='text-sm text-gray-400'>動画ファイル: {videoFile.name}</p>}
       <div className='space-y-4'>
