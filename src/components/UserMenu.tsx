@@ -5,7 +5,7 @@ import Image from 'next/image'
 import Link from 'next/link'
 import { useRouter } from 'next/navigation'
 import { Button } from '@/components/ui/button'
-import { User as UserIcon, LogOut } from 'lucide-react'
+import { LogOut } from 'lucide-react'
 import { createClient } from '@/utils/supabase/client'
 import { useEffect, useState } from 'react'
 import { User } from '@supabase/supabase-js'
@@ -50,9 +50,7 @@ function UserMenu(): React.ReactElement {
     }
   }
 
-  if (loading) {
-    return <div className='w-8 h-8 rounded-full bg-gray-700 animate-pulse'></div>
-  }
+
 
   return (
     <div className='flex items-center space-x-2'>
@@ -63,16 +61,11 @@ function UserMenu(): React.ReactElement {
               Login
             </Button>
           </Link>
-          <Link href='/profile'>
-            <Button variant='ghost' size='icon' className='p-2'>
-              <UserIcon className='text-white' size={24} />
-            </Button>
-          </Link>
         </>
       ) : (
         <>
           <Link href='/profile'>
-            <div className='relative w-8 h-8 sm:w-10 sm:h-10'>
+            <div className='relative w-8 h-8 sm:w-12 sm:h-12'>
               <Image
                 src={(user.user_metadata as UserMetadata).avatar_url || '/default.png'}
                 alt='User Avatar'
