@@ -40,9 +40,20 @@ export default function Component() {
     }
   }, [previewUrl])
 
-  const handleFormSubmit = (data: typeof formData) => {
+  const handleFormSubmit = async (data: typeof formData) => {
     setFormData(data)
     console.log('Form submitted:', data)
+    if (data.manimFile) {
+      const formData = new FormData()
+      formData.append('file', data.manimFile)
+      const response = await fetch('http://localhost:10000/uploadcode/', {
+        method: 'POST',
+        body: formData,
+      })
+      const blob = await response.blob()
+      const url = URL.createObjectURL(blob)
+      setPreviewUrl(url)
+    }
     // ここで実際のアップロードまたは変換処理を行います
   }
 
