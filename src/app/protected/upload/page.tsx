@@ -19,6 +19,7 @@ export default function Component() {
     references: [] as string[], // 参考文献の配列を追加
   })
   const [previewUrl, setPreviewUrl] = useState<string | null>(null)
+  const [isLoading, setIsLoading] = useState(false) // ロード状態を追加
 
   const handleFormChange = (data: Partial<typeof formData>) => {
     setFormData((prevData) => {
@@ -42,6 +43,7 @@ export default function Component() {
 
   const handleFormSubmit = async (data: typeof formData) => {
     setFormData(data)
+    setIsLoading(true) // ロード開始
     console.log('Form submitted:', data)
     if (data.manimFile) {
       const formData = new FormData()
@@ -54,7 +56,7 @@ export default function Component() {
       const url = URL.createObjectURL(blob)
       setPreviewUrl(url)
     }
-    // ここで実際のアップロードまたは変換処理を行います
+    setIsLoading(false) // ロード終了
   }
 
   return (
@@ -70,6 +72,7 @@ export default function Component() {
             manimFile={formData.manimFile}
             videoFile={formData.videoFile}
             references={formData.references} // 参考文献を追加
+            isLoading={isLoading} // ロード状態を渡す
           />
           <h3 className='text-lg font-semibold mb-2'>アルゴリズム解説</h3>
           <div className='bg-gray-800 p-4 rounded-lg'>
