@@ -243,7 +243,10 @@ function References({ references }: { references: string[] }) {
       <ul className='space-y-2'>
         {references.map((ref, index) => (
           <li key={index}>
-            <a href={ref} className='text-blue-400 hover:text-blue-300 break-all text-sm sm:text-base'>
+            <a
+              href={ref}
+              className='text-blue-400 hover:text-blue-300 break-all text-sm sm:text-base'
+            >
               {ref}
             </a>
           </li>
