@@ -17,7 +17,6 @@ type UserMetadata = {
 function UserMenu(): React.ReactElement {
   const router = useRouter()
   const [user, setUser] = useState<User | null>(null)
-  const [loading, setLoading] = useState(true)
   const supabase = createClient()
 
   useEffect(() => {
@@ -26,7 +25,6 @@ function UserMenu(): React.ReactElement {
         data: { session },
       } = await supabase.auth.getSession()
       setUser(session?.user ?? null)
-      setLoading(false)
     }
 
     fetchUser()
@@ -62,7 +60,7 @@ function UserMenu(): React.ReactElement {
         </>
       ) : (
         <>
-          <Link href='/profile'>
+          <Link href='/protected/profile'>
             <div className='relative w-8 h-8 sm:w-12 sm:h-12'>
               <Image
                 src={(user.user_metadata as UserMetadata).avatar_url || '/default.png'}
