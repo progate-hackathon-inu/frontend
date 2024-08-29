@@ -30,27 +30,35 @@ export async function fetchVideosWithTags() {
 
 export async function fetchVideosWithLikesAndComments() {
   const { data, error } = await supabase.from('videos').select(`
-      *,
-      likes (
-        user_id
-      ),
-      comments (
-        id,
-        user_id,
-        content,
-        created_at
-      ),
-      video_tags (
-        tags (
-          name
-        )
-      ),
-      video_references (
-        reference_items (
-          url
-        )
+    *,
+    users!user_id (
+      username,
+      avatar
+    ),
+    likes (
+      user_id
+    ),
+    comments (
+      id,
+      user_id,
+      content,
+      created_at,
+      users (
+        username,
+        avatar
       )
-    `)
+    ),
+    video_tags (
+      tags (
+        name
+      )
+    ),
+    video_references (
+      reference_items (
+        url
+      )
+    )
+  `)
 
   if (error) {
     throw new Error(error.message)
@@ -58,11 +66,21 @@ export async function fetchVideosWithLikesAndComments() {
 
   const formattedData = data.map((video) => ({
     ...video,
+    username: video.users.username,
+    avatar: video.users.avatar,
+    users: undefined,
     likes_count: video.likes.length,
     comments_count: video.comments.length,
-    comments: video.comments.sort(
-      (a, b) => new Date(b.created_at).getTime() - new Date(a.created_at).getTime()
-    ),
+    comments: video.comments
+      .map((comment) => ({
+        id: comment.id,
+        content: comment.content,
+        user_id: comment.user_id,
+        created_at: comment.created_at,
+        username: comment.users.username,
+        avatar: comment.users.avatar,
+      }))
+      .sort((a, b) => new Date(b.created_at).getTime() - new Date(a.created_at).getTime()),
     tags: video.video_tags.map((tag: { tags: { name: string } }) => tag.tags.name),
     references: video.video_references.map(
       (vr: { reference_items: { url: string } }) => vr.reference_items.url
