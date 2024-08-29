@@ -47,8 +47,6 @@ export async function fetchVideosWithLikesAndComments() {
       ),
       video_references (
         reference_items (
-          id,
-          title,
           url
         )
       )
@@ -67,7 +65,7 @@ export async function fetchVideosWithLikesAndComments() {
     ),
     tags: video.video_tags.map((tag: { tags: { name: string } }) => tag.tags.name),
     references: video.video_references.map(
-      (vr: { reference_items: { id: number; title: string; url: string } }) => vr.reference_items
+      (vr: { reference_items: { url: string } }) => vr.reference_items.url
     ),
     likes: undefined,
     video_tags: undefined,
