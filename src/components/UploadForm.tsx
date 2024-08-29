@@ -4,7 +4,7 @@ import { Input } from '@/components/ui/input'
 import { Textarea } from '@/components/ui/textarea'
 import { Label } from '@/components/ui/label'
 import { Tabs, TabsContent, TabsList, TabsTrigger } from '@/components/ui/tabs'
-import { Upload, Code, Film, File, Video, X } from 'lucide-react'
+import { Upload, Code, Film, File, X } from 'lucide-react'
 import { Badge } from '@/components/ui/badge'
 
 interface UploadFormProps {
@@ -181,6 +181,9 @@ export default function UploadForm({ onSubmit, onChange }: UploadFormProps) {
           />
         </TabsContent>
       </Tabs>
+      <Button type='submit' className='w-full bg-blue-600 hover:bg-blue-700 text-white'>
+        <Upload className='mr-2 h-4 w-4' /> 動画に変換する
+      </Button>
       <div className='space-y-4'>
         <h3 className='text-lg font-semibold'>タイトル</h3>
         <Input
@@ -275,15 +278,7 @@ export default function UploadForm({ onSubmit, onChange }: UploadFormProps) {
         />
       </div>
       <Button type='submit' className='w-full bg-blue-600 hover:bg-blue-700 text-white'>
-        {activeTab === 'video' ? (
-          <>
-            <Upload className='mr-2 h-4 w-4' /> 投稿する
-          </>
-        ) : (
-          <>
-            <Video className='mr-2 h-4 w-4' /> 動画に変換
-          </>
-        )}
+        投稿する
       </Button>
     </form>
   )
