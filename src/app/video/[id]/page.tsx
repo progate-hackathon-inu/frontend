@@ -176,15 +176,15 @@ export default function WatchPage() {
     <div className='min-h-screen bg-gray-900 text-gray-100'>
       <main className='container mx-auto p-4'>
         <div className='flex flex-col lg:flex-row gap-8 mb-5'>
-          <div className='lg:w-1/2'>
+          <div className='w-full lg:w-2/3 xl:w-3/4'>
             <div className='aspect-video mb-4'>
-              <video className={videoData.className} controls src={videoData.src}>
+              <video className='w-full h-full' controls src={videoData.src}>
                 お使いのブラウザは動画タグをサポートしていません。
               </video>
             </div>
-            <h2 className='text-2xl font-bold mb-2'>{videoData.title}</h2>
+            <h2 className='text-xl sm:text-2xl font-bold mb-2'>{videoData.title}</h2>
             <VideoTags tags={videoData.tags} />
-            <div className='flex items-center justify-between mb-4'>
+            <div className='flex flex-col sm:flex-row sm:items-center sm:justify-between mb-4 gap-4'>
               <div className='flex items-center gap-2'>
                 <Avatar>
                   <AvatarImage src={videoData.creator.avatar} alt={videoData.creator.name} />
@@ -225,7 +225,7 @@ export default function WatchPage() {
             </div>
             <Comments comments={sampleComments} />
           </div>
-          <div className='lg:w-1/2'>
+          <div className='w-full lg:w-1/3 xl:w-1/4'>
             {algorithmData && <Article algorithmData={algorithmData} />}
             <References references={references} />
           </div>
@@ -239,11 +239,14 @@ export default function WatchPage() {
 function References({ references }: { references: string[] }) {
   return (
     <div className='mt-8 bg-gray-800 p-4 rounded-lg'>
-      <h3 className='text-xl font-semibold mb-4'>参考文献</h3>
+      <h3 className='text-lg sm:text-xl font-semibold mb-4'>参考文献</h3>
       <ul className='space-y-2'>
         {references.map((ref, index) => (
           <li key={index}>
-            <a href={ref} className='text-blue-400 hover:text-blue-300 break-all'>
+            <a
+              href={ref}
+              className='text-blue-400 hover:text-blue-300 break-all text-sm sm:text-base'
+            >
               {ref}
             </a>
           </li>
