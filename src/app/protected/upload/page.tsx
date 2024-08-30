@@ -4,7 +4,7 @@ import { useState, useEffect } from 'react'
 
 const UploadForm = dynamic(() => import('@/components/UploadForm'), { ssr: false })
 const Preview = dynamic(() => import('@/components/Preview'), { ssr: false })
-const Article = dynamic(() => import('@/components/Article'), { ssr: false })
+const Article = dynamic(() => import('@/components/video/Article'), { ssr: false })
 
 export default function Component() {
   const [formData, setFormData] = useState({
