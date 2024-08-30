@@ -8,7 +8,7 @@ type Video = {
   title: string
   username: string
   views: number
-  likes: number
+  likes_count: number // likes を likes_count に変更
   thumbnail_url: string // imageUrlをthumbnail_urlに変更
   video_tags: string[]
 }
@@ -32,7 +32,7 @@ const VideoCard = ({ video }: { video: Video }) => {
             </h2>
             <p className='text-xs text-gray-400 truncate'>{video.username}</p>
             <p className='text-xs text-gray-400 mb-2'>
-              {video.views.toLocaleString()} 回視聴 • {video.likes.toLocaleString()} いいね
+              {video.views.toLocaleString()} 回視聴 • {video.likes_count.toLocaleString()} いいね
             </p>
             <TagList tags={video.video_tags} />
           </div>
