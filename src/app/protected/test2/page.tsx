@@ -103,6 +103,7 @@ function VideoUploader({ session }: VideoUploaderProps) {
   const [uploading, setUploading] = useState(false)
   const [uploadError, setUploadError] = useState<string | null>(null)
   const [uploadSuccess, setUploadSuccess] = useState(false)
+  const [uploadedVideoUrl, setUploadedVideoUrl] = useState<string | null>(null)
 
   const handleFileChange = (e: React.ChangeEvent<HTMLInputElement>) => {
     if (e.target.files && e.target.files.length > 0) {
@@ -116,6 +117,7 @@ function VideoUploader({ session }: VideoUploaderProps) {
     setUploading(true)
     setUploadError(null)
     setUploadSuccess(false)
+    setUploadedVideoUrl(null)
 
     try {
       const formData = new FormData()
@@ -135,6 +137,9 @@ function VideoUploader({ session }: VideoUploaderProps) {
       await uploadVideo(result.path, session.user.id)
       setUploadSuccess(true)
       setFile(null)
+      setUploadedVideoUrl(
+        `${process.env.NEXT_PUBLIC_SUPABASE_URL}/storage/v1/object/public/videos/${result.path}`
+      )
     } catch (error) {
       setUploadError((error as Error).message)
     } finally {
@@ -155,6 +160,17 @@ function VideoUploader({ session }: VideoUploaderProps) {
       </button>
       {uploadError && <p className='text-red-500 mt-2'>{uploadError}</p>}
       {uploadSuccess && <p className='text-green-500 mt-2'>アップロード成功！</p>}
+      {uploadedVideoUrl && (
+        <div className='mt-4'>
+          <h3 className='text-lg font-semibold mb-2'>アップロードされた動画：</h3>
+          <video src={uploadedVideoUrl} controls className='w-full max-w-lg mb-2'>
+            お使いのブラウザは動画タグをサポートしていません。
+          </video>
+          <p className='text-sm break-all'>
+            <span className='font-semibold'>動画URL：</span> {uploadedVideoUrl}
+          </p>
+        </div>
+      )}
     </div>
   )
 }
