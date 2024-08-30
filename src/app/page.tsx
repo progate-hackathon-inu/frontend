@@ -1,8 +1,8 @@
 import VideoCard from '@/components/VideoCard'
-import { fetchVideosWithTags } from './protected/test2/action'
+import { fetchVideos } from '@/utils/supabase/actions/fetch'
 
 export default async function Component() {
-  const featuredVideos = await fetchVideosWithTags()
+  const featuredVideos = await fetchVideos()
 
   return (
     <>
