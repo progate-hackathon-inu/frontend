@@ -2,7 +2,7 @@
 
 import { useEffect, useState } from 'react'
 import { createClient, Session } from '@supabase/supabase-js'
-import { fetchVideosWithTags, fetchVideosWithLikesAndComments } from './action'
+import { fetchVideosWithTags, fetchVideosWithLikesAndComments, uploadVideo } from './action'
 
 const supabase = createClient(
   process.env.NEXT_PUBLIC_SUPABASE_URL || '',
@@ -73,7 +73,7 @@ export default function Test2() {
         <p className='mb-8'>ユーザー情報がありません</p>
       )}
 
-      <h2 className='text-xl font-semibold mb-2'>動画一覧画面で使用するデータをフ��ッチ</h2>
+      <h2 className='text-xl font-semibold mb-2'>動画一覧画面で使用するデータをフッチ</h2>
       {videosWithTags.length > 0 ? (
         <pre className='bg-gray-800 p-4 rounded'>{JSON.stringify(videosWithTags, null, 2)}</pre>
       ) : (
@@ -88,6 +88,69 @@ export default function Test2() {
       ) : (
         <p>ビデオ、いいね、コメントデータを読み込み中...</p>
       )}
+
+      <VideoUploader />
+    </div>
+  )
+}
+
+function VideoUploader() {
+  const [file, setFile] = useState<File | null>(null)
+  const [uploading, setUploading] = useState(false)
+  const [uploadError, setUploadError] = useState<string | null>(null)
+  const [uploadSuccess, setUploadSuccess] = useState(false)
+
+  const handleFileChange = (e: React.ChangeEvent<HTMLInputElement>) => {
+    if (e.target.files && e.target.files.length > 0) {
+      setFile(e.target.files[0])
+    }
+  }
+
+  const handleUpload = async () => {
+    if (!file) return
+
+    setUploading(true)
+    setUploadError(null)
+    setUploadSuccess(false)
+
+    try {
+      const formData = new FormData()
+      formData.append('file', file)
+
+      const response = await fetch('/api/upload', {
+        method: 'POST',
+        body: formData,
+      })
+
+      const result = await response.json()
+
+      if (!response.ok) {
+        throw new Error(result.error || 'アップロードに失敗しました')
+      }
+
+      await uploadVideo(result.path)
+      setUploadSuccess(true)
+      setFile(null)
+    } catch (error) {
+      setUploadError((error as Error).message)
+    } finally {
+      setUploading(false)
+    }
+  }
+
+  return (
+    <div className='mt-8'>
+      <h2 className='text-xl font-semibold mb-4'>動画アップロード</h2>
+      <input type='file' accept='video/*' onChange={handleFileChange} className='mb-4' />
+      <button
+        onClick={handleUpload}
+        disabled={!file || uploading}
+        className='bg-blue-500 hover:bg-blue-600 text-white font-bold py-2 px-4 rounded disabled:opacity-50'
+      >
+        {uploading ? 'アップロード中...' : 'アップロード'}
+      </button>
+      {uploadError && <p className='text-red-500 mt-2'>{uploadError}</p>}
+      {uploadSuccess && <p className='text-green-500 mt-2'>アップロード成功！</p>}
     </div>
   )
 }

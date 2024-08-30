@@ -98,3 +98,13 @@ export async function fetchVideosWithLikesAndComments() {
 
   return formattedData
 }
+
+export async function uploadVideo(filePath: string) {
+  const { data, error } = await supabase.from('videos').insert({ file_path: filePath })
+
+  if (error) {
+    throw new Error(error.message)
+  }
+
+  return data
+}
