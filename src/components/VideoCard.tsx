@@ -6,11 +6,11 @@ import TagList from './TagList'
 type Video = {
   id: number
   title: string
-  author: string
+  username: string
   views: number
   likes: number
-  imageUrl: string
-  tags: string[]
+  thumbnail_url: string // imageUrlをthumbnail_urlに変更
+  video_tags: string[]
 }
 
 const VideoCard = ({ video }: { video: Video }) => {
@@ -20,7 +20,7 @@ const VideoCard = ({ video }: { video: Video }) => {
         <CardContent className='p-0'>
           <div className='relative w-full h-40'>
             <Image
-              src={video.imageUrl}
+              src={video.thumbnail_url} // imageUrlをthumbnail_urlに変更
               alt={video.title}
               fill
               className='object-cover rounded-t-md'
@@ -30,11 +30,11 @@ const VideoCard = ({ video }: { video: Video }) => {
             <h2 className='text-sm font-semibold mb-1 truncate' title={video.title}>
               {video.title}
             </h2>
-            <p className='text-xs text-gray-400 truncate'>{video.author}</p>
+            <p className='text-xs text-gray-400 truncate'>{video.username}</p>
             <p className='text-xs text-gray-400 mb-2'>
               {video.views.toLocaleString()} 回視聴 • {video.likes.toLocaleString()} いいね
             </p>
-            <TagList tags={video.tags} />
+            <TagList tags={video.video_tags} />
           </div>
         </CardContent>
       </Card>
