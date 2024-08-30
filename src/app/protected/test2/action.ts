@@ -31,10 +31,8 @@ export async function fetchVideosWithTags() {
     ...video,
     username: video.users.username,
     avatar: video.users.avatar,
-    users: undefined,
     video_tags: video.video_tags.map((tag: { tags: { name: string } }) => tag.tags.name),
     likes_count: video.likes.length,
-    likes: undefined,
   }))
 
   return formattedData
@@ -99,7 +97,7 @@ export async function fetchVideosWithLikesAndComments() {
   return formattedData
 }
 
-export async function uploadVideo(filePath: string, authUserId: string) {
+export async function uploadVideo(videoPath: string, thumbnailPath: string, authUserId: string) {
   // まず、authUserIdを使用してusersテーブルからユーザーのidを取得
   const { data: userData, error: userError } = await supabase
     .from('users')
@@ -117,11 +115,11 @@ export async function uploadVideo(filePath: string, authUserId: string) {
 
   // 取得したidを使用してvideosテーブルに挿入
   const { data, error } = await supabase.from('videos').insert({
-    video_url: filePath,
+    video_url: videoPath,
+    thumbnail_url: thumbnailPath,
     user_id: userData.id,
     title: 'デフォルトタイトル',
     description: 'デフォルト説明',
-    thumbnail_url: 'デフォルトサムネイルURL',
   })
 
   if (error) {
