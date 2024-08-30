@@ -99,11 +99,26 @@ export async function fetchVideosWithLikesAndComments() {
   return formattedData
 }
 
-export async function uploadVideo(filePath: string, userId: string) {
+export async function uploadVideo(filePath: string, authUserId: string) {
+  // まず、authUserIdを使用してusersテーブルからユーザーのidを取得
+  const { data: userData, error: userError } = await supabase
+    .from('users')
+    .select('id')
+    .eq('auth_id', authUserId)
+    .single()
+
+  if (userError) {
+    throw new Error(userError.message)
+  }
+
+  if (!userData) {
+    throw new Error('ユーザーが見つかりません')
+  }
+
+  // 取得したidを使用してvideosテーブルに挿入
   const { data, error } = await supabase.from('videos').insert({
     video_url: filePath,
-    user_id: userId,
-    // 他の必要なフィールドも追加してください
+    user_id: userData.id,
     title: 'デフォルトタイトル',
     description: 'デフォルト説明',
     thumbnail_url: 'デフォルトサムネイルURL',
