@@ -89,12 +89,16 @@ export default function Test2() {
         <p>ビデオ、いいね、コメントデータを読み込み中...</p>
       )}
 
-      <VideoUploader />
+      <VideoUploader session={session} />
     </div>
   )
 }
 
-function VideoUploader() {
+interface VideoUploaderProps {
+  session: Session | null
+}
+
+function VideoUploader({ session }: VideoUploaderProps) {
   const [file, setFile] = useState<File | null>(null)
   const [uploading, setUploading] = useState(false)
   const [uploadError, setUploadError] = useState<string | null>(null)
@@ -107,7 +111,7 @@ function VideoUploader() {
   }
 
   const handleUpload = async () => {
-    if (!file) return
+    if (!file || !session?.user?.id) return
 
     setUploading(true)
     setUploadError(null)
@@ -128,7 +132,7 @@ function VideoUploader() {
         throw new Error(result.error || 'アップロードに失敗しました')
       }
 
-      await uploadVideo(result.path)
+      await uploadVideo(result.path, session.user.id)
       setUploadSuccess(true)
       setFile(null)
     } catch (error) {

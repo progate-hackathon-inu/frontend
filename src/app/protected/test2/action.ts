@@ -99,8 +99,15 @@ export async function fetchVideosWithLikesAndComments() {
   return formattedData
 }
 
-export async function uploadVideo(filePath: string) {
-  const { data, error } = await supabase.from('videos').insert({ file_path: filePath })
+export async function uploadVideo(filePath: string, userId: string) {
+  const { data, error } = await supabase.from('videos').insert({
+    video_url: filePath,
+    user_id: userId,
+    // 他の必要なフィールドも追加してください
+    title: 'デフォルトタイトル',
+    description: 'デフォルト説明',
+    thumbnail_url: 'デフォルトサムネイルURL',
+  })
 
   if (error) {
     throw new Error(error.message)
