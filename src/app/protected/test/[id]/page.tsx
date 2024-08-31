@@ -148,7 +148,7 @@ function VideoTags({ tags }: { tags: string[] }) {
   )
 }
 
-export default async function WatchPage() {
+export default async function WatchPage({ params }: { params: { id: string } }) {
   async function fetchAlgorithmData() {
     try {
       const text = await fetchMarkdownFile()

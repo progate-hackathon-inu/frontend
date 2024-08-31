@@ -9,7 +9,12 @@ export async function submit(formData: FormData) {
   const {
     data: { user },
   } = await supabase.auth.getUser()
-  console.log(user?.id)
+  // usersテーブルから対応するレコードを取得
+  const { data, error: authidError } = await supabase
+  .from('users')
+  .select('id')
+  .eq('auth_id', user?.id);
+  
   if (!user) throw new Error('User not found')
 
   const title = formData.get('title') as string
