@@ -5,10 +5,10 @@ import RelatedVideos from '@/components/video/RelatedVideos'
 import Article from '@/components/video/Article'
 import Comments from '@/components/video/Comments'
 import VideoDescriptions from '@/components/video/VideoDescription'
+import { fetchMarkdownFile } from './action'
 import Link from 'next/link'
 
 const videoData = {
-  className: 'w-full h-full',
   controls: true,
   src: '/OK5vzIvi86336Fel.mp4',
   title: '動画タイトル',
@@ -151,8 +151,7 @@ function VideoTags({ tags }: { tags: string[] }) {
 export default async function WatchPage() {
   async function fetchAlgorithmData() {
     try {
-      const response = await fetch('/samplearticle.md')
-      const text = await response.text()
+      const text = await fetchMarkdownFile()
       return text
     } catch (error) {
       console.error('Error fetching algorithm data:', error)
