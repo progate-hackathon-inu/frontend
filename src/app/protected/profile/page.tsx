@@ -16,6 +16,23 @@ export default function Component() {
   const [website, setWebsite] = useState('https://example.com')
   const [twitterHandle, setTwitterHandle] = useState('@yamada_taro')
   const [githubHandle, setGithubHandle] = useState('yamada-taro')
+  // 新しいパスワードの状態
+  const [newPassword, setNewPassword] = useState('')
+
+  // 投稿した動画といいねした動画リスト
+  const [uploadedVideos] = useState(['Video1', 'Video2'])
+  const [likedVideos] = useState(['LikedVideo1', 'LikedVideo2'])
+
+  // ハンドラー関数
+  const handlePasswordChange = () => {
+    console.log('Changing password to:', newPassword)
+    // ここにパスワード変更の処理を追加
+  }
+
+  const handleDeleteAccount = () => {
+    console.log('Deleting account')
+    // ここにアカウント削除の処理を追加
+  }
 
   const handleSave = () => {
     // Here you would typically send the updated data to your backend
@@ -76,6 +93,25 @@ export default function Component() {
                 </Button>
               )}
             </div>
+            {/* パスワード変更フィールド */}
+            {isEditing && (
+              <div className='mb-4'>
+                <Input
+                  type='password'
+                  placeholder='新しいパスワードを入力'
+                  value={newPassword}
+                  onChange={(e) => setNewPassword(e.target.value)}
+                  className='w-full bg-gray-700 border-gray-600'
+                />
+                <Button
+                  onClick={handlePasswordChange}
+                  className='mt-2 bg-blue-600 hover:bg-blue-700'
+                >
+                  パスワード変更
+                </Button>
+              </div>
+            )}
+
             <div className='space-y-4'>
               {isEditing ? (
                 <Textarea
@@ -87,6 +123,25 @@ export default function Component() {
               ) : (
                 <p>{bio}</p>
               )}
+              {/* 投稿した動画リスト */}
+              <div className='mb-4'>
+                <h2 className='text-lg font-bold'>投稿した動画</h2>
+                <ul className='list-disc pl-5'>
+                  {uploadedVideos.map((video, index) => (
+                    <li key={index}>{video}</li>
+                  ))}
+                </ul>
+              </div>
+
+              {/* いいねした動画リスト */}
+              <div className='mb-4'>
+                <h2 className='text-lg font-bold'>いいねした動画</h2>
+                <ul className='list-disc pl-5'>
+                  {likedVideos.map((video, index) => (
+                    <li key={index}>{video}</li>
+                  ))}
+                </ul>
+              </div>
               <div className='flex flex-wrap gap-4'>
                 {isEditing ? (
                   <div className='flex items-center'>
@@ -181,6 +236,12 @@ export default function Component() {
               <p className='text-2xl font-bold'>152</p>
               <p className='text-sm text-gray-400'>投稿</p>
             </div>
+          </div>
+          <div className='flex flex-col space-y-2'>
+            {/* アカウント削除ボタン */}
+            <Button onClick={handleDeleteAccount} className='bg-red-600 hover:bg-red-700'>
+              アカウント削除
+            </Button>
           </div>
         </div>
       </div>
