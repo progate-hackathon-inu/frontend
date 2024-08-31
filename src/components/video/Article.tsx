@@ -1,8 +1,4 @@
-<<<<<<< HEAD
-"use client"
-=======
 'use client'
->>>>>>> e61d0796d8a7950bf67e0a8595200db8c9c45ae9
 import React, { useState, useRef, useEffect, useCallback } from 'react'
 import ReactMarkdown from 'react-markdown'
 import { Prism as SyntaxHighlighter } from 'react-syntax-highlighter'
