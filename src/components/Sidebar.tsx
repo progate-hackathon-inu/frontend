@@ -3,7 +3,7 @@ import { useRouter } from 'next/navigation'
 import { useEffect, useState } from 'react'
 import { useSidebarStore } from '@/store/sidebarStore'
 import { Button } from '@/components/ui/button'
-import { Home, Compass, Upload, Heart, Menu } from 'lucide-react'
+import { Home, Compass, Upload, Heart, Menu, BookOpen } from 'lucide-react'
 
 export default function Sidebar() {
   const isOpen = useSidebarStore((state) => state.isOpen)
@@ -71,6 +71,15 @@ export default function Sidebar() {
         >
           <Heart className='mr-2 h-5 w-5' />
           <span>お気に入り</span>
+        </Button>
+        {/* Manim解説ページのリンクを追加 */}
+        <Button
+          variant='ghost'
+          className='w-full justify-start text-gray-300 hover:text-white hover:bg-gray-700'
+          onClick={() => handleNavigation('/manim_about')}
+        >
+          <BookOpen className='mr-2 h-5 w-5' />
+          <span>Manim解説</span>
         </Button>
       </nav>
     </aside>
