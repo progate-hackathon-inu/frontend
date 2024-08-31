@@ -2,7 +2,7 @@
 
 import { createClient } from '@/utils/supabase/server'
 
-export async function fetchMarkdownFile(fileName: string) {
+export async function fetchMarkdownFile() {
   const supabase = createClient()
 
   try {

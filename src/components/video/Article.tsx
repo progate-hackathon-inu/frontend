@@ -1,8 +1,4 @@
-<<<<<<< HEAD
-"use client"
-=======
 'use client'
->>>>>>> e61d0796d8a7950bf67e0a8595200db8c9c45ae9
 import React, { useState, useRef, useEffect, useCallback } from 'react'
 import ReactMarkdown from 'react-markdown'
 import { Prism as SyntaxHighlighter } from 'react-syntax-highlighter'
@@ -59,12 +55,9 @@ const Article: React.FC<ArticleProps> = ({ algorithmData }) => {
   }, [isDragging, handleMouseMove])
 
   return (
-    <div ref={containerRef} className='bg-gray-800 p-6 rounded-lg'>
-      <div style={{ height: `${height}px` }} className='overflow-hidden'>
-        <div
-          ref={contentRef}
-          className='prose prose-invert prose-lg h-full overflow-y-auto pr-4 pb-8'
-        >
+    <div ref={containerRef} className='bg-gray-800 p-6 rounded-lg flex flex-col'>
+      <div ref={contentRef} style={{ height: `${height}px` }} className='overflow-y-auto pr-4 mb-2'>
+        <div className='prose prose-invert prose-lg'>
           <ReactMarkdown
             components={{
               code: ({
@@ -122,7 +115,7 @@ const Article: React.FC<ArticleProps> = ({ algorithmData }) => {
       <div
         ref={resizeRef}
         onMouseDown={handleMouseDown}
-        className='flex justify-center mt-2 cursor-ns-resize select-none'
+        className='flex justify-center cursor-ns-resize select-none'
       >
         <div className='bg-gray-700 hover:bg-gray-600 text-gray-300 hover:text-white p-2 rounded-md transition-colors duration-200 flex items-center gap-2 w-32 justify-center'>
           <MdDragHandle size={20} />

@@ -27,10 +27,10 @@ export default function Preview({
 }: PreviewProps) {
   return (
     <div className='space-y-8'>
-      <h2 className='text-2xl font-semibold mb-4'>プレビュー</h2>
-      <div className='aspect-video bg-gray-800 rounded-lg flex items-center justify-center overflow-hidden'>
+      <h2 className='text-2xl font-semibold mb-4 '>プレビュー</h2>
+      <div className='aspect-video bg-gray-800 rounded-lg flex items-center justify-center overflow-hidden invisible'>
         {isLoading ? (
-          <Loader className='animate-spin h-16 w-16 text-gray-600' />
+          <Loader className='animate-spin h-16 w-16 text-gray-600 ' />
         ) : previewUrl ? (
           <video src={previewUrl} controls className='w-full h-full'>
             お使いのブラウザは動画タグをサポートしていません。
