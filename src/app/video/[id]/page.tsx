@@ -1,16 +1,14 @@
-'use client'
-
 import { Avatar, AvatarFallback, AvatarImage } from '@/components/ui/avatar'
 import { Button } from '@/components/ui/button'
-import { ThumbsUp, ChevronDown, ChevronUp } from 'lucide-react'
+import { ThumbsUp } from 'lucide-react'
 import RelatedVideos from '@/components/video/RelatedVideos'
 import Article from '@/components/video/Article'
-import { useState, useEffect } from 'react'
 import Comments from '@/components/video/Comments'
+import VideoDescriptions from '@/components/video/VideoDescription'
+import { fetchMarkdownFile } from './action'
 import Link from 'next/link'
 
 const videoData = {
-  className: 'w-full h-full',
   controls: true,
   src: '/OK5vzIvi86336Fel.mp4',
   title: '動画タイトル',
@@ -150,27 +148,17 @@ function VideoTags({ tags }: { tags: string[] }) {
   )
 }
 
-export default function WatchPage() {
-  const [isExpanded, setIsExpanded] = useState(false)
-  const [algorithmData, setAlgorithmData] = useState<string | null>(null)
-
-  useEffect(() => {
-    async function fetchAlgorithmData() {
-      try {
-        const response = await fetch('/samplearticle.md')
-        const text = await response.text()
-        setAlgorithmData(text)
-      } catch (error) {
-        console.error('Error fetching algorithm data:', error)
-      }
+export default async function WatchPage() {
+  async function fetchAlgorithmData() {
+    try {
+      const text = await fetchMarkdownFile()
+      return text
+    } catch (error) {
+      console.error('Error fetching algorithm data:', error)
     }
-
-    fetchAlgorithmData()
-  }, [])
-
-  const toggleDescription = () => {
-    setIsExpanded(!isExpanded)
   }
+
+  const text = await fetchAlgorithmData()
 
   return (
     <div className='min-h-screen bg-gray-900 text-gray-100'>
@@ -205,28 +193,11 @@ export default function WatchPage() {
                 </Button>
               </div>
             </div>
-            <div className='mb-4 bg-gray-800 p-4 rounded-lg'>
-              <p className={`${isExpanded ? '' : 'line-clamp-2'}`}>{videoData.description}</p>
-              <Button
-                variant='ghost'
-                className='mt-2 text-blue-400 hover:text-blue-300'
-                onClick={toggleDescription}
-              >
-                {isExpanded ? (
-                  <>
-                    折りたたむ <ChevronUp className='ml-1 h-4 w-4' />
-                  </>
-                ) : (
-                  <>
-                    もっと見る <ChevronDown className='ml-1 h-4 w-4' />
-                  </>
-                )}
-              </Button>
-            </div>
+            <VideoDescriptions description={videoData?.description} />
             <Comments comments={sampleComments} />
           </div>
           <div className='w-full lg:w-1/3 xl:w-1/4'>
-            {algorithmData && <Article algorithmData={algorithmData} />}
+            {text && <Article algorithmData={text} />}
             <References references={references} />
           </div>
         </div>

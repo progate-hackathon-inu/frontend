@@ -1,9 +1,9 @@
 'use server'
 
 import { createClient } from '@/utils/supabase/server'
-
-export async function fetchMarkdownFile(fileName: string) {
-  const supabase = createClient()
+import { SupabaseClient } from '@supabase/supabase-js'
+export async function fetchMarkdownFile() {
+  const supabase: SupabaseClient = createClient()
 
   try {
     // 公開URLを取得
