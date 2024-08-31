@@ -2,6 +2,9 @@ FROM node:latest
 
 WORKDIR /app
 
+# libc6-compatをインストール
+RUN apk add --no-cache libc6-compat
+
 COPY package*.json ./
 COPY package-lock.json ./
 
