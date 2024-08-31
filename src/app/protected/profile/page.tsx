@@ -8,7 +8,7 @@ import { Input } from '@/components/ui/input'
 import { Textarea } from '@/components/ui/textarea'
 
 interface Video {
-  id: string
+  id: number // string から number に変更
   title: string
 }
 
