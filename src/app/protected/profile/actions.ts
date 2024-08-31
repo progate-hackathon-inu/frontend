@@ -2,6 +2,11 @@
 
 import { createClient } from '@/utils/supabase/server'
 
+interface Video {
+  id: number
+  title: string
+}
+
 export async function getUserProfile() {
   const supabase = createClient()
 
@@ -15,7 +20,13 @@ export async function getUserProfile() {
 
   const { data: profile, error } = await supabase
     .from('users')
-    .select('username, avatar, twitter_url, github_url, description, country')
+    .select(
+      `
+      username, avatar, twitter_url, github_url, description, country,
+      videos(id, title),
+      likes(video_id, videos(id, title))
+    `
+    )
     .eq('auth_id', user.id)
     .single()
 
@@ -31,6 +42,7 @@ export async function getUserProfile() {
     github_url: profile?.github_url,
     description: profile?.description,
     country: profile?.country,
+    uploadedVideos: (profile?.videos as Video[]) || [],
   }
 }
 

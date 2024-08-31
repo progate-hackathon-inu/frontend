@@ -7,6 +7,11 @@ import { Button } from '@/components/ui/button'
 import { Input } from '@/components/ui/input'
 import { Textarea } from '@/components/ui/textarea'
 
+interface Video {
+  id: string
+  title: string
+}
+
 export default function Component() {
   const [username, setUsername] = useState('')
   const [avatar, setAvatar] = useState('')
@@ -15,9 +20,8 @@ export default function Component() {
   const [twitterUrl, setTwitterUrl] = useState('')
   const [githubUrl, setGithubUrl] = useState('')
 
-  // 投稿した動画といいねした動画リスト
-  const [uploadedVideos] = useState(['Video1', 'Video2'])
-  const [likedVideos] = useState(['LikedVideo1', 'LikedVideo2'])
+  const [uploadedVideos, setUploadedVideos] = useState<Video[]>([])
+  const [likedVideos, setLikedVideos] = useState<Video[]>([])
 
   const [isLoggedIn, setIsLoggedIn] = useState(false)
   const [isEditing, setIsEditing] = useState(false)
@@ -32,6 +36,8 @@ export default function Component() {
         setCountry(profile.country || '')
         setTwitterUrl(profile.twitter_url || '')
         setGithubUrl(profile.github_url || '')
+        setUploadedVideos(profile.uploadedVideos || [])
+        setLikedVideos(profile.likedVideos || [])
         setIsLoggedIn(true)
       } catch (error) {
         console.error('プロフィール取得エラー:', error)
@@ -119,8 +125,8 @@ export default function Component() {
               <div className='mb-4'>
                 <h2 className='text-lg font-bold'>投稿した動画</h2>
                 <ul className='list-disc pl-5'>
-                  {uploadedVideos.map((video, index) => (
-                    <li key={index}>{video}</li>
+                  {uploadedVideos.map((video) => (
+                    <li key={video.id}>{video.title}</li>
                   ))}
                 </ul>
               </div>
@@ -129,8 +135,8 @@ export default function Component() {
               <div className='mb-4'>
                 <h2 className='text-lg font-bold'>いいねした動画</h2>
                 <ul className='list-disc pl-5'>
-                  {likedVideos.map((video, index) => (
-                    <li key={index}>{video}</li>
+                  {likedVideos.map((video) => (
+                    <li key={video.id}>{video.title}</li>
                   ))}
                 </ul>
               </div>
