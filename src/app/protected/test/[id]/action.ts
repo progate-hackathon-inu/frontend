@@ -1,18 +1,15 @@
 'use server'
 
 import { createClient } from '@/utils/supabase/server'
-
-export async function fetchMarkdownFile() {
-  const supabase = createClient()
+import { SupabaseClient } from '@supabase/supabase-js'
+export async function fetchMarkdownFile(id: number) {
+  const supabase: SupabaseClient = createClient()
 
   try {
     // 公開URLを取得
     const { data, error } = supabase?.storage.from('icons').getPublicUrl('samplearticle.md')
-    console.log(data)
 
-    if (error) {
-      throw new Error('Failed to get public URL')
-    }
+  
 
     if (!data) {
       throw new Error('No data returned from getPublicUrl')

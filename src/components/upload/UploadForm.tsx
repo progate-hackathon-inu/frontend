@@ -31,7 +31,7 @@ interface UploadFormProps {
   ) => void
 }
 
-export default function UploadForm({ onSubmit, onChange }: UploadFormProps) {
+export default function UploadForm({ onChange }: UploadFormProps) {
   const [title, setTitle] = useState('')
   const [tags, setTags] = useState<string[]>([])
   const [currentTag, setCurrentTag] = useState('')
@@ -81,16 +81,6 @@ export default function UploadForm({ onSubmit, onChange }: UploadFormProps) {
     setIsLoadingSubmit(true)
 
     try {
-      // クライアントサイドの onSubmit を呼び出す
-      await onSubmit({
-        title,
-        tags,
-        manimFile,
-        thumbnailFile,
-        description,
-        algorithmExplanation,
-        references,
-      })
 
       // Server Actionを呼び出す
       const submitFormData = new FormData()
@@ -308,6 +298,7 @@ export default function UploadForm({ onSubmit, onChange }: UploadFormProps) {
         type='submit'
         className='w-full bg-blue-600 hover:bg-blue-700 text-white'
         disabled={isLoadingSubmit}
+        formAction={submit}
       >
         {isLoadingSubmit ? 'アップロード中...' : '投稿する'}
       </Button>
