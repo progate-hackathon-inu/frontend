@@ -2,12 +2,18 @@
 
 import { useFormStatus } from 'react-dom'
 import { type ComponentProps } from 'react'
+import { cn } from '@/lib/utils' // cn関数をインポート（既存のプロジェクトにない場合は後述）
 
 type Props = ComponentProps<'button'> & {
   pendingText?: string
 }
 
-export function SubmitButton({ children, pendingText = 'Submitting...', ...props }: Props) {
+export function SubmitButton({
+  children,
+  pendingText = 'Submitting...',
+  className,
+  ...props
+}: Props) {
   const { pending, action } = useFormStatus()
 
   const isPending = pending && action === props.formAction
@@ -15,7 +21,10 @@ export function SubmitButton({ children, pendingText = 'Submitting...', ...props
   return (
     <button
       {...props}
-      className='bg-black h-8 flex items-center justify-center font-medium text-sm hover:bg-slate-800 transition-colors text-white rounded-md text-foreground'
+      className={cn(
+        'bg-black h-8 flex items-center justify-center font-medium text-sm hover:bg-slate-800 transition-colors text-white rounded-md text-foreground',
+        className
+      )}
       type='submit'
       aria-disabled={pending}
     >
