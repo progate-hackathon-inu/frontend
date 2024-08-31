@@ -4,6 +4,7 @@ import { createClient } from '@/utils/supabase/server'
 
 export async function fetchMarkdownFile(fileName: string) {
   const supabase = createClient()
+  
 
   try {
     // 公開URLを取得
