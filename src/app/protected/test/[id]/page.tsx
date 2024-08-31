@@ -5,7 +5,7 @@ import RelatedVideos from '@/components/video/RelatedVideos'
 import Article from '@/components/video/Article'
 import Comments from '@/components/video/Comments'
 import VideoDescriptions from '@/components/video/VideoDescription'
-import { fetchMarkdownFile } from './action'
+import { fetchMarkdownFile, getVideosData } from './action'
 import Link from 'next/link'
 
 const videoData = {
@@ -151,7 +151,9 @@ function VideoTags({ tags }: { tags: string[] }) {
 export default async function WatchPage({ params }: { params: { id: string } }) {
   async function fetchAlgorithmData() {
     try {
-      const text = await fetchMarkdownFile()
+      const id: number = parseInt(params.id)
+      const text = await fetchMarkdownFile(id)
+      const data = await getVideosData(id)
       return text
     } catch (error) {
       console.error('Error fetching algorithm data:', error)

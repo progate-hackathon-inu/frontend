@@ -1,6 +1,7 @@
 import { Avatar, AvatarFallback, AvatarImage } from '@/components/ui/avatar'
 import { Button } from '@/components/ui/button'
 import { ThumbsUp } from 'lucide-react'
+import LikeButton from '@/components/LikesButton/LikesButton'
 import RelatedVideos from '@/components/video/RelatedVideos'
 import Article from '@/components/video/Article'
 import Comments from '@/components/video/Comments'
@@ -184,13 +185,7 @@ export default async function WatchPage({ params }: { params: { id: string } }) 
                 <span className='text-sm text-gray-400'>
                   {videoData.stats.uploadDate} {videoData.stats.uploadTime}
                 </span>
-                <Button
-                  variant='outline'
-                  className='flex items-center gap-2 bg-gray-800 text-gray-300 hover:bg-gray-700'
-                >
-                  <ThumbsUp className='h-4 w-4' />
-                  {videoData.stats.likes}
-                </Button>
+                <LikeButton videoId={parseInt(params.id)} />
               </div>
             </div>
             <VideoDescriptions description={videoData?.description} />
