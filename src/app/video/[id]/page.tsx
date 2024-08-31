@@ -3,10 +3,10 @@
 import { Avatar, AvatarFallback, AvatarImage } from '@/components/ui/avatar'
 import { Button } from '@/components/ui/button'
 import { ThumbsUp, ChevronDown, ChevronUp } from 'lucide-react'
-import RelatedVideos from '@/components/RelatedVideos'
-import Article from '@/components/Article'
+import RelatedVideos from '@/components/video/RelatedVideos'
+import Article from '@/components/video/Article'
 import { useState, useEffect } from 'react'
-import Comments from '@/components/Comments'
+import Comments from '@/components/video/Comments'
 import Link from 'next/link'
 
 const videoData = {
