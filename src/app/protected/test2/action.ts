@@ -173,26 +173,45 @@ export async function fetchVideoWithLikesAndComments(videoId: number) {
   }
 
   const formattedData = {
-    ...data,
-    username: data.users.username,
-    avatar: data.users.avatar,
-    users: undefined,
-    likes_count: data.likes.length,
-    comments_count: data.comments.length,
-    comments: data.comments
-      .map((comment) => ({
-        content: comment.content,
-        username: comment.users.username,
-        avatar: comment.users.avatar,
-      }))
-      .sort((a, b) => new Date(b.created_at).getTime() - new Date(a.created_at).getTime()),
+    controls: true,
+    src: data.video_url,
+    title: data.title,
+    description: data.description,
+    creator: {
+      name: data.users.username,
+      avatar: data.users.avatar,
+    },
+    stats: {
+      likes: `${data.likes.length}`,
+      views: `${data.views}`,
+      uploadDate: new Date(data.created_at).toLocaleDateString('ja-JP', {
+        year: 'numeric',
+        month: 'long',
+        day: 'numeric',
+      }),
+      uploadTime: new Date(data.created_at).toLocaleTimeString('ja-JP', {
+        hour: '2-digit',
+        minute: '2-digit',
+      }),
+    },
     tags: data.video_tags.map((tag: { tags: { name: string } }) => tag.tags.name),
+    comments: data.comments.map((comment) => ({
+      id: comment.id,
+      user: {
+        name: comment.users.username,
+        avatar: comment.users.avatar,
+      },
+      content: comment.content,
+      likes: 0, // コメントのいいね数が必要な場合は、別途取得する必要があります
+      timestamp: new Date(comment.created_at).toLocaleDateString('ja-JP', {
+        year: 'numeric',
+        month: 'long',
+        day: 'numeric',
+      }),
+    })),
     references: data.video_references.map(
       (vr: { reference_items: { url: string } }) => vr.reference_items.url
     ),
-    likes: undefined,
-    video_tags: undefined,
-    video_references: undefined,
   }
 
   return formattedData
