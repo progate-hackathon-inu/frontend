@@ -4,28 +4,10 @@ import { ThumbsUp } from 'lucide-react'
 import RelatedVideos from '@/components/video/RelatedVideos'
 import Article from '@/components/video/Article'
 import Comments from '@/components/video/Comments'
+import LikeButton from '@/components/LikesButton/LikesButton'
 import VideoDescriptions from '@/components/video/VideoDescription'
-import { fetchMarkdownFile, getVideosData } from './action'
+import { fetchMarkdownFile, getVideosData,videoDataFunc } from './action'
 import Link from 'next/link'
-
-const videoData = {
-  controls: true,
-  src: '/OK5vzIvi86336Fel.mp4',
-  title: '動画タイトル',
-  description:
-    'この動画の説明文です。動画の内容の簡単な概要が記載されています。さらに詳細な情報として、この動画では特定のトピックについて深く掘り下げています。視聴者の皆様には、この分野における新しい知見や興味深い事実を発見していただけると思います。また、この動画の制作過程や背景についても触れており、コンテンツの奥深さを理解する助けとなるでしょう。',
-  creator: {
-    name: '作成者名',
-    avatar: '/placeholder-avatar.jpg',
-  },
-  stats: {
-    likes: '1.5K',
-    views: '10万',
-    uploadDate: '2023年4月1日',
-    uploadTime: '14:30', // 投稿時刻を追加
-  },
-  tags: ['アルゴリズム', '可視化', 'プログラミング', 'コンピューターサイエンス'],
-}
 
 const relatedVideos = [
   {
@@ -152,15 +134,18 @@ export default async function WatchPage({ params }: { params: { id: string } }) 
   async function fetchAlgorithmData() {
     try {
       const id: number = parseInt(params.id)
-      const text = await fetchMarkdownFile(id)
-      const data = await getVideosData(id)
-      return text
+      const videoData = await videoDataFunc(id)
+      return videoData
+      
     } catch (error) {
       console.error('Error fetching algorithm data:', error)
     }
   }
 
-  const text = await fetchAlgorithmData()
+  const text = "神"
+  const videoData = await fetchAlgorithmData()
+ 
+
 
   return (
     <div className='min-h-screen bg-gray-900 text-gray-100'>
@@ -180,19 +165,13 @@ export default async function WatchPage({ params }: { params: { id: string } }) 
                   <AvatarImage src={videoData.creator.avatar} alt={videoData.creator.name} />
                   <AvatarFallback>{videoData.creator.name.slice(0, 2)}</AvatarFallback>
                 </Avatar>
-                <span className='font-semibold'>{videoData.creator.name}</span>
+                <span className='font-semibold' >{videoData.creator.name}</span>
               </div>
               <div className='flex items-center gap-4'>
                 <span className='text-sm text-gray-400'>
                   {videoData.stats.uploadDate} {videoData.stats.uploadTime}
                 </span>
-                <Button
-                  variant='outline'
-                  className='flex items-center gap-2 bg-gray-800 text-gray-300 hover:bg-gray-700'
-                >
-                  <ThumbsUp className='h-4 w-4' />
-                  {videoData.stats.likes}
-                </Button>
+                <LikeButton videoId={parseInt(params.id)} />
               </div>
             </div>
             <VideoDescriptions description={videoData?.description} />
