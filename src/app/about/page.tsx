@@ -44,7 +44,7 @@ export default function Component() {
                   ホーム画面では、様々なManimによるアルゴリズム解説動画が表示されます。各動画のサムネイルには、タイトル、作成者、再生回数などの情報が表示されます。
                 </p>
                 <img
-                  src='/placeholder.svg?height=200&width=400'
+                  src='/image/home.png?height=200&width=400'
                   alt='ホーム画面のイメージ'
                   className='mt-4 rounded-lg'
                 />
@@ -61,7 +61,7 @@ export default function Component() {
                   動画をクリックすると、その動画の視聴ページに移動します。ここでは動画の再生と共に、詳細な説明文を読むことができます。
                 </p>
                 <img
-                  src='/placeholder.svg?height=200&width=400'
+                  src='/image/detail.png?height=200&width=400'
                   alt='動画視聴ページのイメージ'
                   className='mt-4 rounded-lg'
                 />
@@ -78,7 +78,7 @@ export default function Component() {
                   アップロードページでは、PythonのManimコードを入力するだけで、自動的にManim動画が生成されアップロードされます。
                 </p>
                 <img
-                  src='/placeholder.svg?height=200&width=400'
+                  src='/image/upload?height=200&width=400'
                   alt='アップロードページのイメージ'
                   className='mt-4 rounded-lg'
                 />
