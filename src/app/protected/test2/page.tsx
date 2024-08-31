@@ -2,7 +2,7 @@
 
 import { useEffect, useState } from 'react'
 import { createClient, Session } from '@supabase/supabase-js'
-import { fetchVideosWithTags, fetchVideosWithLikesAndComments, uploadVideo } from './action'
+import { fetchVideosWithTags, fetchVideoWithLikesAndComments, uploadVideo } from './action'
 
 const supabase = createClient(
   process.env.NEXT_PUBLIC_SUPABASE_URL || '',
@@ -14,7 +14,7 @@ export default function Test2() {
   const [session, setSession] = useState<Session | null>(null)
   const [user, setUser] = useState<object | null>(null)
   const [videosWithTags, setVideosWithTags] = useState<object[]>([])
-  const [videosWithLikesAndComments, setVideosWithLikesAndComments] = useState<object[]>([])
+  const [videoWithLikesAndComments, setVideoWithLikesAndComments] = useState<object | null>(null)
 
   useEffect(() => {
     const fetchSession = async () => {
@@ -31,8 +31,9 @@ export default function Test2() {
       try {
         const tagsData = await fetchVideosWithTags()
         setVideosWithTags(tagsData)
-        const likesCommentsData = await fetchVideosWithLikesAndComments()
-        setVideosWithLikesAndComments(likesCommentsData)
+        // 例として、ID 1の動画を取得
+        const videoData = await fetchVideoWithLikesAndComments(1)
+        setVideoWithLikesAndComments(videoData)
       } catch (error) {
         setError((error as Error).message)
       }
@@ -81,9 +82,9 @@ export default function Test2() {
       )}
 
       <h2 className='text-xl font-semibold mb-2'>動画視聴画面で使用するデータをフェッチ</h2>
-      {videosWithLikesAndComments.length > 0 ? (
+      {videoWithLikesAndComments ? (
         <pre className='bg-gray-800 p-4 rounded'>
-          {JSON.stringify(videosWithLikesAndComments, null, 2)}
+          {JSON.stringify(videoWithLikesAndComments, null, 2)}
         </pre>
       ) : (
         <p>ビデオ、いいね、コメントデータを読み込み中...</p>

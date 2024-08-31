@@ -128,3 +128,72 @@ export async function uploadVideo(videoPath: string, thumbnailPath: string, auth
 
   return data
 }
+
+export async function fetchVideoWithLikesAndComments(videoId: number) {
+  const { data, error } = await supabase
+    .from('videos')
+    .select(
+      `
+      *,
+      users!user_id (
+        username,
+        avatar
+      ),
+      likes (
+        user_id
+      ),
+      comments (
+        content,
+        users (
+          username,
+          avatar
+        )
+      ),
+      video_tags (
+        tags (
+          name
+        )
+      ),
+      video_references (
+        reference_items (
+          url
+        )
+      )
+    `
+    )
+    .eq('id', videoId)
+    .single()
+
+  if (error) {
+    throw new Error(error.message)
+  }
+
+  if (!data) {
+    throw new Error('動画が見つかりません')
+  }
+
+  const formattedData = {
+    ...data,
+    username: data.users.username,
+    avatar: data.users.avatar,
+    users: undefined,
+    likes_count: data.likes.length,
+    comments_count: data.comments.length,
+    comments: data.comments
+      .map((comment) => ({
+        content: comment.content,
+        username: comment.users.username,
+        avatar: comment.users.avatar,
+      }))
+      .sort((a, b) => new Date(b.created_at).getTime() - new Date(a.created_at).getTime()),
+    tags: data.video_tags.map((tag: { tags: { name: string } }) => tag.tags.name),
+    references: data.video_references.map(
+      (vr: { reference_items: { url: string } }) => vr.reference_items.url
+    ),
+    likes: undefined,
+    video_tags: undefined,
+    video_references: undefined,
+  }
+
+  return formattedData
+}
