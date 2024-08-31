@@ -81,7 +81,6 @@ export default function UploadForm({ onChange }: UploadFormProps) {
     setIsLoadingSubmit(true)
 
     try {
-
       // Server Actionを呼び出す
       const submitFormData = new FormData()
       submitFormData.append('title', title)

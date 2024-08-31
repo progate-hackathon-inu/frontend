@@ -2,29 +2,70 @@
 
 import { createClient } from '@/utils/supabase/server'
 import { SupabaseClient } from '@supabase/supabase-js'
-export async function fetchMarkdownFile(id: number) {
-  const supabase: SupabaseClient = createClient()
 
+interface VideoData {
+  id: number
+  video_url: string
+  // 他の必要なフィールドを追加
+}
+
+export async function videoData(id: number) {
+  const allVideoData = await getVideosData(id)
+  if (!allVideoData) {
+    throw new Error('Video data not found')
+  }
+  const article = await fetchMarkdownFile(allVideoData.video_url)
+  const tags = await getVideoTags(id)
+
+  return {
+    ...allVideoData,
+    article,
+    tags,
+  }
+}
+
+export async function fetchMarkdownFile(url: string) {
   try {
-    // 公開URLを取得
-    const { data, error } = supabase?.storage.from('icons').getPublicUrl('samplearticle.md')
-
-  
-
-    if (!data) {
-      throw new Error('No data returned from getPublicUrl')
-    }
-
-    // 公開URLを使用してファイルを取得
-    const response = await fetch(data.publicUrl)
+    const response = await fetch(url)
     if (!response.ok) {
       throw new Error(`HTTP error! status: ${response.status}`)
     }
-
-    const text = await response.text()
-    return text
+    return await response.text()
   } catch (error) {
     console.error('Error fetching markdown file:', error)
     throw new Error('Failed to fetch markdown file')
   }
+}
+
+export async function getVideosData(id: number): Promise<VideoData | null> {
+  const supabase = createClient()
+  const { data, error } = await supabase.from('videos').select().eq('id', id).single()
+
+  if (error) {
+    console.error('Error fetching video data:', error)
+    return null
+  }
+
+  return data
+}
+
+async function getVideoTags(videoId: number): Promise<string[]> {
+  const supabase = createClient()
+  const { data, error } = await supabase
+    .from('video_tags')
+    .select(
+      `
+      tags (
+        name
+      )
+    `
+    )
+    .eq('video_id', videoId)
+
+  if (error) {
+    console.error('Error fetching video tags:', error)
+    return []
+  }
+
+  return data?.map((item) => item.tags.name) || []
 }
