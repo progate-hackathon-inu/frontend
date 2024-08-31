@@ -6,7 +6,7 @@ import LikeButton from '@/components/LikesButton/LikesButton'
 import VideoDescriptions from '@/components/video/VideoDescription'
 import { videoDataFunc } from './action'
 import Link from 'next/link'
-import { VideoData } from '@/types/video';
+import { VideoData } from '@/types/video'
 
 const relatedVideos = [
   {
@@ -129,15 +129,12 @@ export default async function WatchPage({ params }: { params: { id: string } }) 
       const id: number = parseInt(params.id)
       const videoData = await videoDataFunc(id)
       return videoData
-      
     } catch (error) {
       console.error('Error fetching algorithm data:', error)
-      throw new Error('Failed to fetch');
+      throw new Error('Failed to fetch')
     }
   }
   const videoData: VideoData = await fetchAlgorithmData()
- 
-
 
   return (
     <div className='min-h-screen bg-gray-900 text-gray-100'>
@@ -157,7 +154,7 @@ export default async function WatchPage({ params }: { params: { id: string } }) 
                   <AvatarImage src={videoData.creator.avatar} alt={videoData.creator.name} />
                   <AvatarFallback>{videoData.creator.name.slice(0, 2)}</AvatarFallback>
                 </Avatar>
-                <span className='font-semibold' >{videoData.creator.name}</span>
+                <span className='font-semibold'>{videoData.creator.name}</span>
               </div>
               <div className='flex items-center gap-4'>
                 <span className='text-sm text-gray-400'>
