@@ -1,13 +1,12 @@
 import { Avatar, AvatarFallback, AvatarImage } from '@/components/ui/avatar'
-import { Button } from '@/components/ui/button'
-import { ThumbsUp } from 'lucide-react'
 import RelatedVideos from '@/components/video/RelatedVideos'
 import Article from '@/components/video/Article'
 import Comments from '@/components/video/Comments'
 import LikeButton from '@/components/LikesButton/LikesButton'
 import VideoDescriptions from '@/components/video/VideoDescription'
-import { fetchMarkdownFile, getVideosData,videoDataFunc } from './action'
+import { videoDataFunc } from './action'
 import Link from 'next/link'
+import { VideoData } from '@/types/video';
 
 const relatedVideos = [
   {
@@ -75,12 +74,6 @@ const relatedVideos = [
   },
 ]
 
-const references = [
-  'https://zenn.dev/ryple/articles/49881fdb2fef51',
-  'https://zenn.dev/osasasasa/articles/20b67f4481107c',
-  'https://zenn.dev/moko_poi/articles/8a2dece3a7b9c9',
-]
-
 const sampleComments = [
   {
     id: 1,
@@ -131,7 +124,7 @@ function VideoTags({ tags }: { tags: string[] }) {
 }
 
 export default async function WatchPage({ params }: { params: { id: string } }) {
-  async function fetchAlgorithmData() {
+  async function fetchAlgorithmData(): Promise<VideoData> {
     try {
       const id: number = parseInt(params.id)
       const videoData = await videoDataFunc(id)
@@ -139,11 +132,12 @@ export default async function WatchPage({ params }: { params: { id: string } }) 
       
     } catch (error) {
       console.error('Error fetching algorithm data:', error)
+      throw new Error('Failed to fetch');
     }
   }
 
   const text = "神"
-  const videoData = await fetchAlgorithmData()
+  const videoData: VideoData = await fetchAlgorithmData()
  
 
 
@@ -178,8 +172,8 @@ export default async function WatchPage({ params }: { params: { id: string } }) 
             <Comments comments={sampleComments} />
           </div>
           <div className='w-full lg:w-1/3 xl:w-1/4'>
-            {text && <Article algorithmData={text} />}
-            <References references={references} />
+            {text && <Article algorithmData={videoData?.article} />}
+            <References references={videoData?.references} />
           </div>
         </div>
         <RelatedVideos videos={relatedVideos} />

@@ -1,32 +1,12 @@
 import { Avatar, AvatarFallback, AvatarImage } from '@/components/ui/avatar'
-import { Button } from '@/components/ui/button'
-import { ThumbsUp } from 'lucide-react'
-import LikeButton from '@/components/LikesButton/LikesButton'
 import RelatedVideos from '@/components/video/RelatedVideos'
 import Article from '@/components/video/Article'
 import Comments from '@/components/video/Comments'
+import LikeButton from '@/components/LikesButton/LikesButton'
 import VideoDescriptions from '@/components/video/VideoDescription'
-import { fetchMarkdownFile } from './action'
+import { videoDataFunc } from './action'
 import Link from 'next/link'
-
-const videoData = {
-  controls: true,
-  src: '/OK5vzIvi86336Fel.mp4',
-  title: '動画タイトル',
-  description:
-    'この動画の説明文です。動画の内容の簡単な概要が記載されています。さらに詳細な情報として、この動画では特定のトピックについて深く掘り下げています。視聴者の皆様には、この分野における新しい知見や興味深い事実を発見していただけると思います。また、この動画の制作過程や背景についても触れており、コンテンツの奥深さを理解する助けとなるでしょう。',
-  creator: {
-    name: '作成者名',
-    avatar: '/placeholder-avatar.jpg',
-  },
-  stats: {
-    likes: '1.5K',
-    views: '10万',
-    uploadDate: '2023年4月1日',
-    uploadTime: '14:30', // 投稿時刻を追加
-  },
-  tags: ['アルゴリズム', '可視化', 'プログラミング', 'コンピューターサイエンス'],
-}
+import { VideoData } from '@/types/video';
 
 const relatedVideos = [
   {
@@ -94,12 +74,6 @@ const relatedVideos = [
   },
 ]
 
-const references = [
-  'https://zenn.dev/ryple/articles/49881fdb2fef51',
-  'https://zenn.dev/osasasasa/articles/20b67f4481107c',
-  'https://zenn.dev/moko_poi/articles/8a2dece3a7b9c9',
-]
-
 const sampleComments = [
   {
     id: 1,
@@ -150,16 +124,20 @@ function VideoTags({ tags }: { tags: string[] }) {
 }
 
 export default async function WatchPage({ params }: { params: { id: string } }) {
-  async function fetchAlgorithmData() {
+  async function fetchAlgorithmData(): Promise<VideoData> {
     try {
-      const text = await fetchMarkdownFile()
-      return text
+      const id: number = parseInt(params.id)
+      const videoData = await videoDataFunc(id)
+      return videoData
+      
     } catch (error) {
       console.error('Error fetching algorithm data:', error)
+      throw new Error('Failed to fetch');
     }
   }
+  const videoData: VideoData = await fetchAlgorithmData()
+ 
 
-  const text = await fetchAlgorithmData()
 
   return (
     <div className='min-h-screen bg-gray-900 text-gray-100'>
@@ -179,7 +157,7 @@ export default async function WatchPage({ params }: { params: { id: string } }) 
                   <AvatarImage src={videoData.creator.avatar} alt={videoData.creator.name} />
                   <AvatarFallback>{videoData.creator.name.slice(0, 2)}</AvatarFallback>
                 </Avatar>
-                <span className='font-semibold'>{videoData.creator.name}</span>
+                <span className='font-semibold' >{videoData.creator.name}</span>
               </div>
               <div className='flex items-center gap-4'>
                 <span className='text-sm text-gray-400'>
@@ -192,8 +170,8 @@ export default async function WatchPage({ params }: { params: { id: string } }) 
             <Comments comments={sampleComments} />
           </div>
           <div className='w-full lg:w-1/3 xl:w-1/4'>
-            {text && <Article algorithmData={text} />}
-            <References references={references} />
+            {videoData?.article && <Article algorithmData={videoData?.article} />}
+            <References references={videoData?.references} />
           </div>
         </div>
         <RelatedVideos videos={relatedVideos} />
