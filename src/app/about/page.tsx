@@ -14,23 +14,23 @@ export default function Component() {
           </CardHeader>
           <CardContent>
             <p>
-              ManimTubeは、Manimを使用したアルゴリズム解説動画を集めたプラットフォームです。数学や計算機科学の概念を視覚的に理解するのに役立ちます。
+              ManimTubeは、Manim(Pythonのパッケージ)を使用したアルゴリズム解説動画を集めたプラットフォームです。数学や計算機科学の概念を視覚的に理解するのに役立ちます。
             </p>
           </CardContent>
         </Card>
 
         <Tabs defaultValue='home' className='mb-8'>
           <TabsList className='bg-[#252b3d] text-white'>
-            <TabsTrigger value='home' className='data-[state=active]:bg-[#3a4257]'>
+            <TabsTrigger value='home' className='data-[state=active]:bg-[#fffcff]'>
               ホーム画面
             </TabsTrigger>
-            <TabsTrigger value='video' className='data-[state=active]:bg-[#3a4257]'>
+            <TabsTrigger value='video' className='data-[state=active]:bg-[#fffcff]'>
               動画視聴
             </TabsTrigger>
-            <TabsTrigger value='upload' className='data-[state=active]:bg-[#3a4257]'>
+            <TabsTrigger value='upload' className='data-[state=active]:bg-[#fffcff]'>
               アップロード
             </TabsTrigger>
-            <TabsTrigger value='menu' className='data-[state=active]:bg-[#3a4257]'>
+            <TabsTrigger value='menu' className='data-[state=active]:bg-[#fffcff]'>
               メニュー
             </TabsTrigger>
           </TabsList>
@@ -58,7 +58,7 @@ export default function Component() {
               </CardHeader>
               <CardContent>
                 <p>
-                  動画をクリックすると、その動画の視聴ページに移動します。ここでは動画の再生と共に、詳細な説明文を読むことができます。
+                  動画をクリックすると、その動画の視聴ページに移動します。ここでは動画の再生と共に、詳細な説明文を読むことができます。いいねボタンを押すことで、動画をお気に入りに登録することができます。
                 </p>
                 <img
                   src='/image/detail.png?height=200&width=400'
@@ -75,10 +75,10 @@ export default function Component() {
               </CardHeader>
               <CardContent>
                 <p>
-                  アップロードページでは、PythonのManimコードを入力するだけで、自動的にManim動画が生成されアップロードされます。
+                  アップロードページでは、PythonのManimコードを入力するだけで、自動的にManim動画が生成されアップロードされます。説明文はマークダウン形式で記述できます。
                 </p>
                 <img
-                  src='/image/upload?height=200&width=400'
+                  src='/image/upload.png?height=200&width=400'
                   alt='アップロードページのイメージ'
                   className='mt-4 rounded-lg'
                 />
@@ -95,6 +95,7 @@ export default function Component() {
                 <ul className='list-disc list-inside mt-2'>
                   <li>ホーム</li>
                   <li>検索</li>
+                  <li>概要</li>
                   <li>動画アップロード</li>
                   <li>お気に入り</li>
                 </ul>
