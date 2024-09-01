@@ -1,7 +1,7 @@
 import { Button } from '@/components/ui/button'
 import { Card, CardContent, CardHeader, CardTitle } from '@/components/ui/card'
 import { Tabs, TabsContent, TabsList, TabsTrigger } from '@/components/ui/tabs'
-
+import Link from 'next/link'
 export default function Component() {
   return (
     <div className='min-h-screen bg-[#1a1f2e] text-white'>
@@ -111,7 +111,9 @@ export default function Component() {
             <p className='mb-4'>
               ManimTubeを使って、アルゴリズムや数学の概念を視覚的に学びましょう。
             </p>
-            <Button className='bg-blue-600 hover:bg-blue-700'>アカウントを作成</Button>
+            <Link href='/signup' passHref legacyBehavior>
+              <Button className='w-full bg-blue-600 hover:bg-blue-700 text-white font-bold py-2 px-4'>アカウントを作成</Button>
+            </Link>
           </CardContent>
         </Card>
       </div>

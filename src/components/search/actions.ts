@@ -5,11 +5,11 @@ import { createClient } from '@/utils/supabase/server'
 
 const supabase = createClient()
 
-export async function searchVideos(prevState: any, formData: FormData) {
+export async function searchVideos(formData: FormData): Promise<void> {
   const query = formData.get('query') as string
 
   if (!query) {
-    return { message: '検索キーワードを入力してください' }
+    throw new Error('Query is required')
   }
   redirect(`/explore?query=${encodeURIComponent(query)}`)
 }
