@@ -3,7 +3,7 @@ import { useRouter } from 'next/navigation'
 import { useEffect, useState } from 'react'
 import { useSidebarStore } from '@/store/sidebarStore'
 import { Button } from '@/components/ui/button'
-import { Home, Compass, Upload, Heart, Menu, Info } from 'lucide-react'
+import { Home, Compass, Upload, Heart, Menu, Info, BookOpen } from 'lucide-react'
 import { createClient } from '@/utils/supabase/client'
 
 export default function Sidebar() {
@@ -76,6 +76,14 @@ export default function Sidebar() {
         >
           <Info className='mr-2 h-5 w-5' />
           <span>概要</span>
+        </Button>
+        <Button
+          variant='ghost'
+          className='w-full justify-start text-gray-300 hover:text-white hover:bg-gray-700'
+          onClick={() => handleNavigation('/manim_about')}
+        >
+          <BookOpen className='mr-2 h-5 w-5' />
+          <span>Manim解説</span>
         </Button>
         {user && ( // ログイン後に見れるボタン
           <>
