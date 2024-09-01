@@ -3,16 +3,28 @@ import { useRouter } from 'next/navigation'
 import { useEffect, useState } from 'react'
 import { useSidebarStore } from '@/store/sidebarStore'
 import { Button } from '@/components/ui/button'
-import { Home, Compass, Upload, Heart, Menu } from 'lucide-react'
+import { Home, Compass, Upload, Heart, Menu, Info } from 'lucide-react'
+import { createClient } from '@/utils/supabase/client'
 
 export default function Sidebar() {
   const isOpen = useSidebarStore((state) => state.isOpen)
   const toggleSidebar = useSidebarStore((state) => state.toggle)
   const router = useRouter()
   const [isMounted, setIsMounted] = useState(false)
+  const [user, setUser] = useState(null)
+  const supabase = createClient()
 
   useEffect(() => {
     setIsMounted(true)
+
+    const fetchUser = async () => {
+      const {
+        data: { user },
+      } = await supabase.auth.getUser()
+      setUser(user)
+    }
+
+    fetchUser()
   }, [])
 
   const handleNavigation = (path: string) => {
@@ -59,19 +71,31 @@ export default function Sidebar() {
         <Button
           variant='ghost'
           className='w-full justify-start text-gray-300 hover:text-white hover:bg-gray-700'
-          onClick={() => handleNavigation('/protected/upload')}
+          onClick={() => handleNavigation('/about')}
         >
-          <Upload className='mr-2 h-5 w-5' />
-          <span>アップロード</span>
+          <Info className='mr-2 h-5 w-5' />
+          <span>概要</span>
         </Button>
-        <Button
-          variant='ghost'
-          className='w-full justify-start text-gray-300 hover:text-white hover:bg-gray-700'
-          onClick={() => handleNavigation('/protected/favorites')}
-        >
-          <Heart className='mr-2 h-5 w-5' />
-          <span>お気に入り</span>
-        </Button>
+        {user && (
+          <>
+            <Button
+              variant='ghost'
+              className='w-full justify-start text-gray-300 hover:text-white hover:bg-gray-700'
+              onClick={() => handleNavigation('/protected/upload')}
+            >
+              <Upload className='mr-2 h-5 w-5' />
+              <span>アップロード</span>
+            </Button>
+            <Button
+              variant='ghost'
+              className='w-full justify-start text-gray-300 hover:text-white hover:bg-gray-700'
+              onClick={() => handleNavigation('/protected/favorites')}
+            >
+              <Heart className='mr-2 h-5 w-5' />
+              <span>お気に入り</span>
+            </Button>
+          </>
+        )}
       </nav>
     </aside>
   )
