@@ -62,7 +62,7 @@ export default function UploadForm({ onChange }: UploadFormProps) {
       const formData = new FormData()
       formData.append('file', manimFile)
 
-      const response = await fetch(`${process.env.NEXT_APP_BACKEND_URL}/uploadcode/`, {
+      const response = await fetch(`${process.env.NEXT_PUBLIC_BACKEND_URL}/uploadcode/`, {
         method: 'POST',
         body: formData,
       })
