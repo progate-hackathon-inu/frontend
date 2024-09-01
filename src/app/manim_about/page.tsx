@@ -66,8 +66,8 @@ class CreateCircle(Scene):
         <p className='mt-4'>
           このコマンドは、Manimがレンダリング情報を出力し、MP4ファイルを作成します。デフォルトのムービープレーヤーでMP4ファイルが再生され、アニメーションが表示されます。
         </p>
-        <video controls className='mt-4'>
-          <source src='manim_about/create_circle.mp4' type='video/mp4' />
+        <video controls className='mt-4' style={{ maxWidth: '600px', maxHeight: '400px' }}>
+          <source src='/create_circle.mp4' type='video/mp4' />
           Your browser does not support the video tag.
         </video>
         <p className='mt-4'>
