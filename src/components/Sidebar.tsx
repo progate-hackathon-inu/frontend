@@ -18,6 +18,7 @@ export default function Sidebar() {
     setIsMounted(true)
 
     const fetchUser = async () => {
+      // ユーザーのログイン情報を取得する関数
       const {
         data: { user },
       } = await supabase.auth.getUser()
@@ -76,7 +77,7 @@ export default function Sidebar() {
           <Info className='mr-2 h-5 w-5' />
           <span>概要</span>
         </Button>
-        {user && (
+        {user && ( // ログイン後に見れるボタン
           <>
             <Button
               variant='ghost'
